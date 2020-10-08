@@ -12,6 +12,7 @@ namespace ArasDevTool {
         public static Dictionary<string, ICommand> impl = new Dictionary<string, ICommand>() {
             {"Dummy".ToLower(),new DummyCommand()},
             {"Setup".ToLower(),new SetupCommand()},
+            {"TestConnection".ToLower(),new TestArasConnectionCommand()}
         };
 
         public static ICommand GetCommand(string commandName) {

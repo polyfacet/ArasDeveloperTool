@@ -35,6 +35,9 @@ namespace ArasDevTool
                 }
             }
             else {
+                if (command is ILoggable) {
+                    ((ILoggable)command).Logger = _logger;
+                }
                 command.Run();
             }
 

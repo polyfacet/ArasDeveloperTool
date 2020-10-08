@@ -6,10 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ArasDevTool.Command {
-    interface ICommand {
-        string Name { get; }
-        List<string> Help();
-        bool ValidateInput(List<string> inputArgs);
-        void Run();
+    interface ILoggableCommand : ICommand, ILoggable {
     }
 }
