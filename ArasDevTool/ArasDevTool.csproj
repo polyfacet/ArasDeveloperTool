@@ -50,7 +50,7 @@
     <Compile Include="Aras\ArasConnection.cs" />
     <Compile Include="Command\Commands\DummyCommand.cs" />
     <Compile Include="Command\Commands\SetupCommand.cs" />
-    <Compile Include="Command\Commands\TestArasConnectionCommand.cs" />
+    <Compile Include="Command\ArasCommands\TestArasConnectionCommand.cs" />
     <Compile Include="Command\Commands\UnknownCommand.cs" />
     <Compile Include="Command\IArasCommand.cs" />
     <Compile Include="Command\ICommand.cs" />

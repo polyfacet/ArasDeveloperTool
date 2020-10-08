@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArasDevTool.Command.Commands {
+namespace ArasDevTool.Command.ArasCommands {
     class TestArasConnectionCommand : ILoggableCommand {
 
         private Config _config;
