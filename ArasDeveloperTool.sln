@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArasDevTool", "ArasDevTool\ArasDevTool.csproj", "{8AC7C34F-03AB-4963-BDDF-9ACB0E32D9A0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8AC7C34F-03AB-4963-BDDF-9ACB0E32D9A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AC7C34F-03AB-4963-BDDF-9ACB0E32D9A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AC7C34F-03AB-4963-BDDF-9ACB0E32D9A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AC7C34F-03AB-4963-BDDF-9ACB0E32D9A0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B2A3513-CB9F-49C4-9F86-942592897D45}
+	EndGlobalSection
+EndGlobal
