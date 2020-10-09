@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArasDevTool.Loggers {
-    class ConsoleLogger : ILogger {
-
+namespace ArasDevTool.Logging {
+    abstract class ConsoleLoggerBase : ILogger {
         public void Log(string message) {
             Console.WriteLine(message);
             Console.ResetColor();

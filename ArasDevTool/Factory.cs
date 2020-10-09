@@ -1,6 +1,8 @@
 ﻿using ArasDevTool.Command;
 using ArasDevTool.Command.ArasCommands;
 using ArasDevTool.Command.Commands;
+using ArasDevTool.Loggers;
+using ArasDevTool.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,10 @@ namespace ArasDevTool {
             else {
                 return new UnknownCommand();
             }
+        }
+
+        public static ILogger GetLogger() {
+            return new BasicLogger();
         }
     }
 }

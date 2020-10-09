@@ -14,8 +14,8 @@ namespace ArasDevTool
         private static ILogger _logger;
 
         private static ILogger Logger { 
-            get { 
-                if (_logger == null) _logger = new ConsoleLogger();
+            get {
+                if (_logger == null) _logger = Factory.GetLogger();
                 return _logger; 
             } 
             set {
