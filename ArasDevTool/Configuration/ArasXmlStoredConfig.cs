@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
+using ArasDevTool.Configuration;
 
 namespace ArasDevTool {
-    class Config {
+    class ArasXmlStoredConfig : IArasConnectionConfig {
         private const string ARAS_CONFIG_FILE = "aras-env.config";
 
         private XmlDocument XmlDoc;
@@ -15,7 +16,10 @@ namespace ArasDevTool {
         private string _environmentName;
         private string _backupDir = null;
         private string _dbName = null;
-        public Config(string env) {
+        private string _arasAddress;
+        private string _arasUser;
+        private string _arasPassword;
+        public ArasXmlStoredConfig(string env) {
             _environmentName = env;
             XmlDoc = new XmlDocument();
             XmlDoc.Load(ARAS_CONFIG_FILE);
@@ -23,7 +27,7 @@ namespace ArasDevTool {
             if (EnvNode == null) throw new ApplicationException($"No env node with name {env}");
         }
 
-        public Config() { }
+        public ArasXmlStoredConfig() { }
 
         public string EnvName { get { return _environmentName; } }
 
@@ -45,12 +49,13 @@ namespace ArasDevTool {
             }
         }
 
-        public string ArasAddress { get { return EnvNode.SelectSingleNode("//Url").InnerText; } }
-        public string ArasDBName { get { return EnvNode.SelectSingleNode("//Db").InnerText; } }
+        
+        public string ArasAddress { get { return EnvNode.SelectSingleNode("//Url").InnerText; } set { _arasAddress = value;  } }
+        public string ArasDBName { get { return EnvNode.SelectSingleNode("//Db").InnerText; } set { _dbName = value; } }
 
-        public string ArasUser { get { return EnvNode.SelectSingleNode("//User").InnerText; } }
+        public string ArasUser { get { return EnvNode.SelectSingleNode("//User").InnerText; } set { _arasUser = value; } }
 
-        public string ArasPassword { get { return EnvNode.SelectSingleNode("//Password").InnerText; } }
+        public string ArasPassword { get { return EnvNode.SelectSingleNode("//Password").InnerText; } set { _arasPassword = value; } }
         public string WebAppPath { get { return EnvNode.SelectSingleNode("//WebAppPath").InnerText; } }
         public string ConsoleUpgradePath {
             get {
@@ -58,7 +63,6 @@ namespace ArasDevTool {
                 return XmlDoc.SelectSingleNode("//ConsoleUpgradePath").InnerText;
             }
         }
-
 
         public void Setup() {
             string configFileName = "aras-env.config";
@@ -78,7 +82,7 @@ namespace ArasDevTool {
                 existingXml.Load(configFileName);
                 XmlNode envNode1 = existingXml.SelectSingleNode("//Environment");
                 string existingEnv = envNode1.Attributes.GetNamedItem("name").Value;
-                Config existingConfig = new Config(existingEnv);
+                ArasXmlStoredConfig existingConfig = new ArasXmlStoredConfig(existingEnv);
                 defaultArasAddress = existingConfig.ArasAddress;
                 defaultDBName = existingConfig.ArasDBName;
                 defaultArasUser = existingConfig.ArasUser;

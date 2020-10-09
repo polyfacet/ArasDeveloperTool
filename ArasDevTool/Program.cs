@@ -28,6 +28,9 @@ namespace ArasDevTool
             string commandName = (argList.Count > 0) ? argList[0] : "";
             Logger.Log($"Starting {commandName}");
             ICommand command = Factory.GetCommand(commandName);
+            if (command is ILoggable) {
+                ((ILoggable)command).Logger = _logger;
+            }
             if (!command.ValidateInput(argList) || HelpInInput(argList)) {
                 Logger.Log($"Help for: {command.Name}");
                 foreach (string line in command.Help()) {
@@ -35,9 +38,6 @@ namespace ArasDevTool
                 }
             }
             else {
-                if (command is ILoggable) {
-                    ((ILoggable)command).Logger = _logger;
-                }
                 command.Run();
             }
 

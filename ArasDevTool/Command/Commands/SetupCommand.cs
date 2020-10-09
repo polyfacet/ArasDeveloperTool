@@ -16,7 +16,7 @@ namespace ArasDevTool.Command.Commands {
         }
 
         public void Run() {
-            Config config = new Config();
+            ArasXmlStoredConfig config = new ArasXmlStoredConfig();
             config.Setup();
         }
 

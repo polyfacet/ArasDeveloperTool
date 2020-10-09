@@ -55,7 +55,10 @@
     <Compile Include="Command\IArasCommand.cs" />
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\ILoggableCommand.cs" />
-    <Compile Include="Config.cs" />
+    <Compile Include="Configuration\ArasXmlStoredConfig.cs" />
+    <Compile Include="Configuration\ArasConnectionConfig.cs" />
+    <Compile Include="Configuration\IArasConnectionConfig.cs" />
+    <Compile Include="ConsoleUtils.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="Logging\ILoggable.cs" />
     <Compile Include="Logging\ILogger.cs" />
