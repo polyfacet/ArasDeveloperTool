@@ -1,0 +1,46 @@
+﻿<AML>
+  <Item type='Action' action='get' select='config_id,modified_on'></Item>
+  <Item type='Chart' action='get' select='config_id,modified_on'></Item>
+  <Item type='ConversionServer' action='get' select='config_id,modified_on'></Item>
+  <Item type='Dashboard' action='get' select='config_id,modified_on'></Item>
+  <Item type='EMail Message' action='get' select='config_id,modified_on'></Item>
+  <Item type='FileType' action='get' select='config_id,modified_on'></Item>
+  <Item type='Form' action='get' select='config_id,modified_on'></Item>
+  <Item type='Grid' action='get' select='config_id,modified_on'></Item>
+  <Item type='History Action' action='get' select='config_id,modified_on'></Item>
+  <Item type='History Template' action='get' select='config_id,modified_on'></Item>
+  <Item type='Identity' action='get' select='config_id,modified_on'>
+    <or>
+      <is_alias>0</is_alias>
+      <id condition='in'>'DBA5D86402BF43D5976854B8B48FCDD1','E73F43AD85CD4A95951776D57A4D517B'</id>
+    </or>
+  </Item>
+  <Item type='ItemType' action='get' select='config_id,modified_on'>
+	  <is_relationship>0</is_relationship>
+  </Item>
+  <Item type='Language' action='get' select='config_id,modified_on'></Item>
+  <Item type='Life Cycle Map' action='get' select='config_id,modified_on'></Item>
+  <Item type='List' action='get' select='config_id,modified_on'></Item>
+  <Item type='Locale' action='get' select='config_id,modified_on'></Item>
+  <Item type='Method' action='get' select='config_id,modified_on'></Item>
+  <Item type='Metric' action='get' select='config_id,modified_on'></Item>
+  <Item type='Permission' action='get' select='config_id,modified_on'></Item>
+  <Item type='PreferenceTypes' action='get' select='config_id,modified_on'></Item>
+  <Item type='PresentationConfiguration' action='get' select='config_id,modified_on'></Item>
+  <Item type='Report' action='get' select='config_id,modified_on'></Item>
+  <Item type='Revision' action='get' select='config_id,modified_on'></Item>
+  <Item type='RelationshipType' action='get' select='config_id,modified_on'></Item>
+  <Item type='SearchMode' action='get' select='config_id,modified_on'></Item>
+  <Item type='SecureMessageViewTemplate' action='get' select='config_id,modified_on'></Item>
+  <Item type='Sequence' action='get' select='config_id,modified_on'></Item>
+  <Item type='SQL' action='get' select='config_id,modified_on'></Item>
+  <Item type='SSVCPresentationConfiguration' action='get' select='config_id,modified_on'></Item>
+  <Item type='SystemFileContainer' action='get' select='config_id,modified_on'></Item>
+  <Item type='Team' action='get' select='config_id,modified_on'></Item>
+  <Item type='UserMessage' action='get' select='config_id,modified_on'></Item>
+  <Item type='Variable' action='get' select='config_id,modified_on'></Item>
+  <Item type='Vault' action='get' select='config_id,modified_on'></Item>
+  <Item type='Viewer' action='get' select='config_id,modified_on'></Item>
+  <Item type='Workflow Map' action='get' select='config_id,modified_on'></Item>
+</AML>
+
