@@ -1,6 +1,7 @@
 ﻿using Aras.IOM;
 using ArasDatabaseRepair.Resources;
 using ArasDevTool.Aras;
+using ArasDevTool.Aras.DatabaseUpgrade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,14 @@ namespace ArasDevTool.Command.ArasCommands {
             for (int i=0;i<NumberOfItemsToShow;i++) {
                 AdminType adminType = allAdminTypes[i];
                 Log.Log($"{adminType.ModificationDate} : {adminType.GetArasType().PadLeft(20)} : {adminType.GetKeyedName()}");
+            }
+
+            // Get Database Upgrade Info
+            Log.Log("****** Latest db upgrades/imports ******");
+            var dbUpgradeInfo = new DatabaseUpgradeInfo(Inn);
+            Log.Log($"{"Date".PadRight(20)}: {"Release".PadRight(8)} : {"Name".PadRight(20)} : {"Is Latest"} : {"Description"}");
+            foreach (DatabaseUpgrade dbUpgrade in dbUpgradeInfo.GetDatabaseUpgrades()) {
+                Log.Log($"{dbUpgrade.AppliedOn.PadLeft(20)}: {dbUpgrade.TargetRelease.PadLeft(8)} : {dbUpgrade.Name.PadLeft(20)} : {dbUpgrade.IsLatest} : {dbUpgrade.Description}");
             }
         }
 

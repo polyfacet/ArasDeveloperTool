@@ -46,7 +46,8 @@ namespace ArasDevTool.Command.ArasCommands {
         public bool ValidateInput(List<string> inputArgs) {
             bool valid = false;
             if (inputArgs.Count == 1 
-                || !String.IsNullOrEmpty(inputArgs.SingleOrDefault(s => s.ToLower().StartsWith("-env")))) {
+                || !String.IsNullOrEmpty(inputArgs.SingleOrDefault(s => s.ToLower().StartsWith("-env")))
+                || String.IsNullOrEmpty(inputArgs.SingleOrDefault(s => s.ToLower().StartsWith("-cs")))) {
                 _config = new ArasXmlStoredConfig("dev");
                 valid = GetValidateInput(inputArgs);
                 if (valid) {

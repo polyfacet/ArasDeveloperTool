@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Aras\AdminType.cs" />
     <Compile Include="Aras\ArasConnection.cs" />
+    <Compile Include="Aras\DatabaseUpgrade\DatabaseUpgradeInfo.cs" />
     <Compile Include="Aras\InnovatorBase.cs" />
     <Compile Include="Command\ArasCommands\ArasBaseCommad.cs" />
     <Compile Include="Command\ArasCommands\CheckLatestUpdatesCommand.cs" />

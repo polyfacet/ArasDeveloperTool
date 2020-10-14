@@ -46,6 +46,13 @@ namespace UnitTestArasDevTool {
             };
             Assert.IsTrue(ArasDevTool.Program.Main(args) == (int)ArasDevTool.Program.Result.OK);
 
+            args = new[] {
+                CHECK_LATEST_COMMAND,
+                "-c", "1"
+
+            };
+            Assert.IsTrue(ArasDevTool.Program.Main(args) == (int)ArasDevTool.Program.Result.OK);
+
             args = new [] {
                 CHECK_LATEST_COMMAND,
                 CS_CONNENCTION_STRING,
