@@ -9,7 +9,14 @@ using System.Threading.Tasks;
 
 namespace ArasDevTool
 {
-    class Program{
+    public class Program{
+
+        public enum Result {
+            OK,
+            ERROR,
+            HELP
+        }
+
 
         private static ILogger _logger;
 
@@ -23,7 +30,7 @@ namespace ArasDevTool
             } 
         }
 
-        static void Main(string[] args) {
+        public static int Main(string[] args) {
             var argList = args.ToList();
             string commandName = (argList.Count > 0) ? argList[0] : "";
             Logger.Log($"Starting {commandName}");
@@ -36,11 +43,19 @@ namespace ArasDevTool
                 foreach (string line in command.Help()) {
                     Logger.Log("  " + line);
                 }
+                return (int) Result.HELP;
             }
             else {
-                command.Run();
+                try {
+                    command.Run();
+                }
+                catch (Exception ex) {
+                    Logger.LogError(ex);
+                    return (int) Result.ERROR;
+                }
             }
 
+            return (int) Result.OK;
             //TODO: Setup command
             // DONE: 1. ArasDevTool.exe Setup  (implicerat dev)
             // 2. ArasDevTool.exe Setup deploy  (setup för en deploy env)

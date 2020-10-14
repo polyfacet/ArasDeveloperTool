@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 namespace ArasDevTool.Command.ArasCommands {
     class CheckLatestUpdatesCommand : ArasBaseCommad {
 
-        private int NumberOfItemsToShow = 10;
+        private const int DEAFULT_NBR_OF_ITEMS = 10;
+        private int NumberOfItemsToShow = DEAFULT_NBR_OF_ITEMS;
 
         public override void DoRun() {
             List<AdminType> allAdminTypes = GetAllAdminTypes();
@@ -58,8 +59,9 @@ namespace ArasDevTool.Command.ArasCommands {
         }
 
         public override bool GetValidateInput(List<string> inputArgs) {
+            NumberOfItemsToShow = DEAFULT_NBR_OF_ITEMS;
             int i = 0;
-            foreach(string arg in inputArgs) {
+            foreach (string arg in inputArgs) {
                 i++;
                 if (arg == "-c") {
                     if (inputArgs.Count > i) {
