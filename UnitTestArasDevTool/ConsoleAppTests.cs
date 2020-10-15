@@ -86,7 +86,9 @@ namespace UnitTestArasDevTool {
 
             args = new[] {
                 PACKAGE_CHECKER_COMMAND,
-                "-prefix", "HC_"
+                "-prefix", "HC_",
+                "--Auto",
+                "--DryRun"
 
             };
             Assert.IsTrue(ArasDevTool.Program.Main(args) == (int)ArasDevTool.Program.Result.OK);
@@ -94,7 +96,9 @@ namespace UnitTestArasDevTool {
             args = new[] {
                 PACKAGE_CHECKER_COMMAND,
                 CS_CONNENCTION_STRING,
-                "-prefix","HC_"
+                "-prefix","HC_", 
+                "--Auto",
+                "--DryRun"
             };
             Assert.IsTrue(ArasDevTool.Program.Main(args) == (int)ArasDevTool.Program.Result.OK);
 
