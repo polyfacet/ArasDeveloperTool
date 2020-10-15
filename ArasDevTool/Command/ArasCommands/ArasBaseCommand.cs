@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ArasDevTool.Command.ArasCommands {
-    abstract class ArasBaseCommad : IArasCommand, ILoggableCommand {
+    abstract class ArasBaseCommand : IArasCommand, ILoggableCommand {
 
         private Configuration.IArasConnectionConfig _config;
         protected ILogger Log;
@@ -70,6 +70,23 @@ namespace ArasDevTool.Command.ArasCommands {
                 return false;
             }
             return false;
+        }
+
+        
+        /// <summary>
+        /// Example: Input "-c" should return the subsequent to the flag -c, else empty string
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <returns>The subsequent parameter to the flag</returns>
+        protected string GetValueForFlag(string findFlag, List<string> inputArgs) {
+            string flag = inputArgs.SingleOrDefault(s => s.Equals(findFlag));
+            if (!String.IsNullOrEmpty(flag)) {
+                int i = inputArgs.IndexOf(flag) + 1;
+                if (inputArgs.Count >= i) {
+                    return inputArgs[i];
+                }
+            }
+            return String.Empty;
         }
 
         private IArasConnectionConfig GetConfigFromConnectionStringArg(string connectionStringArg) {

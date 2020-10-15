@@ -51,8 +51,11 @@
     <Compile Include="Aras\ArasConnection.cs" />
     <Compile Include="Aras\DatabaseUpgrade\DatabaseUpgradeInfo.cs" />
     <Compile Include="Aras\InnovatorBase.cs" />
-    <Compile Include="Command\ArasCommands\ArasBaseCommad.cs" />
+    <Compile Include="Aras\ItemExtension.cs" />
+    <Compile Include="Aras\PackageManagment\PackageManager.cs" />
+    <Compile Include="Command\ArasCommands\ArasBaseCommand.cs" />
     <Compile Include="Command\ArasCommands\CheckLatestUpdatesCommand.cs" />
+    <Compile Include="Command\ArasCommands\PackageChecker.cs" />
     <Compile Include="Command\Commands\DummyCommand.cs" />
     <Compile Include="Command\Commands\SetupCommand.cs" />
     <Compile Include="Command\ArasCommands\TestArasConnectionCommand.cs" />

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ArasDevTool.Command.ArasCommands {
-    class CheckLatestUpdatesCommand : ArasBaseCommad {
+    class CheckLatestUpdatesCommand : ArasBaseCommand {
 
         private const int DEAFULT_NBR_OF_ITEMS = 10;
         private int NumberOfItemsToShow = DEAFULT_NBR_OF_ITEMS;
@@ -57,9 +57,11 @@ namespace ArasDevTool.Command.ArasCommands {
         }
 
         public override List<string> GetHelp() {
-            List<string> helpMessages = new List<string>();
-            helpMessages.Add("Flags: -c");
-            helpMessages.Add(@"(Number of items to show: ""-c 20""");
+            List<string> helpMessages = new List<string>
+            {
+                "Flags: -c",
+                @"(Number of items to show: ""-c 20"""
+            };
             return helpMessages;
         }
 
@@ -69,18 +71,10 @@ namespace ArasDevTool.Command.ArasCommands {
 
         public override bool GetValidateInput(List<string> inputArgs) {
             NumberOfItemsToShow = DEAFULT_NBR_OF_ITEMS;
-            int i = 0;
-            foreach (string arg in inputArgs) {
-                i++;
-                if (arg == "-c") {
-                    if (inputArgs.Count > i) {
-                        string strValue = inputArgs[i];
-                        int value;
-                        if (int.TryParse(strValue,out value)) {
-                            NumberOfItemsToShow = value;
-                        }
-                    }
-                }
+            string numberString = this.GetValueForFlag("-c", inputArgs);
+            if (!string.IsNullOrEmpty(numberString)
+                && int.TryParse(numberString, out int value)) {
+                NumberOfItemsToShow = value;
             }
             return true;
         }

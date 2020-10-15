@@ -11,12 +11,13 @@ using System.Threading.Tasks;
 
 namespace ArasDevTool {
     class Factory {
-
+        // TODO: Make a better factory, without implmenentation dependencies
         public static Dictionary<string, ICommand> impl = new Dictionary<string, ICommand>() {
             {"Dummy".ToLower(),new DummyCommand()},
             {"Setup".ToLower(),new SetupCommand()},
             {"TestConnection".ToLower(),new TestArasConnectionCommand()},
-            {"CheckLatestUpdates".ToLower(),new CheckLatestUpdatesCommand()}
+            {"CheckLatestUpdates".ToLower(),new CheckLatestUpdatesCommand()},
+            {"PackageChecker".ToLower(), new PackageChecker() }
         };
 
         public static ICommand GetCommand(string commandName) {
