@@ -1,12 +1,10 @@
-﻿using Aras.IOM;
+﻿using Innovator.Client.IOM;
 using ArasDatabaseRepair.Resources;
 using ArasDevTool.Aras;
 using ArasDevTool.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ArasDevTool.Command.ArasCommands {
     class PackageChecker : ArasBaseCommand {
@@ -79,7 +77,7 @@ namespace ArasDevTool.Command.ArasCommands {
             return true;
         }
 
-        private void LoadPackageMap(Innovator inn) {
+        private void LoadPackageMap(Innovator.Client.IOM.Innovator inn) {
             _packageMap = new Dictionary<string, Item>();
             string amlQueryAllPackageElements = @"<AML>
                 <Item action='get' type='PackageElement'/>

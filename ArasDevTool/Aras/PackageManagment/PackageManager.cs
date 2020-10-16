@@ -1,20 +1,18 @@
-﻿using Aras.IOM;
+﻿using Innovator.Client.IOM;
 using ArasDevTool.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArasDevTool.Aras.PackageManagment {
     class PackageManager : ILoggable {
         ILogger Log;
         public ILogger Logger { set => Log = value; }
 
-        private readonly Innovator Inn;
+        private readonly Innovator.Client.IOM.Innovator Inn;
         private Dictionary<string, Item> _cachedPackageElementIdToPackageDefinitionMap;
 
-        public PackageManager(Innovator inn) {
+        public PackageManager(Innovator.Client.IOM.Innovator inn) {
             Inn = inn;
         }
 

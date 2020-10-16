@@ -1,18 +1,14 @@
-﻿using Aras.IOM;
-using ArasDevTool.Configuration;
+﻿using ArasDevTool.Configuration;
 using ArasDevTool.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArasDevTool.Command.ArasCommands {
     abstract class ArasBaseCommand : IArasCommand, ILoggableCommand {
 
         private Configuration.IArasConnectionConfig _config;
         protected ILogger Log;
-        protected Innovator Inn;
+        protected Innovator.Client.IOM.Innovator Inn;
         public ILogger Logger { set => Log = value; }
 
         public abstract string GetName();
@@ -21,7 +17,7 @@ namespace ArasDevTool.Command.ArasCommands {
         public abstract bool GetValidateInput(List<string> inputArgs);
 
         
-        public Innovator Innovator { set => Inn = value; }
+        public Innovator.Client.IOM.Innovator Innovator { set => Inn = value; }
 
         public string Name => this.GetName();
 

@@ -1,12 +1,9 @@
-﻿using Aras.IOM;
+﻿using Innovator.Client.IOM;
 using ArasDatabaseRepair.Resources;
 using ArasDevTool.Aras;
 using ArasDevTool.Aras.DatabaseUpgrade;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArasDevTool.Command.ArasCommands {
     class CheckLatestUpdatesCommand : ArasBaseCommand {

@@ -1,14 +1,9 @@
-﻿using Aras.IOM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Innovator.Client.IOM;
 
 namespace ArasDevTool.Aras {
     class ArasUtils {
 
-        public static int GetMajorVersion(Innovator inn) {
+        public static int GetMajorVersion(Innovator.Client.IOM.Innovator inn) {
             string amlQuery = @"<AML>
                 <Item action='get' type='Variable' select='value'>
                     <name>VersionMajor</name>

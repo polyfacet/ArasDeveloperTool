@@ -1,11 +1,9 @@
 ﻿using ArasDevTool.Command;
-using ArasDevTool.Loggers;
 using ArasDevTool.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace ArasDevTool
 {
@@ -32,6 +30,11 @@ namespace ArasDevTool
 
         public static int Main(string[] args) {
             var argList = args.ToList();
+            if (argList.Contains("-v")) {
+                Logger.Log("Version:");
+                Logger.Log("  " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                return (int)Result.HELP;
+            }
             string commandName = (argList.Count > 0) ? argList[0] : "";
             Logger.Log($"Starting {commandName}");
             ICommand command = Factory.GetCommand(commandName);
