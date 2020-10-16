@@ -11,11 +11,11 @@ namespace ArasDevTool.Aras.PackageManagment {
         ILogger Log;
         public ILogger Logger { set => Log = value; }
 
-        private Innovator _inn;
+        private Innovator Inn;
         private Dictionary<string, Item> _cachedPackageElementIdToPackageDefinitionMap;
 
         public PackageManager(Innovator inn) {
-            _inn = inn;
+            Inn = inn;
         }
 
         public bool DryRun { get; set; }
@@ -23,14 +23,14 @@ namespace ArasDevTool.Aras.PackageManagment {
 
 
         public Item FindAndAddSuitablePackageForItem(Item item) {
-            Item packageElement = _inn.newError($"No package element created for: {item.TypeAndName()}");
+            Item packageElement = Inn.newError($"No package element created for: {item.TypeAndName()}");
             Item relatedItemType;
             string errorMessage;
             switch (item.getType()) {
                 case "ItemType":
                     // Probably not possbile to figure out which packages it should belong to.
                     errorMessage = $"Could not find a suitable package for: {item.TypeAndName()}";
-                    return _inn.newError(errorMessage);
+                    return Inn.newError(errorMessage);
 
                 default:
                     relatedItemType = GetClosestRelatedItemType(item);
@@ -42,7 +42,7 @@ namespace ArasDevTool.Aras.PackageManagment {
                 if (packageDefinition == null) {
                     errorMessage = $"No package def found for: {relatedItemType.TypeAndName()} , {relatedItemType.getID()}";
                     Log.LogWarning(errorMessage);
-                    return _inn.newError(errorMessage);
+                    return Inn.newError(errorMessage);
                 }
                 packageDefinition = ValidateWithUser(packageDefinition);
                 if (packageDefinition == null) return packageElement;
@@ -56,33 +56,85 @@ namespace ArasDevTool.Aras.PackageManagment {
             return packageElement;
         }
 
+        public string GetPackageDefinitionNameFromPackageElement(Item packageElement) {
+            if (_cachedPackageElementIdToPackageDefinitionMap.ContainsKey(packageElement.getID())) {
+                return _cachedPackageElementIdToPackageDefinitionMap[packageElement.getID()].getProperty("name", "N/A");
+            }
+            return GetPackageDefinitionByPackageElement(packageElement).Name();
+        }
+
         private Item ValidateWithUser(Item packageDefinition) {
             if (AutoPack) return packageDefinition;
+AskAgain:
             Console.WriteLine($"Add to: {packageDefinition.Name()}? Yes/No/Search (Y/N/S)");
             string answer = Console.ReadLine();
             if (answer.ToUpper() == "N" || answer.ToUpper() == "NO") return null;
             if (answer.ToUpper() == "Y" || answer.ToUpper() == "YES") return packageDefinition;
             if (answer.ToUpper() == "S" || answer.ToUpper() == "SEARCH") {
+            SearchAgain:
                 Console.WriteLine("Search package: Exmample: *com.acme*");
                 string searchString = Console.ReadLine();
-                // TODO: Search it list them and make user select by number or :
+                // Search it and list them and make user select by number or cancel or new :
                 // (1) com.acme.plm
                 // (2) com.acme.documents
-                // (0) CREATE NEW
+                // (New) CREATE NEW
                 // (c) Cancel
-
+                List<Item> packageDefinitions = FindPackageDefinitions(searchString);
+                int i = 0;
+                if (packageDefinitions.Count >0) {
+                    Console.WriteLine("Select package by entering specific number:");
+                    foreach (Item packageDef in packageDefinitions) {
+                        i++;
+                        Console.WriteLine($"({i}) {packageDef.Name()}");
+                    }
+                    Console.WriteLine("(New) CREATE NEW");
+                    Console.WriteLine("(c) Cancel");
+                    string choice = Console.ReadLine();
+                    if (int.TryParse(choice, out int intChoice) 
+                        && intChoice-1 < packageDefinitions.Count()) {
+                        return packageDefinitions[intChoice - 1];
+                    }
+                    if (choice.ToUpper() == "C") {
+                        return null;
+                    }
+                    if (choice.ToUpper() == "NEW") {
+                        Console.WriteLine("Assign name for new package:");
+                        string newName = Console.ReadLine();
+                        Item newPackageDefintion =  CreateNewPackageDefintion(newName);
+                        if (newPackageDefintion.isError()) {
+                            Log.LogError($@"Could not create new Package Defintion with name
+                                {newName} : {newPackageDefintion.getErrorString()}" );
+                            goto AskAgain;
+                        }
+                        return newPackageDefintion;
+                    }
+                }
+                else {
+                    Log.LogWarning($"No result for: {searchString}");
+                    goto SearchAgain;
+                }
             }
-
-
-            return null;
+            goto AskAgain;
         }
 
-        public string GetPackageDefinitionNameFromPackageElement(Item packageElement) {
-            if (_cachedPackageElementIdToPackageDefinitionMap.ContainsKey(packageElement.getID())) {
-                return _cachedPackageElementIdToPackageDefinitionMap[packageElement.getID()].getProperty("name", "N/A");
+        private Item CreateNewPackageDefintion(string newName) {
+            Item packageDefintion = Inn.newItem("PackageDefinition", "add");
+            packageDefintion.setProperty("name", newName);
+            if (DryRun) return packageDefintion;
+            packageDefintion = packageDefintion.apply();
+            return packageDefintion;
+        }
+
+        private List<Item> FindPackageDefinitions(string searchString) {
+            var packageDefinitions = new List<Item>();
+            string amlQuery = $@"<AML><Item action='get' type='PackageDefinition' orderBy='modified_on DESC'>
+                <name condition='like'>{searchString}</name>                
+                </Item></AML>";
+            Item pkgsDefs = Inn.applyAML(amlQuery);
+            for (int i = 0; i<pkgsDefs.getItemCount();i++) {
+                packageDefinitions.Add(pkgsDefs.getItemByIndex(i));
             }
-            //TODO: Fix when not in cache
-            throw new NotImplementedException("Hupp only used cache so far.");
+            return packageDefinitions;
         }
 
         private Item GetClosestRelatedItemType(Item item) {
@@ -96,7 +148,7 @@ namespace ArasDevTool.Aras.PackageManagment {
                     <Item action='get' type='RelationshipType'>
                         <name>{relatedItem.getProperty("name")}</name>
                     </Item></AML>";
-                relatedItem = _inn.applyAML(aml1);
+                relatedItem = Inn.applyAML(aml1);
                 relatedItem = GetPrimaryRelatedItem(relatedItem);
             }
             return relatedItem;
@@ -108,7 +160,7 @@ namespace ArasDevTool.Aras.PackageManagment {
             string amlQuery = $@"<AML>
                     <Item action='getItemWhereUsed' type='{item.getType()}' id='{item.getID()}'></Item>
                 </AML>";
-            Item result = _inn.applyAML(amlQuery);
+            Item result = Inn.applyAML(amlQuery);
             if (!result.isError()) {
                 // Get related ItemType of type ItemType primarily otherwise return first
                 Item whereUsedItems = result.getItemsByXPath("//relatedItems/Item");
@@ -125,10 +177,10 @@ namespace ArasDevTool.Aras.PackageManagment {
                 errorMessage = $"No primary related Item found for {item.TypeAndName()}";
                 Log.LogWarning(errorMessage);
                 //TODO: Check if it is referenced in Method Code (js)
-                resultItem = _inn.newError(errorMessage);
+                resultItem = Inn.newError(errorMessage);
                 return resultItem;
             }
-            return _inn.getItemById(resultItem.getType(), resultItem.getID());
+            return Inn.getItemById(resultItem.getType(), resultItem.getID());
         }
 
         private Item GetPackageDefinition(Item relatedItemType) {
@@ -138,22 +190,26 @@ namespace ArasDevTool.Aras.PackageManagment {
                 <Item action='get' type='PackageElement' select='id'>
                     <element_id>{relatedItemType.getProperty("config_id")}</element_id>
                 </Item></AML>";
-            Item packageElement = _inn.applyAML(amlQuery);
+            Item packageElement = Inn.applyAML(amlQuery);
             if (packageElement.isError()) {
                 errroMessage = $"No found Package Element for: {relatedItemType.getType()} , {relatedItemType.getProperty("config_id")} ";
                 Log.LogWarning(errroMessage);
-                return _inn.newError(errroMessage);
+                return Inn.newError(errroMessage);
             }
             // Find Package Definition containing the package element 
-            amlQuery = $@"<AML><Item action='get' type='PackageGroup' select='source_id'>
+            return GetPackageDefinitionByPackageElement(packageElement);
+        }
+
+        private Item GetPackageDefinitionByPackageElement(Item packageElement) {
+            string amlQuery = $@"<AML><Item action='get' type='PackageGroup' select='source_id'>
                 <Relationships>
                     <Item action='get' type='PackageElement' select='id'>
                         <id>{packageElement.getID()}</id>
                 </Item></Relationships></Item></AML>";
-            Item resultItem = _inn.applyAML(amlQuery);
+            Item resultItem = Inn.applyAML(amlQuery);
             if (resultItem.isError()) return resultItem;
             Item pkgDef = resultItem.getPropertyItem("source_id");
-            return _inn.getItemById(pkgDef.getType(), pkgDef.getID());
+            return Inn.getItemById(pkgDef.getType(), pkgDef.getID());
         }
 
         private Item AddItemToPackageDefinition(Item item, Item packageDefinition) {
@@ -163,13 +219,13 @@ namespace ArasDevTool.Aras.PackageManagment {
                     <source_id>{packageDefinition.getID()}</source_id>
                     <name>{itemType}</name>
                 </Item></AML>";
-            Item packageGroup = _inn.applyAML(aml);
+            Item packageGroup = Inn.applyAML(aml);
             if (packageGroup.isError()) {
                 Log.Log($"Package group missing, adding it: {item.getType()}");
                 packageGroup = AddPackageGroup(item.getType(), packageDefinition);
             }
             // Add new PackageElement
-            Item pkgElement = _inn.newItem("PackageElement", "add");
+            Item pkgElement = Inn.newItem("PackageElement", "add");
             pkgElement.setProperty("element_id", item.getProperty("config_id"));
             pkgElement.setProperty("element_type", itemType);
             pkgElement.setProperty("name", item.getProperty("name", item.getID()));
@@ -179,8 +235,8 @@ namespace ArasDevTool.Aras.PackageManagment {
         }
 
         private Item AddPackageGroup(string typeName, Item packageDefinition) {
-            Item pkgGroup = _inn.newItem("PackageGroup", "add");
-            pkgGroup.setID(_inn.getNewID());
+            Item pkgGroup = Inn.newItem("PackageGroup", "add");
+            pkgGroup.setID(Inn.getNewID());
             pkgGroup.setProperty("source_id", packageDefinition.getID());
             pkgGroup.setProperty("name", typeName);
             if (DryRun) return pkgGroup;

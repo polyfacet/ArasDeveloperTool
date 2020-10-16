@@ -15,9 +15,6 @@ namespace ArasDevTool.Command.ArasCommands {
         public bool AutoPack { get; set; }
         private string Prefix = "HC_";
         public override void DoRun() {
-            // TODO: Sätt som parameter och interactive mode
-            DryRun = true; //DEBUG mode
-
             Log.Log($"Executing {Name}");
             Item result = Inn.applyAML(GetMetaAml());
             Log.Log($"Meta data count: {result.getItemCount()}");
@@ -50,16 +47,12 @@ namespace ArasDevTool.Command.ArasCommands {
                         else {
                             Log.LogWarning("Could not find a suitable package");
                         }
-                        
-
                     }
                 }
             }
             Log.Log($"Items checked: {itemsCount}");
             Log.Log($"Items not in any package: {unpackagedItemsCount}");
             Log.Log($"Items added to package: {itemsAddedToPackageCount}");
-            //Log.Log($"Duration:{(int)stopwatch.Elapsed.TotalSeconds} seconds");
-            
         }
 
         public override List<string> GetHelp() {
