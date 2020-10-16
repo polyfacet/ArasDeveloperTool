@@ -59,8 +59,8 @@ namespace ArasDevTool.Command.ArasCommands {
         public override List<string> GetHelp() {
             List<string> helpMessages = new List<string>
             {
-                "Flags: -c",
-                @"(Number of items to show: ""-c 20"""
+                "Options:",
+                "  -c \t Number of items to show: \"-c 20\""
             };
             return helpMessages;
         }

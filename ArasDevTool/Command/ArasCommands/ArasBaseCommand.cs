@@ -33,7 +33,8 @@ namespace ArasDevTool.Command.ArasCommands {
                 @" -cs=""http://localhost/innovator;InnovatorSoluions;admin""",
                 "Or environment: E.g.",
                 "-env=dev",
-                "Non specified is equivalent with '-env=dev'"
+                "Non specified is equivalent with '-env=dev'",
+                ""
             };
             msgs.AddRange(GetHelp());
             return msgs;

@@ -8,11 +8,13 @@ namespace ArasDevTool.Command.Commands {
     class UnknownCommand : ICommand {
 
         private string _inputCommandName;
-        public string Name => "UnknownCommand";
+        public string Name => "ArasDevTool";
 
         public List<string> Help() {
             List<string> messages = new List<string>();
-            messages.Add($"Unknown command: {_inputCommandName}");
+            if (!String.IsNullOrEmpty(_inputCommandName)) {
+                messages.Add($"Unknown command: {_inputCommandName}");
+            }
             messages.Add("Availible commands:");
             foreach (KeyValuePair<string, ICommand> kvp in Factory.impl) {
                 messages.Add(kvp.Key);

@@ -58,10 +58,11 @@ namespace ArasDevTool.Command.ArasCommands {
         public override List<string> GetHelp() {
             List<string> helpMessages = new List<string>
             {
-                "Flags: -prefix",
-                @"Check Items with specific prefix. Example: ""-prefix HC_""",
-                "Dont commit any changes: --DryRun ", 
-                "Let it automatically select package for you: --Auto"
+                "Parameters:",
+                "  -prefix \t Check Items with specific prefix. Example: \"-prefix HC_\"" ,
+                "Options:",
+                "  --DryRun \t Dont commit any changes.  ", 
+                "  --Auto \t Let it automatically select package for you."
             };
             return helpMessages;
         }
