@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Aras\AdminType.cs" />
     <Compile Include="Aras\ArasConnection.cs" />
+    <Compile Include="Aras\ArasUtils.cs" />
     <Compile Include="Aras\DatabaseUpgrade\DatabaseUpgradeInfo.cs" />
     <Compile Include="Aras\InnovatorBase.cs" />
     <Compile Include="Aras\ItemExtension.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Command\Commands\SetupCommand.cs" />
     <Compile Include="Command\ArasCommands\TestArasConnectionCommand.cs" />
     <Compile Include="Command\Commands\UnknownCommand.cs" />
+    <Compile Include="Command\CommandUtils.cs" />
     <Compile Include="Command\IArasCommand.cs" />
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\ILoggableCommand.cs" />

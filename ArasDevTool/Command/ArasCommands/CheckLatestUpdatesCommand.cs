@@ -37,8 +37,7 @@ namespace ArasDevTool.Command.ArasCommands {
 
         private List<AdminType> GetAllAdminTypes() {
             List<AdminType> adminTypes = new List<AdminType>();
-
-            string amlQuery = ArasMetaDataResources.GetArasMetaDataAml(ArasMetaDataResources.ArasVersion.R11);
+            string amlQuery = ArasMetaDataResources.GetArasMetaDataAml(ArasUtils.GetMajorVersion(Inn));
             Item result = Inn.applyAML(amlQuery);
             if (!result.isError()) {
                 Log.Log($"Admin item count: {result.getItemCount()} ");
@@ -71,10 +70,9 @@ namespace ArasDevTool.Command.ArasCommands {
 
         public override bool GetValidateInput(List<string> inputArgs) {
             NumberOfItemsToShow = DEAFULT_NBR_OF_ITEMS;
-            string numberString = this.GetValueForFlag("-c", inputArgs);
-            if (!string.IsNullOrEmpty(numberString)
+            if (CommandUtils.OptionExistWithValue(inputArgs, "-c", out string numberString)
                 && int.TryParse(numberString, out int value)) {
-                NumberOfItemsToShow = value;
+                   NumberOfItemsToShow = value;
             }
             return true;
         }

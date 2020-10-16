@@ -54,9 +54,7 @@ namespace ArasDevTool.Aras {
                     string dateString = Item.getProperty(MODIFIED_ON);
                     if (string.IsNullOrEmpty(dateString))
                         dateString = RetrieveProperty(MODIFIED_ON);
-                    // Dim modDate As Date = DateTime.Parse(dateString)
-                    DateTime modDate;
-                    DateTime.TryParse(dateString, out modDate);
+                    DateTime.TryParse(dateString, out DateTime modDate);
                     modificationDateField = modDate;
                 }
                 return modificationDateField;

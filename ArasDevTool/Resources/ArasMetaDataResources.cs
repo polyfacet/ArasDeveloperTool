@@ -11,8 +11,8 @@ namespace ArasDatabaseRepair.Resources
     class ArasMetaDataResources
     {
         public enum ArasVersion {
-            R11,
-            R12
+            R11 = 11,
+            R12 = 12
         }
 
         private const string RESOURCE_FILE_NAME_R11 = "Metadata export 11.0.xml";
@@ -40,6 +40,18 @@ namespace ArasDatabaseRepair.Resources
                     string result = reader.ReadToEnd();
                     return result;
                 }
+        }
+
+        internal static string GetArasMetaDataAml(int majorVersion) {
+            ArasVersion arasVersion = ArasVersion.R12;
+            switch (majorVersion) {
+                case 11:
+                    arasVersion = ArasVersion.R11;
+                    break;
+                default:
+                    break;
+            }
+            return GetArasMetaDataAml(arasVersion);
         }
     }
 }

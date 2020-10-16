@@ -11,7 +11,7 @@ namespace ArasDevTool.Aras.PackageManagment {
         ILogger Log;
         public ILogger Logger { set => Log = value; }
 
-        private Innovator Inn;
+        private readonly Innovator Inn;
         private Dictionary<string, Item> _cachedPackageElementIdToPackageDefinitionMap;
 
         public PackageManager(Innovator inn) {
@@ -65,56 +65,64 @@ namespace ArasDevTool.Aras.PackageManagment {
 
         private Item ValidateWithUser(Item packageDefinition) {
             if (AutoPack) return packageDefinition;
-AskAgain:
             Console.WriteLine($"Add to: {packageDefinition.Name()}? Yes/No/Search (Y/N/S)");
             string answer = Console.ReadLine();
             if (answer.ToUpper() == "N" || answer.ToUpper() == "NO") return null;
             if (answer.ToUpper() == "Y" || answer.ToUpper() == "YES") return packageDefinition;
             if (answer.ToUpper() == "S" || answer.ToUpper() == "SEARCH") {
-            SearchAgain:
-                Console.WriteLine("Search package: Exmample: *com.acme*");
-                string searchString = Console.ReadLine();
-                // Search it and list them and make user select by number or cancel or new :
-                // (1) com.acme.plm
-                // (2) com.acme.documents
-                // (New) CREATE NEW
-                // (c) Cancel
-                List<Item> packageDefinitions = FindPackageDefinitions(searchString);
-                int i = 0;
-                if (packageDefinitions.Count >0) {
-                    Console.WriteLine("Select package by entering specific number:");
-                    foreach (Item packageDef in packageDefinitions) {
-                        i++;
-                        Console.WriteLine($"({i}) {packageDef.Name()}");
-                    }
-                    Console.WriteLine("(New) CREATE NEW");
-                    Console.WriteLine("(c) Cancel");
-                    string choice = Console.ReadLine();
-                    if (int.TryParse(choice, out int intChoice) 
-                        && intChoice-1 < packageDefinitions.Count()) {
-                        return packageDefinitions[intChoice - 1];
-                    }
-                    if (choice.ToUpper() == "C") {
-                        return null;
-                    }
-                    if (choice.ToUpper() == "NEW") {
-                        Console.WriteLine("Assign name for new package:");
-                        string newName = Console.ReadLine();
-                        Item newPackageDefintion =  CreateNewPackageDefintion(newName);
-                        if (newPackageDefintion.isError()) {
-                            Log.LogError($@"Could not create new Package Defintion with name
-                                {newName} : {newPackageDefintion.getErrorString()}" );
-                            goto AskAgain;
-                        }
-                        return newPackageDefintion;
-                    }
+                Item newPkgDef = GetNewPackageDefinitionFromUserInput();
+                if (newPkgDef != null) {
+                    return newPkgDef;
+                }            
+            }
+            return null;
+        }
+
+        private Item GetNewPackageDefinitionFromUserInput() {
+        SearchAgain:
+            Console.WriteLine("Search package: Exmample: *com.acme*");
+            string searchString = Console.ReadLine();
+            // Search it and list them and make user select by number or cancel or new :
+            // (1) com.acme.plm
+            // (2) com.acme.documents
+            // (New) CREATE NEW
+            // (c) Cancel
+            List<Item> packageDefinitions = FindPackageDefinitions(searchString);
+            int i = 0;
+            if (packageDefinitions.Count > 0) {
+                Console.WriteLine("Select package by entering specific number:");
+                foreach (Item packageDef in packageDefinitions) {
+                    i++;
+                    Console.WriteLine($"({i}) {packageDef.Name()}");
                 }
-                else {
-                    Log.LogWarning($"No result for: {searchString}");
-                    goto SearchAgain;
+                Console.WriteLine("(New) CREATE NEW");
+                Console.WriteLine("(c) Cancel");
+                string choice = Console.ReadLine();
+                if (int.TryParse(choice, out int intChoice)
+                    && intChoice - 1 < packageDefinitions.Count()) {
+                    return packageDefinitions[intChoice - 1];
+                }
+                if (choice.ToUpper() == "C") {
+                    return null;
+                }
+                if (choice.ToUpper() == "NEW") {
+                    NewPackageInput:
+                    Console.WriteLine("Assign name for new package:");
+                    string newName = Console.ReadLine();
+                    Item newPackageDefintion = CreateNewPackageDefintion(newName);
+                    if (newPackageDefintion.isError()) {
+                        Log.LogError($@"Could not create new Package Defintion with name
+                                {newName} : {newPackageDefintion.getErrorString()}");
+                        goto NewPackageInput;
+                    }
+                    return newPackageDefintion;
                 }
             }
-            goto AskAgain;
+            else {
+                Log.LogWarning($"No result for: {searchString}");
+                goto SearchAgain;
+            }
+            return null;
         }
 
         private Item CreateNewPackageDefintion(string newName) {

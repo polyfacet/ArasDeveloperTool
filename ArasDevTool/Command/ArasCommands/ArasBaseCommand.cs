@@ -46,9 +46,9 @@ namespace ArasDevTool.Command.ArasCommands {
 
         public bool ValidateInput(List<string> inputArgs) {
             bool valid = false;
-            if (inputArgs.Count == 1 
-                || !String.IsNullOrEmpty(inputArgs.SingleOrDefault(s => s.ToLower().StartsWith("-env")))
-                || String.IsNullOrEmpty(inputArgs.SingleOrDefault(s => s.ToLower().StartsWith("-cs")))) {
+            if (inputArgs.Count == 1
+                || !CommandUtils.HasOptionStartingWith(inputArgs,"-env")
+                || CommandUtils.HasOptionStartingWith(inputArgs, "-cs")) {
                 _config = new ArasXmlStoredConfig("dev");
                 valid = GetValidateInput(inputArgs);
                 if (valid) {
@@ -57,8 +57,7 @@ namespace ArasDevTool.Command.ArasCommands {
                 return valid;
             }
 
-            string connectionStringArg = inputArgs.SingleOrDefault(s => s.ToLower().StartsWith("-cs"));
-            if (!String.IsNullOrEmpty(connectionStringArg)) {
+            if (CommandUtils.HasOptionStartingWith(inputArgs,"-cs", out string connectionStringArg)) { 
                 _config = GetConfigFromConnectionStringArg(connectionStringArg);
                 if (_config != null) {
                     valid = GetValidateInput(inputArgs);
@@ -71,23 +70,6 @@ namespace ArasDevTool.Command.ArasCommands {
                 return false;
             }
             return false;
-        }
-
-        
-        /// <summary>
-        /// Example: Input "-c" should return the subsequent to the flag -c, else empty string
-        /// </summary>
-        /// <param name="flag"></param>
-        /// <returns>The subsequent parameter to the flag</returns>
-        protected string GetValueForFlag(string findFlag, List<string> inputArgs) {
-            string flag = inputArgs.SingleOrDefault(s => s.Equals(findFlag));
-            if (!String.IsNullOrEmpty(flag)) {
-                int i = inputArgs.IndexOf(flag) + 1;
-                if (inputArgs.Count >= i) {
-                    return inputArgs[i];
-                }
-            }
-            return String.Empty;
         }
 
         private IArasConnectionConfig GetConfigFromConnectionStringArg(string connectionStringArg) {

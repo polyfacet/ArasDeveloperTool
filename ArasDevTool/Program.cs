@@ -54,22 +54,7 @@ namespace ArasDevTool
                     return (int) Result.ERROR;
                 }
             }
-
             return (int) Result.OK;
-            //TODO: Setup command
-            // DONE: 1. ArasDevTool.exe Setup  (implicerat dev)
-            // 2. ArasDevTool.exe Setup deploy  (setup för en deploy env)
-
-
-            //TODO: TestConnection command:
-            // 1. ArasDevTool.exe TestConn -cs=http://localhost/innovator;InnovatorSoluions;admin;innovator
-            // 2. ArasDevTool.exe TestConn -cs=http://localhost/innovator;InnovatorSoluions;admin
-            // Prompt for password
-            // 3. ArasDevTool.exe TestConn -env=dev
-            // Requires Setup to be done for a "dev" environment
-            // 4. ArasDevTool.exe TestConn 
-            // Implicerar -env=dev
-
         }
 
         private static bool HelpInInput(List<string> inputArgs) {
