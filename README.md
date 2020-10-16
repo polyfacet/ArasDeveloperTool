@@ -27,7 +27,7 @@ Options:
 
 ```
 
-#### Setup an Aras connection (Setup)
+### Setup an Aras connection (Setup)
 
 ``` powershell
 ArasDevTool.exe Setup
@@ -45,7 +45,7 @@ ArasDevTool.exe TestConnection --cs="http://localhost/Innovator;InnovatorSolutio
 ``` 
 
 
-#### Check Latest Updates (CheckLatestUpdates)
+### Check Latest Updates (CheckLatestUpdates)
 ``` powershell
 ArasDevTool.exe CheckLatestUpdates 
 ``` 
@@ -70,7 +70,7 @@ Options: -c
 ```
 
 
-#### Check if Items are in packages (PackageChecker)
+### Check if Items are in packages (PackageChecker)
 ``` powershell
 ArasDevTool.exe PackageChecker -prefix HC_
 ``` 
