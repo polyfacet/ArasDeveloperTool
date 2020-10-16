@@ -29,35 +29,35 @@ namespace ArasDevTool
         }
 
         public static int Main(string[] args) {
-            var argList = args.ToList();
-            if (argList.Contains("-v")) {
-                Logger.Log("Version:");
-                Logger.Log("  " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
-                return (int)Result.HELP;
-            }
-            string commandName = (argList.Count > 0) ? argList[0] : "";
-            Logger.Log($"Starting {commandName}");
-            ICommand command = Factory.GetCommand(commandName);
-            if (command is ILoggable) {
-                ((ILoggable)command).Logger = _logger;
-            }
-            if (!command.ValidateInput(argList) || HelpInInput(argList)) {
-                Logger.Log($"Help for: {command.Name}");
-                foreach (string line in command.Help()) {
-                    Logger.Log("  " + line);
+            try {
+                var argList = args.ToList();
+                if (argList.Contains("-v")) {
+                    Logger.Log("Version:");
+                    Logger.Log("  " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                    return (int)Result.HELP;
                 }
-                return (int) Result.HELP;
-            }
-            else {
-                try {
+                string commandName = (argList.Count > 0) ? argList[0] : "";
+                Logger.Log($"Starting {commandName}");
+                ICommand command = Factory.GetCommand(commandName);
+                if (command is ILoggable) {
+                    ((ILoggable)command).Logger = _logger;
+                }
+                if (!command.ValidateInput(argList) || HelpInInput(argList)) {
+                    Logger.Log($"Help for: {command.Name}");
+                    foreach (string line in command.Help()) {
+                        Logger.Log("  " + line);
+                    }
+                    return (int)Result.HELP;
+                }
+                else {
                     command.Run();
                 }
-                catch (Exception ex) {
-                    Logger.LogError(ex);
-                    return (int) Result.ERROR;
-                }
+                return (int)Result.OK;
             }
-            return (int) Result.OK;
+            catch (Exception ex) {
+                Logger.LogError(ex);
+                return (int) Result.ERROR;
+            }
         }
 
         private static bool HelpInInput(List<string> inputArgs) {
