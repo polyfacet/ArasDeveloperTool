@@ -5,9 +5,8 @@ Command Line Application for handling developer tasks in Aras Innovator
 * Check latest changes in Aras
 * Check that everything is packaged, and package if needed. 
 
-##How To Use
-
-
+## How To Use
+ 
 Download ArasDevTool and extract it to a folder. 
 Open Cmd/Powershell/Windows Terminal and navigate to the folder and .
 
@@ -28,7 +27,8 @@ Options:
 
 ```
 
-####Setup an Aras connection (Setup)
+### Setup an Aras connection (Setup)
+
 ``` powershell
 ArasDevTool.exe Setup
 ``` 
@@ -45,7 +45,7 @@ ArasDevTool.exe TestConnection --cs="http://localhost/Innovator;InnovatorSolutio
 ``` 
 
 
-####Check Latest Updates (CheckLatestUpdates)
+### Check Latest Updates (CheckLatestUpdates)
 ``` powershell
 ArasDevTool.exe CheckLatestUpdates 
 ``` 
@@ -70,7 +70,7 @@ Options: -c
 ```
 
 
-####Check if Items are in packages (PackageChecker)
+### Check if Items are in packages (PackageChecker)
 ``` powershell
 ArasDevTool.exe PackageChecker -prefix HC_
 ``` 
