@@ -1,11 +1,9 @@
 ﻿using ArasDevTool.Command;
-using ArasDevTool.Loggers;
 using ArasDevTool.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace ArasDevTool
 {
@@ -32,6 +30,11 @@ namespace ArasDevTool
 
         public static int Main(string[] args) {
             var argList = args.ToList();
+            if (argList.Contains("-v")) {
+                Logger.Log("Version:");
+                Logger.Log("  " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                return (int)Result.HELP;
+            }
             string commandName = (argList.Count > 0) ? argList[0] : "";
             Logger.Log($"Starting {commandName}");
             ICommand command = Factory.GetCommand(commandName);
@@ -54,22 +57,7 @@ namespace ArasDevTool
                     return (int) Result.ERROR;
                 }
             }
-
             return (int) Result.OK;
-            //TODO: Setup command
-            // DONE: 1. ArasDevTool.exe Setup  (implicerat dev)
-            // 2. ArasDevTool.exe Setup deploy  (setup för en deploy env)
-
-
-            //TODO: TestConnection command:
-            // 1. ArasDevTool.exe TestConn -cs=http://localhost/innovator;InnovatorSoluions;admin;innovator
-            // 2. ArasDevTool.exe TestConn -cs=http://localhost/innovator;InnovatorSoluions;admin
-            // Prompt for password
-            // 3. ArasDevTool.exe TestConn -env=dev
-            // Requires Setup to be done for a "dev" environment
-            // 4. ArasDevTool.exe TestConn 
-            // Implicerar -env=dev
-
         }
 
         private static bool HelpInInput(List<string> inputArgs) {

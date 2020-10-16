@@ -1,15 +1,11 @@
-﻿using Aras.IOM;
+﻿using Innovator.Client.IOM;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArasDevTool.Aras {
     internal class AdminType : InnovatorBase {
 
         private const string MODIFIED_ON = "modified_on";
-        public AdminType(Innovator inn, Item item):base(inn) {
+        public AdminType(Innovator.Client.IOM.Innovator inn, Item item):base(inn) {
             Item = item;
         }
 
@@ -54,9 +50,7 @@ namespace ArasDevTool.Aras {
                     string dateString = Item.getProperty(MODIFIED_ON);
                     if (string.IsNullOrEmpty(dateString))
                         dateString = RetrieveProperty(MODIFIED_ON);
-                    // Dim modDate As Date = DateTime.Parse(dateString)
-                    DateTime modDate;
-                    DateTime.TryParse(dateString, out modDate);
+                    DateTime.TryParse(dateString, out DateTime modDate);
                     modificationDateField = modDate;
                 }
                 return modificationDateField;

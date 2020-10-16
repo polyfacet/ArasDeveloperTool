@@ -1,14 +1,11 @@
-﻿using Aras.IOM;
+﻿using Innovator.Client.IOM;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArasDevTool.Aras.DatabaseUpgrade {
     internal class DatabaseUpgradeInfo : InnovatorBase {
 
-        public DatabaseUpgradeInfo(Innovator inn):base(inn) {}
+        public DatabaseUpgradeInfo(Innovator.Client.IOM.Innovator inn):base(inn) {}
     
         public List<DatabaseUpgrade> GetDatabaseUpgrades() {
             var databaseUpgrades = new List<DatabaseUpgrade>();

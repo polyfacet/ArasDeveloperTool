@@ -1,11 +1,10 @@
-﻿using Aras.IOM;
+﻿using Innovator.Client.IOM;
 using ArasDatabaseRepair.Resources;
+using ArasDevTool.Aras;
 using ArasDevTool.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ArasDevTool.Command.ArasCommands {
     class PackageChecker : ArasBaseCommand {
@@ -72,24 +71,13 @@ namespace ArasDevTool.Command.ArasCommands {
         }
 
         public override bool GetValidateInput(List<string> inputArgs) {
-            Prefix = GetValueForFlag("-prefix", inputArgs);
-            if (String.IsNullOrEmpty(Prefix)) return false;
-            if (!String.IsNullOrEmpty(inputArgs.SingleOrDefault(s => s.ToUpper() == "--DRYRUN")) )  {
-                DryRun = true;
-            }
-            else {
-                DryRun = false;
-            }
-            if (!String.IsNullOrEmpty(inputArgs.SingleOrDefault(s => s.ToUpper() == "--AUTO"))) {
-                AutoPack = true;
-            }
-            else {
-                AutoPack = false;
-            }
+            if (!CommandUtils.OptionExistWithValue(inputArgs, "-prefix", out Prefix)) return false;
+            DryRun = (CommandUtils.HasOption(inputArgs, "--DRYRUN")) ? true : false;
+            AutoPack = (CommandUtils.HasOption(inputArgs, "--AUTO")) ? true : false;
             return true;
         }
 
-        private void LoadPackageMap(Innovator inn) {
+        private void LoadPackageMap(Innovator.Client.IOM.Innovator inn) {
             _packageMap = new Dictionary<string, Item>();
             string amlQueryAllPackageElements = @"<AML>
                 <Item action='get' type='PackageElement'/>
@@ -120,8 +108,7 @@ namespace ArasDevTool.Command.ArasCommands {
         }
 
         private string GetMetaAml() {
-            // TODO: R11/R12
-            return ArasMetaDataResources.GetArasMetaDataAml(ArasMetaDataResources.ArasVersion.R11);
+            return ArasMetaDataResources.GetArasMetaDataAml(ArasUtils.GetMajorVersion(Inn));
         }
 
     }

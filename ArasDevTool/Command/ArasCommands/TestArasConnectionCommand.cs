@@ -1,4 +1,4 @@
-﻿using Aras.IOM;
+﻿using Innovator.Client.IOM;
 using ArasDevTool.Configuration;
 using ArasDevTool.Logging;
 using System;
@@ -29,7 +29,7 @@ namespace ArasDevTool.Command.ArasCommands {
 
         public void Run() {
             Aras.ArasConnection conn = new Aras.ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword);
-            Innovator inn = conn.GetInnovator();
+            Innovator.Client.IOM.Innovator inn = conn.GetInnovator();
             Item result = inn.applyAML("<AML><Item action='get' type='ItemType'><name>ItemType</name></Item></AML>");
             if (!result.isError()) {
                 Log.LogSuccess($"Connection OK to {conn.ToString()}");

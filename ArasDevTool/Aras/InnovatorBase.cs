@@ -1,16 +1,10 @@
-﻿using Aras.IOM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace ArasDevTool.Aras {
     abstract class InnovatorBase {
-        public InnovatorBase(Innovator inn) {
+        public InnovatorBase(Innovator.Client.IOM.Innovator inn) {
             Inn = inn;
         }
 
-        protected Innovator Inn { get;  }
+        protected Innovator.Client.IOM.Innovator Inn { get;  }
     }
 }

@@ -55,9 +55,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IOM, Version=11.0.0.6920, Culture=neutral, PublicKeyToken=524d880b05474146, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Reference\IOM.dll</HintPath>
+    <Reference Include="innovator.client, Version=2020.2.23.1756, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Innovator.Client.2020.2.23.1756\lib\net46\innovator.client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -71,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Aras\AdminType.cs" />
     <Compile Include="Aras\ArasConnection.cs" />
+    <Compile Include="Aras\ArasUtils.cs" />
     <Compile Include="Aras\DatabaseUpgrade\DatabaseUpgradeInfo.cs" />
     <Compile Include="Aras\InnovatorBase.cs" />
     <Compile Include="Aras\ItemExtension.cs" />
@@ -82,6 +82,7 @@
     <Compile Include="Command\Commands\SetupCommand.cs" />
     <Compile Include="Command\ArasCommands\TestArasConnectionCommand.cs" />
     <Compile Include="Command\Commands\UnknownCommand.cs" />
+    <Compile Include="Command\CommandUtils.cs" />
     <Compile Include="Command\IArasCommand.cs" />
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\ILoggableCommand.cs" />
@@ -104,10 +105,9 @@
     <None Include="aras-env.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Reference\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Resources\Metadata export 12.0.xml" />
     <EmbeddedResource Include="Resources\Metadata export 11.0.xml" />

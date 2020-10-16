@@ -1,9 +1,4 @@
-﻿using Aras.IOM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Innovator.Client;
 
 namespace ArasDevTool.Aras {
     public class ArasConnection {
@@ -12,8 +7,7 @@ namespace ArasDevTool.Aras {
         private readonly string User;
         private readonly string Password;
 
-        private Innovator Inn;
-        private HttpServerConnection ServerConnection;
+        private Innovator.Client.IOM.Innovator Inn;
 
         public ArasConnection(string address, string db, string user, string password) {
             Url = address;
@@ -22,24 +16,13 @@ namespace ArasDevTool.Aras {
             this.Password = password;
         }
 
-        public Innovator GetInnovator() {
-            if (this.Inn == null)
-                Inn = IomFactory.CreateInnovator(GetArasConnection);
-            return Inn;
-        }
-
-        private HttpServerConnection GetArasConnection {
-            get {
-                if (ServerConnection == null) {
-                    ServerConnection = IomFactory.CreateHttpServerConnection(Url, DB, User, Password);
-                    Item login_result = ServerConnection.Login();
-                    if (login_result.isError()) {
-                        ServerConnection = null;
-                        throw new Exception("Login failed:" + login_result.ToString());
-                    }
-                }
-                return ServerConnection;
+        public Innovator.Client.IOM.Innovator GetInnovator() {
+            if (this.Inn == null) {
+                IRemoteConnection conn = Innovator.Client.Factory.GetConnection(Url, "ArasDevTool");
+                conn.Login(new ExplicitCredentials(DB, User, Password));
+                Inn = new Innovator.Client.IOM.Innovator(conn);
             }
+            return Inn;
         }
 
         public override string ToString() {
