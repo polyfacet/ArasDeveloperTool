@@ -1,9 +1,9 @@
-﻿using ArasDevTool.Command;
-using ArasDevTool.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Hille.Aras.DevTool.Interfaces.Logging;
+using Hille.Aras.DevTool.Interfaces.Command;
 
 namespace ArasDevTool
 {

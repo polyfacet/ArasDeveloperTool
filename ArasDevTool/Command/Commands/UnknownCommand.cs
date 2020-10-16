@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Hille.Aras.DevTool.Interfaces.Command;
 
 namespace ArasDevTool.Command.Commands {
     class UnknownCommand : ICommand {

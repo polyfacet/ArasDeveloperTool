@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8AC7C34F-03AB-4963-BDDF-9ACB0E32D9A0}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>ArasDevTool</RootNamespace>
-    <AssemblyName>ArasDevTool</AssemblyName>
+    <ProjectGuid>{3603B7B6-DBC2-4578-9A7A-304ED778A89C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hille.Aras.DevTool.Interfaces</RootNamespace>
+    <AssemblyName>Hille.Aras.DevTool.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,35 +23,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="innovator.client, Version=2020.2.23.1756, Culture=neutral, processorArchitecture=MSIL">
@@ -68,28 +44,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\Commands\DummyCommand.cs" />
-    <Compile Include="Command\Commands\UnknownCommand.cs" />
-    <Compile Include="Factory.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Aras\ArasConnection.cs" />
+    <Compile Include="Command\CommandUtils.cs" />
+    <Compile Include="Command\IArasCommand.cs" />
+    <Compile Include="Command\ICommand.cs" />
+    <Compile Include="Command\ILoggableCommand.cs" />
+    <Compile Include="Configuration\ArasConnectionConfig.cs" />
+    <Compile Include="Configuration\ArasXmlStoredConfig.cs" />
+    <Compile Include="Configuration\ConsoleUtils.cs" />
+    <Compile Include="Configuration\IArasConnectionConfig.cs" />
+    <Compile Include="Logging\ConsoleLoggerBase.cs" />
+    <Compile Include="Logging\ILoggable.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\Loggers\BasicLogger.cs" />
+    <Compile Include="Logging\Loggers\ConsoleLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="aras-env.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ArasDevToolCommonCommands\ArasDevToolCommonCommands.csproj">
-      <Project>{a642e80c-2d5b-4804-aa66-2cb6da3ef8ef}</Project>
-      <Name>ArasDevToolCommonCommands</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArasDevToolInterfaces\ArasDevToolInterfaces.csproj">
-      <Project>{3603b7b6-dbc2-4578-9a7a-304ed778a89c}</Project>
-      <Name>ArasDevToolInterfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
