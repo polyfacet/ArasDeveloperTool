@@ -1,12 +1,11 @@
 ﻿using ArasDevTool.Command.Commands;
 using Hille.Aras.DevTool.Interfaces.Logging;
-using System.Collections.Generic;
 using Hille.Aras.DevTool.Interfaces.Command;
+using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Reflection;
 using System.IO;
-//using Hille.Aras.DevTool.Common.Commands.Command.ArasCommands;
 
 namespace ArasDevTool {
     class Factory {
@@ -28,14 +27,11 @@ namespace ArasDevTool {
         }
 
         private static void LoadCommands() {
-            // Load all assemblies
+            // Load "all" assemblies (and already loaded)
             var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
             var loadedPaths = loadedAssemblies.Select(a => a.Location).ToArray();
-
-            //var referencedPaths = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
             var referencedPaths = GetReferenecedDllFiles();
             var toLoad = referencedPaths.Where(r => !loadedPaths.Contains(r, StringComparer.InvariantCultureIgnoreCase)).ToList();
-
             toLoad.ForEach(path => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(path))));
 
             // Get Implementations of ICommand
@@ -45,7 +41,6 @@ namespace ArasDevTool {
                 .Where(p => type.IsAssignableFrom(p));
             foreach(Type tempType in types) {
                 if (tempType.IsClass && !tempType.IsAbstract) {
-                    //Console.WriteLine(tempType.FullName);
                     ICommand cmd = (ICommand)Activator.CreateInstance(tempType);
                     impl.Add(cmd.Name.ToLower(), cmd);
                 }
