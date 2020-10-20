@@ -53,11 +53,13 @@ namespace ArasDevTool {
         }
 
         private static List<string> GetReferenecedDllFiles() {
-            var referencedPaths = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            var referencedPaths = Directory.GetFiles(baseDir, "Hille*.dll");
             var list = referencedPaths.ToList<string>();
-            // Remove Test-stuff otherwise Test will fail
-            list.RemoveAll(s => Path.GetFileName(s).Contains("Microsoft.VisualStudio.TestPlatform"));
-            list.RemoveAll(s => Path.GetFileName(s).Contains("UnitTest") );
+            if (Directory.Exists(Path.Combine(baseDir, "plugins"))){
+                var customPluginsPaths = Directory.GetFiles(Path.Combine(baseDir, "plugins"), "*.dll");
+                list.AddRange(customPluginsPaths.ToList<string>());
+            }
             return list;
         }
     }
