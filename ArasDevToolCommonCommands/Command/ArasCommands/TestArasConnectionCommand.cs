@@ -34,9 +34,28 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         public void Run() {
             ArasConnection conn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword);
             Innovator.Client.IOM.Innovator inn = conn.GetInnovator();
-            Item result = inn.applyAML("<AML><Item action='get' type='ItemType'><name>ItemType</name></Item></AML>");
+            string amlQuery = @"<AML>
+                <Item action='get' type='Variable' select='name,value'>
+                <or>
+                    <name>VersionMajor</name>
+                    <name>VersionServicePack</name>
+                </or>
+                </Item></AML>";
+
+            Item result = inn.applyAML(amlQuery);
             if (!result.isError()) {
                 Log.LogSuccess($"Connection OK to {conn.ToString()}");
+                string majorVersion = String.Empty;
+                string servicePack = String.Empty;
+                for (int i = 0; i<result.getItemCount(); i++) {
+                    Item item = result.getItemByIndex(i);
+                    if (item.getProperty("name") == "VersionMajor")
+                        majorVersion = item.getProperty("value", string.Empty);
+                    if (item.getProperty("name") == "VersionServicePack")
+                        servicePack = item.getProperty("value", string.Empty);
+                }
+                Log.Log($"Release: {majorVersion}");
+                Log.Log($"Service Pack: {servicePack}");
             }
             else {
                 Log.LogError($"{result.getErrorString()}");
