@@ -69,7 +69,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleAppTests.cs" />
+    <Compile Include="ConsoleAppTests\ArasInfoTests.cs" />
+    <Compile Include="ConsoleAppTests\PackageCheckerTests.cs" />
+    <Compile Include="ConsoleAppTests\ConsoleAppTestBase.cs" />
+    <Compile Include="ConsoleAppTests\CheckLatestTests.cs" />
+    <Compile Include="ConsoleAppTests\TestConnectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +83,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ArasDevToolCommonCommands\ArasDevToolCommonCommands.csproj">
+      <Project>{a642e80c-2d5b-4804-aa66-2cb6da3ef8ef}</Project>
+      <Name>ArasDevToolCommonCommands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ArasDevTool\ArasDevTool.csproj">
       <Project>{8ac7c34f-03ab-4963-bddf-9acb0e32d9a0}</Project>
       <Name>ArasDevTool</Name>

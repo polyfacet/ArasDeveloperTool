@@ -1,26 +1,18 @@
-﻿using ArasDevTool.Command;
-using ArasDevTool.Command.ArasCommands;
-using ArasDevTool.Command.Commands;
-using ArasDevTool.Loggers;
-using ArasDevTool.Logging;
-using System;
+﻿using ArasDevTool.Command.Commands;
+using Hille.Aras.DevTool.Interfaces.Logging;
+using Hille.Aras.DevTool.Interfaces.Command;
 using System.Collections.Generic;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.IO;
 
 namespace ArasDevTool {
     class Factory {
-        // TODO: Make a better factory, without implmenentation dependencies
-        public static Dictionary<string, ICommand> impl = new Dictionary<string, ICommand>() {
-            {"Dummy".ToLower(),new DummyCommand()},
-            {"Setup".ToLower(),new SetupCommand()},
-            {"TestConnection".ToLower(),new TestArasConnectionCommand()},
-            {"CheckLatestUpdates".ToLower(),new CheckLatestUpdatesCommand()},
-            {"PackageChecker".ToLower(), new PackageChecker() }
-        };
+        public static Dictionary<string, ICommand> impl = new Dictionary<string, ICommand>();
 
         public static ICommand GetCommand(string commandName) {
+            LoadCommands();
             commandName = commandName.ToLower();
             if (impl.ContainsKey(commandName)) {
                 return impl[commandName];
@@ -32,6 +24,38 @@ namespace ArasDevTool {
 
         public static ILogger GetLogger() {
             return new BasicLogger();
+        }
+
+        private static void LoadCommands() {
+            // Load "all" assemblies (and already loaded)
+            var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+            var loadedPaths = loadedAssemblies.Select(a => a.Location).ToArray();
+            var referencedPaths = GetReferenecedDllFiles();
+            var toLoad = referencedPaths.Where(r => !loadedPaths.Contains(r, StringComparer.InvariantCultureIgnoreCase)).ToList();
+            toLoad.ForEach(path => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(path))));
+
+            // Get Implementations of ICommand
+            var type = typeof(ICommand);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => type.IsAssignableFrom(p));
+            foreach(Type tempType in types) {
+                if (tempType.IsClass && !tempType.IsAbstract) {
+                    ICommand cmd = (ICommand)Activator.CreateInstance(tempType);
+                    impl.Add(cmd.Name.ToLower(), cmd);
+                }
+            }
+        }
+
+        private static List<string> GetReferenecedDllFiles() {
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            var referencedPaths = Directory.GetFiles(baseDir, "Hille*.dll");
+            var list = referencedPaths.ToList<string>();
+            if (Directory.Exists(Path.Combine(baseDir, "plugins"))){
+                var customPluginsPaths = Directory.GetFiles(Path.Combine(baseDir, "plugins"), "*.dll");
+                list.AddRange(customPluginsPaths.ToList<string>());
+            }
+            return list;
         }
     }
 }

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Hille.Aras.DevTool.Interfaces.Command;
 
 namespace ArasDevTool.Command.Commands {
     class UnknownCommand : ICommand {
 
         private string _inputCommandName;
-        public string Name => "ArasDevTool";
+        public string Name => "N/A";
 
         public List<string> Help() {
             List<string> messages = new List<string>();

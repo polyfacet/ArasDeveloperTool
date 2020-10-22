@@ -1,12 +1,10 @@
-﻿using ArasDevTool.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Hille.Aras.DevTool.Interfaces.Command;
+
 
 namespace ArasDevTool.Command.Commands {
-    class DummyCommand : Command.ICommand {
+    class DummyCommand : ICommand {
         public string Name => "Dummy";
 
         public List<string> Help() {
