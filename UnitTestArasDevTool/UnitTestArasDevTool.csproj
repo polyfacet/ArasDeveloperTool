@@ -69,6 +69,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleAppTests\ArasInfoTests.cs" />
     <Compile Include="ConsoleAppTests\PackageCheckerTests.cs" />
     <Compile Include="ConsoleAppTests\ConsoleAppTestBase.cs" />
     <Compile Include="ConsoleAppTests\CheckLatestTests.cs" />

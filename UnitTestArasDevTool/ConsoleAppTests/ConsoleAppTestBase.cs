@@ -13,8 +13,11 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
         protected const string CONNENCTION_STRING = "http://localhost/HCAras12;HCAras12;admin;innovator";
         protected const string CS_CONNENCTION_STRING = "-cs=http://localhost/HCAras12;HCAras12;admin;innovator";
         abstract public string Command { get; }
+        private string _inputArgs;
+        private int _result;
 
         protected int RunArasDevTool(string args) {
+            _inputArgs = args;
             args = Command + " " + args;
             Process p = new Process
             {
@@ -22,7 +25,23 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
             };
             p.Start();
             p.WaitForExit();
-            return p.ExitCode;
+            _result = p.ExitCode;
+            return _result;
+        }
+
+        protected string GetFailMessage() {
+            if (String.IsNullOrEmpty(_inputArgs)) {
+                return $"Running {Command} with no args failed";
+            }
+            else {
+                return $"Running {Command} with args: {_inputArgs}";
+            }
+        }
+
+        protected string GetFailMessage(int expectedResult) {
+            string msg = GetFailMessage();
+            msg += $" Expected/Actual : {expectedResult}/{_result}";
+            return msg;
         }
 
     }
