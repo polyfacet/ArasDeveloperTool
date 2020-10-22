@@ -12,6 +12,7 @@ namespace ArasDevTool
         public enum Result {
             OK,
             ERROR,
+            GENERIC_HELP,
             HELP
         }
 
@@ -46,6 +47,9 @@ namespace ArasDevTool
                     Logger.Log($"Help for: {command.Name}");
                     foreach (string line in command.Help()) {
                         Logger.Log("  " + line);
+                    }
+                    if (command.Name == "N/A") {
+                        return (int)Result.GENERIC_HELP;
                     }
                     return (int)Result.HELP;
                 }

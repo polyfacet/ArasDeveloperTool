@@ -6,7 +6,7 @@ namespace ArasDevTool.Command.Commands {
     class UnknownCommand : ICommand {
 
         private string _inputCommandName;
-        public string Name => "ArasDevTool";
+        public string Name => "NA";
 
         public List<string> Help() {
             List<string> messages = new List<string>();

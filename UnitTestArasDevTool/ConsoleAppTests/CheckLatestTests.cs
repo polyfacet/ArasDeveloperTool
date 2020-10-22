@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace UnitTestArasDevTool.ConsoleAppTests {
 
     [TestClass]
-    public class CheckLastetTests : ConsoleAppTestBase {
+    public class CheckLatestTests : ConsoleAppTestBase {
 
 
         public override string Command => "CheckLatestUpdates";
