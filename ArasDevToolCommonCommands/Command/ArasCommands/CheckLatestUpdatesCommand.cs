@@ -13,7 +13,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         private int NumberOfItemsToShow = DEAFULT_NBR_OF_ITEMS;
 
         public override void DoRun() {
-            List<AdminType> allAdminTypes = GetAllAdminTypes();
+            List<AdminType> allAdminTypes = AdminType.GetAllAdminTypes(Inn);
             // Sort
             Log.Log("Sorting " + allAdminTypes.Count + " number of Admin Types.");
             allAdminTypes = allAdminTypes.OrderBy(admType => admType.ModificationDate).ToList();
@@ -31,26 +31,6 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
             foreach (DatabaseUpgrade dbUpgrade in dbUpgradeInfo.GetDatabaseUpgrades()) {
                 Log.Log($"{dbUpgrade.AppliedOn.PadLeft(20)}: {dbUpgrade.TargetRelease.PadLeft(8)} : {dbUpgrade.Name.PadLeft(20)} : {dbUpgrade.IsLatest} : {dbUpgrade.Description}");
             }
-        }
-
-        private List<AdminType> GetAllAdminTypes() {
-            List<AdminType> adminTypes = new List<AdminType>();
-            string amlQuery = ArasMetaDataResources.GetArasMetaDataAml(ArasUtils.GetMajorVersion(Inn));
-            Item result = Inn.applyAML(amlQuery);
-            if (!result.isError()) {
-                Log.Log($"Admin item count: {result.getItemCount()} ");
-                int i = 0;
-                foreach (System.Xml.XmlNode itemNode in result.nodeList) {
-                    Item adminItemType = result.getItemByIndex(i);
-                    AdminType adminType = new AdminType(Inn, adminItemType);
-                    adminTypes.Add(adminType);
-                    i++;
-                }
-            }
-            else {
-                Log.LogError(result.getErrorString());
-            }
-            return adminTypes;
         }
 
         public override List<string> GetHelp() {

@@ -1,5 +1,7 @@
-﻿using Innovator.Client.IOM;
+﻿using Hille.Aras.DevTool.Common.Commands.Aras.Resources;
+using Innovator.Client.IOM;
 using System;
+using System.Collections.Generic;
 
 namespace Hille.Aras.DevTool.Common.Commands.Aras {
     internal class AdminType : InnovatorBase {
@@ -7,6 +9,25 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
         private const string MODIFIED_ON = "modified_on";
         public AdminType(Innovator.Client.IOM.Innovator inn, Item item):base(inn) {
             Item = item;
+        }
+
+        public static List<AdminType> GetAllAdminTypes(Innovator.Client.IOM.Innovator inn) {
+            List<AdminType> adminTypes = new List<AdminType>();
+            string amlQuery = ArasMetaDataResources.GetArasMetaDataAml(ArasUtils.GetMajorVersion(inn));
+            Item result = inn.applyAML(amlQuery);
+            if (!result.isError()) {
+                int i = 0;
+                foreach (System.Xml.XmlNode itemNode in result.nodeList) {
+                    Item adminItemType = result.getItemByIndex(i);
+                    AdminType adminType = new AdminType(inn, adminItemType);
+                    adminTypes.Add(adminType);
+                    i++;
+                }
+            }
+            else {
+                throw new ApplicationException(result.getErrorString());
+            }
+            return adminTypes;
         }
 
         public Item Item { get; set; }
