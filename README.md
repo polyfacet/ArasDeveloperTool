@@ -18,9 +18,10 @@ ArasDevTool.exe
 Availible commands for: ArasDevTool
   dummy
   setup
-  testconnection
+  arasinfo
   checklatestupdates
   packagechecker
+  testconnection
 
 Options:
   --help    Displays help for a command
@@ -43,6 +44,13 @@ ArasDevTool.exe TestConnection --cs="http://localhost/Innovator;InnovatorSolutio
 ArasDevTool.exe TestConnection --cs="http://localhost/Innovator;InnovatorSolutions;admin"
 # To be promted for password
 ``` 
+
+### Aras Info
+
+``` powershell
+ArasDevTool.exe ArasInfo
+``` 
+![Setup example](Documentation/img/ArasInfo.png)
 
 
 ### Check Latest Updates (CheckLatestUpdates)
@@ -74,7 +82,7 @@ Options: -c
 ``` powershell
 ArasDevTool.exe PackageChecker -prefix HC_
 ``` 
-![Pacckage Checker example](Documentation/img/PackageChecker.png)
+![Package Checker example](Documentation/img/PackageChecker.png)
 
 
 ``` powershell
