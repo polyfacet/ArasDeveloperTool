@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using System.IO;
+using Hille.Aras.DevTool.Interfaces;
 
 namespace Hille.Aras.DevTool.Interfaces.Configuration {
     public class ArasXmlStoredConfig : IArasConnectionConfig {
@@ -64,6 +65,7 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
             string defaultEnvName = "dev";
             string defaultArasAddress = "http://localhost/Innovator";
             string defaultDBName = "InnovatorSolutions";
+            string storedDBName = string.Empty;
             string defaultArasUser = "root";
             string defaultArasPassword = "innovator";
 
@@ -79,7 +81,7 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
                 string existingEnv = envNode1.Attributes.GetNamedItem("name").Value;
                 ArasXmlStoredConfig existingConfig = new ArasXmlStoredConfig(existingEnv);
                 defaultArasAddress = existingConfig.ArasAddress;
-                defaultDBName = existingConfig.ArasDBName;
+                storedDBName = existingConfig.ArasDBName;
                 defaultArasUser = existingConfig.ArasUser;
                 defaultArasPassword = existingConfig.ArasPassword;
             }
@@ -87,6 +89,14 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
             // Get User Input
             string env = GetValueFromUserInput($"Set name of environment ({defaultEnvName}):", defaultEnvName);
             string address = GetValueFromUserInput($"Set Aras url ({defaultArasAddress}):", defaultArasAddress);
+            if (storedDBName == defaultDBName ) {
+                Console.WriteLine("Getting databases");
+                string[] dbs = Aras.ArasConnection.GetDBList(address);
+                defaultDBName = (dbs.Length > 0) ? dbs[0] : defaultDBName;
+            }
+            else {
+                defaultDBName = storedDBName;
+            }
             string dbName = GetValueFromUserInput($"Set Aras DBName ({defaultDBName}):", defaultDBName);
             string arasUser = GetValueFromUserInput($"Set Aras user ({defaultArasUser}):", defaultArasUser);
             string arasPassword = GetValueFromUserInput($"Set Aras password ({defaultArasPassword}):", defaultArasPassword);

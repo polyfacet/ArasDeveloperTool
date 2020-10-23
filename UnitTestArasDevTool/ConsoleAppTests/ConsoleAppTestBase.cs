@@ -12,8 +12,8 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
 
         public const string CONSOLE_APP_NAME = "ArasDevTool.exe";
         protected const string HELP_FLAG = "--help";
-        protected const string CONNENCTION_STRING = "http://localhost/HCAras12;HCAras12;admin;innovator";
-        protected const string CS_CONNENCTION_STRING = "-cs=http://localhost/HCAras12;HCAras12;admin;innovator";
+        protected static string CONNECTION_STRING = $"{TestData.URL};{TestData.DB};{TestData.USER};{TestData.PASSWORD}";
+        protected static string CS_CONNENCTION_STRING = $"-cs={CONNECTION_STRING}";
         abstract public string Command { get; }
         private string _inputArgs;
         private int _result;

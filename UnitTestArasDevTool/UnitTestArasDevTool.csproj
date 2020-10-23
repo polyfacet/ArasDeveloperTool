@@ -69,12 +69,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArasDevToolInterfaceTests\ConnectionTests.cs" />
     <Compile Include="ConsoleAppTests\ArasInfoTests.cs" />
     <Compile Include="ConsoleAppTests\PackageCheckerTests.cs" />
     <Compile Include="ConsoleAppTests\ConsoleAppTestBase.cs" />
     <Compile Include="ConsoleAppTests\CheckLatestTests.cs" />
     <Compile Include="ConsoleAppTests\TestConnectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="aras-env.config">
@@ -86,6 +88,10 @@
     <ProjectReference Include="..\ArasDevToolCommonCommands\ArasDevToolCommonCommands.csproj">
       <Project>{a642e80c-2d5b-4804-aa66-2cb6da3ef8ef}</Project>
       <Name>ArasDevToolCommonCommands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArasDevToolInterfaces\ArasDevToolInterfaces.csproj">
+      <Project>{3603b7b6-dbc2-4578-9a7a-304ed778a89c}</Project>
+      <Name>ArasDevToolInterfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\ArasDevTool\ArasDevTool.csproj">
       <Project>{8ac7c34f-03ab-4963-bddf-9acb0e32d9a0}</Project>
