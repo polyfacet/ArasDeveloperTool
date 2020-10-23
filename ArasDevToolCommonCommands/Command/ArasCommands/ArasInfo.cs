@@ -18,6 +18,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         }
 
         public override void DoRun() {
+            Log.Log("Url: " +Inn.getConnection().MapClientUrl("../../") + " DB: " + Inn.getConnection().Database);
             PrintReleaseAndServicePack();
             Log.Log(String.Empty);
             PrintLatestDatabaseUpgrade();
