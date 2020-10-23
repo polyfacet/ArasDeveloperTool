@@ -78,7 +78,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras.PackageManagment {
 
         private Item GetNewPackageDefinitionFromUserInput() {
         SearchAgain:
-            Console.WriteLine("Search package: Exmample: *com.acme*");
+            Console.WriteLine("Search package: Example: *com.acme*");
             string searchString = Console.ReadLine();
             // Search it and list them and make user select by number or cancel or new :
             // (1) com.acme.plm
