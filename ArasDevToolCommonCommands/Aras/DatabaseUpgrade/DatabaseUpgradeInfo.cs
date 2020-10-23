@@ -51,5 +51,10 @@ namespace Hille.Aras.DevTool.Common.Aras.DatabaseUpgrade {
         public bool IsLatest { get; set; }
         public string Description { get; set; }
 
+        public override string ToString() {
+            string str = $"Name: {Name}, Applied On: {AppliedOn}, Target Release: {TargetRelease}, Description: {Description}, Is Latest: {IsLatest} ";
+            return str;
+        }
+
     }
 }

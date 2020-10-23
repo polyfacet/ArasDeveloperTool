@@ -45,12 +45,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aras\AdminType.cs" />
+    <Compile Include="Aras\ArasInfo.cs" />
     <Compile Include="Aras\ArasUtils.cs" />
     <Compile Include="Aras\DatabaseUpgrade\DatabaseUpgradeInfo.cs" />
     <Compile Include="Aras\InnovatorBase.cs" />
     <Compile Include="Aras\ItemExtension.cs" />
     <Compile Include="Aras\PackageManagment\PackageManager.cs" />
+    <Compile Include="Aras\User.cs" />
     <Compile Include="Command\ArasCommands\ArasBaseCommand.cs" />
+    <Compile Include="Command\ArasCommands\ArasInfo.cs" />
     <Compile Include="Command\ArasCommands\CheckLatestUpdatesCommand.cs" />
     <Compile Include="Command\ArasCommands\PackageChecker.cs" />
     <Compile Include="Command\ArasCommands\TestArasConnectionCommand.cs" />
