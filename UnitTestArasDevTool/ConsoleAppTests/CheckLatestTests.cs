@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using ArasDevTool;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,22 +15,28 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
         public override string Command => "CheckLatestUpdates";
 
         [TestMethod]
-        public void CheckLatestUpdates() {
-            string args = String.Empty;
+        public void CheckLatestUpdatesStored() {
+            AssertRun(string.Empty, (int)Program.Result.OK);
+        }
 
-            Assert.IsTrue(RunArasDevTool(args) == (int)ArasDevTool.Program.Result.OK);
+        [TestMethod]
+        public void CheckLatestUpdatesStoredLimit() {
+            AssertRun("-c 1", (int)Program.Result.OK);
+        }
 
-            args = "-c 1";
-            Assert.IsTrue(RunArasDevTool(args) == (int)ArasDevTool.Program.Result.OK);
+        [TestMethod]
+        public void CheckLatestUpdatesConnectionString() {
+            AssertRun(CS_CONNENCTION_STRING, (int)Program.Result.OK);
+        }
 
-            args = CS_CONNENCTION_STRING + " -c 1";
-            Assert.IsTrue(RunArasDevTool(args) == (int)ArasDevTool.Program.Result.OK);
+        [TestMethod]
+        public void CheckLatestUpdatesConnectionStringLimit() {
+            AssertRun(CS_CONNENCTION_STRING + " -c 1", (int)Program.Result.OK);
+        }
 
-            args = CS_CONNENCTION_STRING;
-            Assert.IsTrue(RunArasDevTool(args) == (int)ArasDevTool.Program.Result.OK);
-
-            args = HELP_FLAG;
-            Assert.IsTrue(RunArasDevTool(args) == (int)ArasDevTool.Program.Result.HELP);
+        [TestMethod]
+        public void CheckLatestUpdatesHelp() {
+            AssertRun(HELP_FLAG, (int)Program.Result.HELP);
         }
 
     }
