@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace UnitTestArasDevTool.ConsoleAppTests {
+
     public abstract class ConsoleAppTestBase {
 
         public const string CONSOLE_APP_NAME = "ArasDevTool.exe";
@@ -23,6 +25,7 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
             {
                 StartInfo = new ProcessStartInfo("ArasDevTool.exe", args)
             };
+            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             p.Start();
             p.WaitForExit();
             _result = p.ExitCode;
@@ -44,5 +47,9 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
             return msg;
         }
 
+        protected void AssertRun(string args, int expectedResult) {
+            int result = RunArasDevTool(args);
+            Assert.IsTrue(result == expectedResult, GetFailMessage(expectedResult));
+        }
     }
 }

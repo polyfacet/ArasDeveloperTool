@@ -2,6 +2,7 @@
 using Innovator.Client.IOM;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Hille.Aras.DevTool.Common.Commands.Aras {
     internal class AdminType : InnovatorBase {
@@ -28,6 +29,13 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
                 throw new ApplicationException(result.getErrorString());
             }
             return adminTypes;
+        }
+
+        public static List<AdminType> GetAllAdminTypesOrderByLatestModfied(Innovator.Client.IOM.Innovator inn) {
+            List<AdminType> allAdminTypes = AdminType.GetAllAdminTypes(inn);
+            allAdminTypes = allAdminTypes.OrderBy(admType => admType.ModificationDate).ToList();
+            allAdminTypes.Reverse();
+            return allAdminTypes;
         }
 
         public Item Item { get; set; }

@@ -48,7 +48,7 @@ namespace ArasDevTool
                     foreach (string line in command.Help()) {
                         Logger.Log("  " + line);
                     }
-                    if (command.Name == "N/A") {
+                    if (command.Name == "ArasDevTool") {
                         return (int)Result.GENERIC_HELP;
                     }
                     return (int)Result.HELP;
