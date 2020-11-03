@@ -10,7 +10,10 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
         public List<string> Help() {
             return new List<string>
             {
-                "Configure Aras connection"
+                "Configure Aras connection",
+                "",
+                "Options:",
+                "-e   Extended configuration for Database, Import/Export support"
             };
         }
 
@@ -19,7 +22,6 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
             config.Setup();
             // Test Connection
             TestConnection();
-         
         }
 
         private void TestConnection() {

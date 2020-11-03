@@ -10,22 +10,17 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
 
     [TestClass]
     [TestCategory("ConsoleTests")]
-    public class TestConnectionTests : ConsoleAppTestBase {
+    public class DatabaseRestoreTests : ConsoleAppTestBase {
 
-        public override string Command => "TestConnection";
+        public override string Command => "RestoreDB";
 
         [TestMethod]
-        public void TestConnectionStored() {
+        public void RestoreDBTest() {
             AssertRun(String.Empty, (int)Program.Result.OK);
         }
 
         [TestMethod]
-        public void TestConnectionConnectionString() {
-            AssertRun(CS_CONNENCTION_STRING, (int)Program.Result.OK);
-        }
-
-        [TestMethod]
-        public void TestConnectionHelp() {
+        public void RestoreDBHelp() {
             AssertRun(HELP_FLAG, (int)Program.Result.HELP);
         }
     }

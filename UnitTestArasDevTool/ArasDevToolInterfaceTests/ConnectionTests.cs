@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestArasDevTool.ArasDevToolInterfaceTests {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class ConnectionTests {
         [TestMethod]
         public void GetDatabaseList() {

@@ -35,6 +35,11 @@ ArasDevTool.exe Setup
 ``` 
 ![Setup example](Documentation/img/SetupConnection.png)
 
+``` powershell
+ArasDevTool.exe Setup -ext
+#Extended setup: Configure Database for Backup/Restore
+``` 
+
 It is an option to explicity use a "Aras ConnectionString" in Aras Commands:
 E.g. 
 
@@ -44,6 +49,9 @@ ArasDevTool.exe TestConnection --cs="http://localhost/Innovator;InnovatorSolutio
 ArasDevTool.exe TestConnection --cs="http://localhost/Innovator;InnovatorSolutions;admin"
 # To be promted for password
 ``` 
+
+
+
 
 ### Aras Info
 
@@ -103,3 +111,15 @@ Help for: PackageChecker
   --DryRun       Dont commit any changes.
   --Auto         Let it automatically select package for you.
 ```
+
+
+### Backup/Restore Database (Database)
+If you have setup the extended setup database backup and restore is possible via
+
+``` powershell
+ArasDevTool.exe BackupDB 
+``` 
+
+``` powershell
+ArasDevTool.exe RestoreDB
+``` 

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace UnitTestArasDevTool.ConsoleAppTests {
 
     [TestClass]
+    [TestCategory("ConsoleTests")]
     public class CheckLatestTests : ConsoleAppTestBase {
 
 
