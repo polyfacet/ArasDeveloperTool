@@ -57,6 +57,7 @@
     <Compile Include="Command\ArasCommands\CheckLatestUpdatesCommand.cs" />
     <Compile Include="Command\ArasCommands\PackageChecker.cs" />
     <Compile Include="Command\ArasCommands\TestArasConnectionCommand.cs" />
+    <Compile Include="Command\Commands\BackupDatabaseCommand.cs" />
     <Compile Include="Command\Commands\SetupCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ArasMetaDataResources.cs" />
