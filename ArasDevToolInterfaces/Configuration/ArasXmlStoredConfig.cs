@@ -8,13 +8,18 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
         private const string ARAS_CONFIG_FILE = "aras-env.config";
 
         private XmlDocument XmlDoc;
-        private XmlNode EnvNode;
-        private string _environmentName;
-        private string _backupDir = null;
+        private readonly XmlNode EnvNode;
+        private readonly string _environmentName;
+        
         private string _dbName = null;
         private string _arasAddress;
         private string _arasUser;
         private string _arasPassword;
+        private string _sqlCmd;
+        private string _sqlServer;
+        private string _databaseName;
+        private string _backupDir;
+
         public ArasXmlStoredConfig(string env) {
             _environmentName = env;
             XmlDoc = new XmlDocument();
@@ -27,23 +32,23 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
 
         public string EnvName { get { return _environmentName; } }
 
-        public string DBName {
-            get {
-                if (_dbName == null) {
-                    _dbName = EnvNode.SelectSingleNode("//DatabaseName").InnerText;
-                }
-                return _dbName;
-            }
-        }
+        //public string DBName {
+        //    get {
+        //        if (_dbName == null) {
+        //            _dbName = EnvNode.SelectSingleNode("//DatabaseName").InnerText;
+        //        }
+        //        return _dbName;
+        //    }
+        //}
 
-        public string BackupDir {
-            get {
-                if (_backupDir == null) {
-                    _backupDir = EnvNode.SelectSingleNode("//DatabaseBackupDir").InnerText;
-                }
-                return _backupDir;
-            }
-        }
+        //public string BackupDir {
+        //    get {
+        //        if (_backupDir == null) {
+        //            _backupDir = EnvNode.SelectSingleNode("//DatabaseBackupDir").InnerText;
+        //        }
+        //        return _backupDir;
+        //    }
+        //}
 
         
         public string ArasAddress { get { return EnvNode.SelectSingleNode("//Url").InnerText; } set { _arasAddress = value;  } }
@@ -60,7 +65,20 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
             }
         }
 
-        public void Setup() {
+        public string SqlCmd { 
+            get {
+                if (!String.IsNullOrEmpty(_sqlCmd) ) {
+                    return _sqlCmd;
+                }
+                return EnvNode.SelectSingleNode("//Sqlcmd").InnerText; 
+            } 
+            set { _sqlCmd = value; } }
+        public string SqlServer { get { return EnvNode.SelectSingleNode("//Server").InnerText; } set { _sqlServer = value; } }
+            
+        public string DatabaseName { get { return EnvNode.SelectSingleNode("//DBName").InnerText; } set { _databaseName = value; } }
+        public string BackupDir { get { return EnvNode.SelectSingleNode("//BackupDirectory").InnerText; } set { _backupDir = value; } }
+
+        public void Setup(bool extendedSetup) {
             string configFileName = "aras-env.config";
             string defaultEnvName = "dev";
             string defaultArasAddress = "http://localhost/Innovator";
@@ -68,6 +86,11 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
             string storedDBName = string.Empty;
             string defaultArasUser = "root";
             string defaultArasPassword = "innovator";
+            string defaultDatabaseName = "InnovatorSolutions";
+            string defaultDBServer = @".\SQLEXPRESS";
+            string defaultBackupDir = Path.GetTempPath();
+            string defaultSqlCmd = "sqlcmd.exe";
+
 
             Console.WriteLine("Setup starting");
             if (!File.Exists(configFileName)) {
@@ -84,6 +107,10 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
                 storedDBName = existingConfig.ArasDBName;
                 defaultArasUser = existingConfig.ArasUser;
                 defaultArasPassword = existingConfig.ArasPassword;
+                defaultDatabaseName = existingConfig.DatabaseName;
+                defaultDBServer = existingConfig.SqlServer;
+                defaultSqlCmd = existingConfig.SqlCmd;
+                defaultBackupDir = existingConfig.BackupDir;
             }
 
             // Get User Input
@@ -101,6 +128,18 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
             string arasUser = GetValueFromUserInput($"Set Aras user ({defaultArasUser}):", defaultArasUser);
             string arasPassword = GetValueFromUserInput($"Set Aras password ({defaultArasPassword}):", defaultArasPassword);
 
+            string sqlServerName = string.Empty;
+            string databaseName = string.Empty;
+            string backupDir = string.Empty;
+            string sqlcmd = string.Empty;
+            if (extendedSetup) {
+                sqlServerName = GetValueFromUserInput($"Set SQL Server ({defaultDBServer}):", defaultDBServer);
+                sqlcmd = GetValueFromUserInput($"Set sqlcmd.exe path ({defaultSqlCmd}):", defaultSqlCmd);
+                databaseName = GetValueFromUserInput($"Set Database Name ({defaultDatabaseName}):", defaultDatabaseName);
+                backupDir = GetValueFromUserInput($"Set Database backup dir ({defaultBackupDir}):", defaultBackupDir);
+            }
+            
+
             // Update Xml file
             XmlDoc = new XmlDocument();
             XmlDoc.Load(configFileName);
@@ -110,6 +149,13 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
             firstEnvNode.SelectSingleNode("//ArasConnection/Db").InnerText = dbName;
             firstEnvNode.SelectSingleNode("//ArasConnection/User").InnerText = arasUser;
             firstEnvNode.SelectSingleNode("//ArasConnection/Password").InnerText = arasPassword;
+            if (extendedSetup) {
+                firstEnvNode.SelectSingleNode("//Database/DBName").InnerText = databaseName;
+                firstEnvNode.SelectSingleNode("//Database/Sqlcmd").InnerText = sqlcmd;
+                _sqlCmd = sqlcmd;
+                firstEnvNode.SelectSingleNode("//Database/Server").InnerText = sqlServerName;
+                firstEnvNode.SelectSingleNode("//Database/BackupDirectory").InnerText = backupDir;
+            }
             XmlDoc.Save(configFileName);
         }
 

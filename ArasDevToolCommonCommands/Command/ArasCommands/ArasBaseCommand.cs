@@ -43,7 +43,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         }
 
         public bool ValidateInput(List<string> inputArgs) {
-            bool valid = false;
+            bool valid;
             if (inputArgs.Count == 1
                 || !CommandUtils.HasOptionStartingWith(inputArgs,"-env")
                 || CommandUtils.HasOptionStartingWith(inputArgs, "-cs")) {
