@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
     public class SetupCommand : ICommand {
 
-        private bool ExtendedSetup = false;
+        private bool ExtendedSetup;
 
         public string Name => "Setup";
 
@@ -34,15 +34,17 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
         }
 
         private void TestSqlCmd(string sqlCmd) {
-            Process p = new Process
-            {
-                StartInfo = new ProcessStartInfo(sqlCmd, "-?")
-            };
-            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            p.Start();
-            p.WaitForExit();
-            int exitCode = p.ExitCode;
-            Console.WriteLine(exitCode);
+            using (Process p = new Process
+                {
+                    StartInfo = new ProcessStartInfo(sqlCmd, "-?")
+                }
+            ) {
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                p.Start();
+                p.WaitForExit();
+                int exitCode = p.ExitCode;
+                Console.WriteLine(exitCode);
+            }
         }
 
         private void TestConnection() {
