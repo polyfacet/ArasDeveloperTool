@@ -16,11 +16,13 @@ ArasDevTool.exe
 
 ``` 
 Availible commands for: ArasDevTool
-  dummy
-  setup
   arasinfo
+  backupdb
   checklatestupdates
+  dummy
   packagechecker
+  restoredb
+  setup
   testconnection
 
 Options:
