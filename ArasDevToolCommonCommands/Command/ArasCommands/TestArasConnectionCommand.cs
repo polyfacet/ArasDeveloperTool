@@ -63,12 +63,12 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         }
 
         public bool ValidateInput(List<string> inputArgs) {
-            if (inputArgs.Count==1) {
+            if (inputArgs == null || inputArgs.Count==1) {
                 _config = new ArasXmlStoredConfig("dev");
                 return true;
             }
 
-            string connectionStringArg = inputArgs.SingleOrDefault(s => s.ToLower().StartsWith("-cs"));
+            string connectionStringArg = inputArgs.SingleOrDefault(s => s.StartsWith("-cs",StringComparison.OrdinalIgnoreCase));
             if (!String.IsNullOrEmpty(connectionStringArg)) {
                 _config = GetConfigFromConnectionStringArg(connectionStringArg);
                 if (_config != null) {
@@ -95,7 +95,9 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
                         config.ArasPassword = parameters[3].Trim();
                     }
                     else {
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
                         Console.WriteLine("Set Aras Password");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
                         config.ArasPassword = ConsoleUtils.ReadPassword();
                     }
                     return config;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,7 +58,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
             Log.Log("Latest modifed admin type");
             Aras.AdminType adminType = ArasInformation.ModifiedAdminTypesByLastModifcationDate[0];
             string message = adminType.GetArasType() + " : " + adminType.GetKeyedName();
-            message += " : " + adminType.ModificationDate.ToString("yyyy-MM-dd HH:mm:ss");
+            message += " : " + adminType.ModificationDate.ToString("yyyy-MM-dd HH:mm:ss",CultureInfo.CurrentCulture);
             Log.Log(message);
         }
 

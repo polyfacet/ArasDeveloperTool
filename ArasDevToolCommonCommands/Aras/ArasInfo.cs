@@ -11,8 +11,8 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
         private DatabaseUpgrade _latestDatabaseUpgradeItem;
         private List<AdminType> _modifiedAdminTypesByLastModifcationDate;
         private KeyValuePair<string, string> _lastestLoggedInUserNonAdmin = new KeyValuePair<string, string>(String.Empty,String.Empty);
-        private string _servicePack = null;
-        private string _majorVersion = null;
+        private string _servicePack;
+        private string _majorVersion;
 
         public ArasInfo(Innovator.Client.IOM.Innovator inn) : base(inn) { }
 
@@ -47,7 +47,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
 
         public KeyValuePair<string, string> LastestLoggedInUserNonAdmin {
             get {
-                if (_lastestLoggedInUserNonAdmin.Key == String.Empty) LoadInfo();
+                if (String.IsNullOrEmpty(_lastestLoggedInUserNonAdmin.Key)) LoadInfo();
                 return _lastestLoggedInUserNonAdmin;
             }
         }

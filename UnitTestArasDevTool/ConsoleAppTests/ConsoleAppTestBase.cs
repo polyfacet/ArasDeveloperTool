@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArasDevTool;
 
 namespace UnitTestArasDevTool.ConsoleAppTests {
 
@@ -17,6 +18,7 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
         abstract public string Command { get; }
         private string _inputArgs;
         private int _result;
+        private string _resultString;
 
         protected int RunArasDevTool(string args) {
             _inputArgs = args;
@@ -29,6 +31,7 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
             p.Start();
             p.WaitForExit();
             _result = p.ExitCode;
+            _resultString = ConvertToProgramResult(_result);
             return _result;
         }
 
@@ -43,13 +46,23 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
 
         protected string GetFailMessage(int expectedResult) {
             string msg = GetFailMessage();
-            msg += $" Expected/Actual : {expectedResult}/{_result}";
+            msg += $" Expected/Actual : {ConvertToProgramResult(expectedResult)}/{_resultString}";
             return msg;
         }
 
         protected void AssertRun(string args, int expectedResult) {
             int result = RunArasDevTool(args);
             Assert.IsTrue(result == expectedResult, GetFailMessage(expectedResult));
+        }
+
+        protected string ConvertToProgramResult(int value) {
+            if (Enum.IsDefined(typeof(ArasDevTool.Program.Result),value)) {
+                Program.Result result = (Program.Result) value;
+                return result.ToString();
+            }
+            else {
+                return value.ToString();
+            }
         }
     }
 }

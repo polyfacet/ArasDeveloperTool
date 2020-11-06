@@ -26,7 +26,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
             for (int i = 0; i < result.getItemCount(); i++) {
                 Item item = result.getItemByIndex(i);
                 string keyedName = item.getPropertyAttribute("id", "keyed_name");
-                if (keyedName.ToUpper().StartsWith(Prefix)) {
+                if (keyedName.StartsWith(Prefix,StringComparison.OrdinalIgnoreCase)) {
                     itemsCount++;
                     if (!CheckIfInPackage(item)) {
                         Log.Log($"Not in any package: {item.getType()} named {keyedName}");

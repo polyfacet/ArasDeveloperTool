@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace UnitTestArasDevTool.ConsoleAppTests {
 
     [TestClass]
+    [TestCategory("ConsoleTests")]
     public class ArasInfoTests : ConsoleAppTestBase {
         public override string Command => "ArasInfo";
 

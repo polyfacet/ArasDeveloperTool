@@ -79,13 +79,15 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
                     string dateString = Item.getProperty(MODIFIED_ON);
                     if (string.IsNullOrEmpty(dateString))
                         dateString = RetrieveProperty(MODIFIED_ON);
-                    DateTime.TryParse(dateString, out DateTime modDate);
-                    modificationDateField = modDate;
+                    if (DateTime.TryParse(dateString, out DateTime modDate)) {
+                        modificationDateField = modDate;
+                    }
                 }
                 return modificationDateField;
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         protected string RetrieveProperty(string propertyName) {
             string amlQuery = string.Format("<AML><Item action='get' type='{0}' id='{1}' select='{2}'></Item></AML>"
                                                  , this.GetArasType(), this.GetId(), propertyName);

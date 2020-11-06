@@ -14,11 +14,14 @@ namespace ArasDevTool.Command.Commands {
                 messages.Add($"Unknown command: {_inputCommandName}");
             }
             messages.Add("Availible commands:");
+            var commandNames = new List<string>() ;
             foreach (KeyValuePair<string, ICommand> kvp in Factory.impl) {
-                if (kvp.Key != Name) { // Dont add self
-                    messages.Add(kvp.Key);
+                if (!kvp.Key.Equals(Name,StringComparison.OrdinalIgnoreCase)) { // Dont add self
+                    commandNames.Add(kvp.Key);
                 }
             }
+            commandNames.Sort();
+            foreach (string cmdName in commandNames) messages.Add(cmdName);
             messages.Add("");
             messages.Add("Options:");
             messages.Add("  --help    Displays help for a command");
