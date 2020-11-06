@@ -48,8 +48,8 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
         }
 
         private void BackupDatabase(string sqlCmdExe, string server, string dbName, string filePath) {
-            string sqlCmd = $"BACKUP DATABASE {dbName} TO DISK='{filePath}' WITH FORMAT";
-            string cmd = $@"-S {server} -E -Q ""{sqlCmd}"" ";
+            string query = $"BACKUP DATABASE {dbName} TO DISK='{filePath}' WITH FORMAT";
+            string cmd = $@"-S {server} -E -Q ""{query}"" ";
 
             Console.WriteLine(cmd);
             

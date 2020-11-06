@@ -24,7 +24,7 @@ namespace Hille.Aras.DevTool.Interfaces.Command {
             string option = args.SingleOrDefault(s => s.ToLower().Equals(findOption.ToLower()));
             if (!String.IsNullOrEmpty(option)) {
                 int i = args.IndexOf(option) + 1;
-                if (args.Count >= i) {
+                if (args.Count > i) {
                     value = args[i];
                     return true;
                 }

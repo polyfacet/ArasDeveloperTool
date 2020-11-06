@@ -9,8 +9,8 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
     public abstract class ArasBaseCommand : IArasCommand, ILoggableCommand {
 
         private IArasConnectionConfig _config;
-        protected ILogger Log;
-        protected Innovator.Client.IOM.Innovator Inn;
+        protected ILogger Log { get; set; }
+        protected Innovator.Client.IOM.Innovator Inn { get; set; }
         public ILogger Logger { set => Log = value; }
 
         public abstract string GetName();
@@ -44,12 +44,16 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
 
         public bool ValidateInput(List<string> inputArgs) {
             bool valid;
-            if (inputArgs.Count == 1
+            if (CommandUtils.HasOption(inputArgs, "--help")) {
+                return true;
+            }
+            if (inputArgs != null && inputArgs.Count == 1
                 || !CommandUtils.HasOptionStartingWith(inputArgs,"-env")
                 || CommandUtils.HasOptionStartingWith(inputArgs, "-cs")) {
                 _config = new ArasXmlStoredConfig("dev");
                 valid = GetValidateInput(inputArgs);
                 if (valid) {
+                    Log.Log($"New Aras Connection: {_config.ArasAddress}, {_config.ArasDBName}, {_config.ArasUser}");
                     Inn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword).GetInnovator();
                 }
                 return valid;
@@ -70,6 +74,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
             return false;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
         private IArasConnectionConfig GetConfigFromConnectionStringArg(string connectionStringArg) {
             if (connectionStringArg.Contains("=") && connectionStringArg.Contains(";")) {
                 string connectionString = connectionStringArg.Split('=')[1].Trim();
