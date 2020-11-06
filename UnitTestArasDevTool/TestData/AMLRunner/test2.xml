@@ -1,0 +1,13 @@
+﻿<AMLS>
+  <AML>
+    <Item action="get" type="ItemType">
+      <name>Action</name>      
+    </Item>
+  </AML>
+  <AML>
+    <Item action="get" type="ItemType">
+      <name>List</name>
+    </Item>
+  </AML>
+</AMLS>
+
