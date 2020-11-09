@@ -47,19 +47,8 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
             if (CommandUtils.HasOption(inputArgs, "--help")) {
                 return true;
             }
-            if (inputArgs != null && inputArgs.Count == 1
-                || !CommandUtils.HasOptionStartingWith(inputArgs,"-env")
-                || CommandUtils.HasOptionStartingWith(inputArgs, "-cs")) {
-                _config = new ArasXmlStoredConfig("dev");
-                valid = GetValidateInput(inputArgs);
-                if (valid) {
-                    Log.Log($"New Aras Connection: {_config.ArasAddress}, {_config.ArasDBName}, {_config.ArasUser}");
-                    Inn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword).GetInnovator();
-                }
-                return valid;
-            }
 
-            if (CommandUtils.HasOptionStartingWith(inputArgs,"-cs", out string connectionStringArg)) { 
+            if (CommandUtils.HasOptionStartingWith(inputArgs, "-cs", out string connectionStringArg)) {
                 _config = GetConfigFromConnectionStringArg(connectionStringArg);
                 if (_config != null) {
                     valid = GetValidateInput(inputArgs);
@@ -71,6 +60,19 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
                 Log.LogError("Wrong connection string format");
                 return false;
             }
+
+            if (inputArgs != null && inputArgs.Count == 1
+                || !CommandUtils.HasOptionStartingWith(inputArgs,"-env")
+                || CommandUtils.HasOptionStartingWith(inputArgs, "-cs")) {
+                _config = new ArasXmlStoredConfig("dev");
+                valid = GetValidateInput(inputArgs);
+                if (valid) {
+                    Log.Log($"New Aras Connection: {_config.ArasAddress}, {_config.ArasDBName}, {_config.ArasUser}");
+                    Inn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword).GetInnovator();
+                }
+                return valid;
+            }
+     
             return false;
         }
 

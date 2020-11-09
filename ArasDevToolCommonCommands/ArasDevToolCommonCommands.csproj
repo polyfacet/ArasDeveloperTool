@@ -60,6 +60,7 @@
     <Compile Include="Aras\PackageManagment\PackageManager.cs" />
     <Compile Include="Aras\User.cs" />
     <Compile Include="Command\ArasCommands\ArasBaseCommand.cs" />
+    <Compile Include="Command\ArasCommands\AmlRunnerCommand.cs" />
     <Compile Include="Command\ArasCommands\ArasInfo.cs" />
     <Compile Include="Command\ArasCommands\CheckLatestUpdatesCommand.cs" />
     <Compile Include="Command\ArasCommands\PackageChecker.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Command\Commands\RestoreDatabaseCommand.cs" />
     <Compile Include="Command\Commands\BackupDatabaseCommand.cs" />
     <Compile Include="Command\Commands\SetupCommand.cs" />
+    <Compile Include="Command\ManifestParser.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ArasMetaDataResources.cs" />

@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <imports>
-  <package  path="test1.xml" />
-  <package path="test2.xml" continueOnError="FALSE" />
-  <package path="test3.xml" continueOnError="TRUE" />
+  <package  path="Pack1" />
+  <package path="Pack2" stopOnError="TRUE" />
 </imports>
