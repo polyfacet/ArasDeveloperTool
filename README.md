@@ -16,6 +16,7 @@ ArasDevTool.exe
 
 ``` 
 Availible commands for: ArasDevTool
+  amlrunner
   arasinfo
   backupdb
   checklatestupdates
@@ -124,4 +125,35 @@ ArasDevTool.exe BackupDB
 
 ``` powershell
 ArasDevTool.exe RestoreDB
+``` 
+
+### AMLRunner (Database)
+Run AMLs from files
+
+``` powershell
+ArasDevTool.exe AMLRunner -mf \AMLRunner\AmlRunnerTest.mf
+``` 
+
+Example of manifest file running aml-files in the Pack1 and Pack2 directories. Where if the any aml fails in Pack2, execution will be stopped.
+``` xml
+<?xml version="1.0" encoding="utf-8" ?>
+<imports>
+  <package  path="Pack1" />
+  <package path="Pack2" stopOnError="TRUE" />
+</imports>
+``` 
+
+
+Example Test1.xml in directory Pack1
+``` xml
+<AMLS>
+  <AML>
+    <Item action="delete" type="Form" id="F596909BBC7746D99683DB1E759E582E">
+    </Item>
+  </AML>
+   <AML>
+    <Item action="delete" type="Field" id="53ADDFF20E5C43B7B51A5E4B818465E3">
+    </Item>
+  </AML>
+</AMLS>
 ``` 
