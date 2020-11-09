@@ -127,7 +127,7 @@ ArasDevTool.exe BackupDB
 ArasDevTool.exe RestoreDB
 ``` 
 
-### AMLRunner (Database)
+### AMLRunner
 Run AMLs from files
 
 ``` powershell
