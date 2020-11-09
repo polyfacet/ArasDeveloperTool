@@ -1,9 +1,14 @@
 # ArasDeveloperTool
 Command Line Application for handling developer tasks in Aras Innovator
 ####Features
+
 * Test Aras connection
 * Check latest changes in Aras
 * Check that everything is packaged, and package if needed. 
+* Run Amls from files
+* Check Aras Database Info
+* Backup and Restore Databases
+
 
 ## How To Use
  
