@@ -21,15 +21,15 @@ ArasDevTool.exe
 
 ``` 
 Availible commands for: ArasDevTool
-  amlrunner
-  arasinfo
-  backupdb
-  checklatestupdates
-  dummy
-  packagechecker
-  restoredb
-  setup
-  testconnection
+  AmlRunner
+  ArasInfo
+  BackupDB
+  CheckLatestUpdates
+  Dummy
+  PackageChecker
+  RestoreDB
+  Setup
+  TestConnection
 
 Options:
   --help    Displays help for a command
