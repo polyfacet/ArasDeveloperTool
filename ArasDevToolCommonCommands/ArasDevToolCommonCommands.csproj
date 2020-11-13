@@ -69,8 +69,11 @@
     <Compile Include="Command\Commands\BackupDatabaseCommand.cs" />
     <Compile Include="Command\Commands\SetupCommand.cs" />
     <Compile Include="Command\ManifestParser.cs" />
+    <Compile Include="DefaultSetupHandler.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="ISetupHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\ConfigResources.cs" />
     <Compile Include="Resources\ArasMetaDataResources.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +83,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\aras-env.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

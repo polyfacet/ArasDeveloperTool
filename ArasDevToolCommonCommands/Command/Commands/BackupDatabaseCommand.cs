@@ -1,5 +1,5 @@
-﻿using Hille.Aras.DevTool.Interfaces.Command;
-using Hille.Aras.DevTool.Interfaces.Configuration;
+﻿using Hille.Aras.DevTool.Interfaces.Configuration;
+using Hille.Aras.DevTool.Interfaces.Command;
 using Hille.Aras.DevTool.Interfaces.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,9 @@ using System.Threading.Tasks;
 
 namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
     class BackupDatabaseCommand : ICommand, ILoggableCommand {
-        private ArasXmlStoredConfig _config;
+        private IArasSetupConfig  _config;
+
+        private string Env = string.Empty;
 
         public string Name => "BackupDB";
 
@@ -21,14 +23,14 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
         public List<string> Help() {
             var msgs = new List<string>
             {
-                "  Creates database backup"
+                "  Creates database backup",
+                " -env deploy \t Backup for specific environment. Default dev"
             };
             return msgs;
         }
 
         public void Run() {
-            
-            _config = new ArasXmlStoredConfig("dev");
+            _config = new DefaultSetupHandler().GetConfig(Env); 
             string dir = _config.BackupDir;
             string filePath;
             string timeStamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss", CultureInfo.CurrentCulture);
@@ -44,6 +46,9 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
         }
 
         public bool ValidateInput(List<string> inputArgs) {
+            if (CommandUtils.OptionExistWithValue(inputArgs,"-env", out string env)) {
+                Env = env;
+            }
             return true;
         }
 

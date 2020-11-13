@@ -34,7 +34,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras.Resources
             
             Assembly assembly = Assembly.GetExecutingAssembly();
             string resourceName = assembly.GetManifestResourceNames()
-                .Single(str => str.EndsWith(resourceFileName));
+                .Single(str => str.EndsWith(resourceFileName,StringComparison.OrdinalIgnoreCase));
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                 using (StreamReader reader = new StreamReader(stream)){
                     string result = reader.ReadToEnd();

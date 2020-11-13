@@ -8,12 +8,13 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Hille.Aras.DevTool.Common.Configuration;
 
 namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
     class RestoreDatabaseCommand : ICommand, ILoggableCommand {
-        private ArasXmlStoredConfig _config;
+        private IArasSetupConfig _config;
         private int DBDisplayCount = 5;
-
+        private string Env = string.Empty;
         public string Name => "RestoreDB";
 
         private ILogger Log;
@@ -25,13 +26,14 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
             var msgs = new List<string>
             {
                 "  Restores a database backup from configured directory",
+                " -env deploy \t For specific environment. Default dev",
                 "  -dc \t Number of backups to select from: -dc 10 \t (default 5)"
             };
             return msgs;
         }
 
         public void Run() {
-            _config = new ArasXmlStoredConfig("dev");
+            _config = new DefaultSetupHandler().GetConfig(Env); 
             string filePath = RestoreDatabase(_config);
             if (!String.IsNullOrEmpty(filePath)) {
                 Log.LogSuccess($"Restored backup to {_config.DatabaseName} from file: {filePath}");
@@ -39,6 +41,9 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
         }
 
         public bool ValidateInput(List<string> inputArgs) {
+            if (CommandUtils.OptionExistWithValue(inputArgs, "-env", out string env)) {
+                Env = env;
+            }
             if (CommandUtils.OptionExistWithValue(inputArgs, "-dc", out string dcValue)) {
                 if (int.TryParse(dcValue, out int value)) {
                     DBDisplayCount = value;
@@ -51,7 +56,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
-        private string RestoreDatabase(IArasConnectionConfig config) {
+        private string RestoreDatabase(IArasSetupConfig config) {
             //"Kill processes"
             KillConnections(config);
 
@@ -98,7 +103,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
             return string.Empty;
         }
 
-        private void KillConnections(IArasConnectionConfig config) {
+        private void KillConnections(IArasSetupConfig config) {
             string query = $@"USE master;
                 GO
                 ALTER DATABASE {config.DatabaseName}
@@ -115,7 +120,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
             }
         }
 
-        private int RestoreDataBase(IArasConnectionConfig config, string filePath) {
+        private int RestoreDataBase(IArasSetupConfig config, string filePath) {
             string query = $@"RESTORE DATABASE {config.DatabaseName}
                 FROM DISK='{filePath}' WITH REPLACE";
             string cmd = $@"-S {config.SqlServer} -E -Q ""{query}"" ";

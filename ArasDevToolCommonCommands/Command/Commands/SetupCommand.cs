@@ -4,11 +4,13 @@ using Hille.Aras.DevTool.Interfaces.Command;
 using Hille.Aras.DevTool.Interfaces.Configuration;
 using System;
 using System.Diagnostics;
+using Hille.Aras.DevTool.Common.Configuration;
 
 namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
     public class SetupCommand : ICommand {
 
         private bool ExtendedSetup;
+        private string Env = "dev";
 
         public string Name => "Setup";
 
@@ -18,18 +20,25 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
                 "Configure Aras connection",
                 "",
                 "Options:",
-                "-ext   Extended configuration for Database, Import/Export support"
+                "-env deploy \t Specify name of setup: Default dev",
+                "-ext \t Extended configuration for Database, Import/Export support"
             };
         }
 
         public void Run() {
-            ArasXmlStoredConfig config = new ArasXmlStoredConfig();
-            config.Setup(ExtendedSetup);
+            DefaultSetupHandler setupHandler = new DefaultSetupHandler();
+            IArasConnectionConfig config;
+            if (ExtendedSetup) {
+                config = setupHandler.Setup(Env);
+            }
+            else {
+                config = setupHandler.SetupConnection(Env);
+            }
             // Test Connection
             TestConnection();
             // Test SqlCmd
-            if (ExtendedSetup) {
-                TestSqlCmd(config.SqlCmd);
+            if (config is IArasSetupConfig) {
+                TestSqlCmd(((IArasSetupConfig)config).SqlCmd);
             }
         }
 
@@ -54,7 +63,9 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
             };
             var inputArgs = new List<string>
             {
-                testCommand.Name
+                testCommand.Name,
+                "-env",
+                Env
             };
             if (testCommand.ValidateInput(inputArgs))
                 testCommand.Run();
@@ -63,6 +74,9 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
         public bool ValidateInput(List<string> inputArgs) {
             if (CommandUtils.HasOption(inputArgs,"-ext")) {
                 ExtendedSetup = true;
+            }
+            if (CommandUtils.OptionExistWithValue(inputArgs,"-env",out string env)) {
+                Env = env;
             }
             return true;
         }

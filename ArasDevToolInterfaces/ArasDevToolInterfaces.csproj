@@ -50,9 +50,10 @@
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\ILoggableCommand.cs" />
     <Compile Include="Configuration\ArasConnectionConfig.cs" />
-    <Compile Include="Configuration\ArasXmlStoredConfig.cs" />
+    <Compile Include="Configuration\ArasSetupConfig.cs" />
     <Compile Include="Configuration\ConsoleUtils.cs" />
     <Compile Include="Configuration\IArasConnectionConfig.cs" />
+    <Compile Include="Configuration\IArasSetupConfig.cs" />
     <Compile Include="Logging\ConsoleLoggerBase.cs" />
     <Compile Include="Logging\ILoggable.cs" />
     <Compile Include="Logging\ILogger.cs" />

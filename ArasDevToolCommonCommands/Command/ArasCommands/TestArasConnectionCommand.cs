@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hille.Aras.DevTool.Interfaces.Aras;
+using Hille.Aras.DevTool.Common.Configuration;
 
 namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
     public class TestArasConnectionCommand : ILoggableCommand {
@@ -25,8 +26,8 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
                 @" -cs=""http://localhost/innovator;InnovatorSoluions;admin;innovator""",
                 @" -cs=""http://localhost/innovator;InnovatorSoluions;admin""",
                 "Or environment: E.g.",
-                "-env=dev",
-                "Non specified is equivalent with '-env=dev'"
+                "-env dev",
+                "Non specified is equivalent with '-env dev'"
             };
             return msgs;
         }
@@ -64,7 +65,12 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
 
         public bool ValidateInput(List<string> inputArgs) {
             if (inputArgs == null || inputArgs.Count==1) {
-                _config = new ArasXmlStoredConfig("dev");
+                _config = new DefaultSetupHandler().GetArasConnectionConfig(String.Empty);
+                return true;
+            }
+
+            if (CommandUtils.OptionExistWithValue(inputArgs,"-env",out string env)) {
+                _config = new DefaultSetupHandler().GetArasConnectionConfig(env);
                 return true;
             }
 

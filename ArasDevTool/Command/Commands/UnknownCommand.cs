@@ -17,7 +17,7 @@ namespace ArasDevTool.Command.Commands {
             var commandNames = new List<string>() ;
             foreach (KeyValuePair<string, ICommand> kvp in Factory.impl) {
                 if (!kvp.Key.Equals(Name,StringComparison.OrdinalIgnoreCase)) { // Dont add self
-                    commandNames.Add(kvp.Key);
+                    commandNames.Add(kvp.Value.Name);
                 }
             }
             commandNames.Sort();

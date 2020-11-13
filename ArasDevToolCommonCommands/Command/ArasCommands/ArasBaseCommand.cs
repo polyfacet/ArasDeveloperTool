@@ -4,6 +4,7 @@ using Hille.Aras.DevTool.Interfaces.Configuration;
 using Hille.Aras.DevTool.Interfaces.Aras;
 using System;
 using System.Collections.Generic;
+using Hille.Aras.DevTool.Common.Configuration;
 
 namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
     public abstract class ArasBaseCommand : IArasCommand, ILoggableCommand {
@@ -30,8 +31,8 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
                 @" -cs=""http://localhost/innovator;InnovatorSoluions;admin;innovator""",
                 @" -cs=""http://localhost/innovator;InnovatorSoluions;admin""",
                 "Or environment: E.g.",
-                "-env=dev",
-                "Non specified is equivalent with '-env=dev'",
+                "-env dev",
+                "Non specified is equivalent with '-env dev'",
                 ""
             };
             msgs.AddRange(GetHelp());
@@ -61,19 +62,19 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
                 return false;
             }
 
-            if (inputArgs != null && inputArgs.Count == 1
-                || !CommandUtils.HasOptionStartingWith(inputArgs,"-env")
-                || CommandUtils.HasOptionStartingWith(inputArgs, "-cs")) {
-                _config = new ArasXmlStoredConfig("dev");
-                valid = GetValidateInput(inputArgs);
-                if (valid) {
-                    Log.Log($"New Aras Connection: {_config.ArasAddress}, {_config.ArasDBName}, {_config.ArasUser}");
-                    Inn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword).GetInnovator();
-                }
-                return valid;
+
+            if (CommandUtils.OptionExistWithValue(inputArgs, "-env", out string env)) {
+                _config = new DefaultSetupHandler().GetConfig(env);
             }
-     
-            return false;
+            else {
+                _config = new DefaultSetupHandler().GetConfig(String.Empty);
+            }
+            valid = GetValidateInput(inputArgs);
+            if (valid) {
+                Log.Log($"New Aras Connection: {_config.ArasAddress}, {_config.ArasDBName}, {_config.ArasUser}");
+                Inn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword).GetInnovator();
+            }
+            return valid;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]

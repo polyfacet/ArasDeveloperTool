@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Xml;
 using System.IO;
-using Hille.Aras.DevTool.Interfaces;
+using System.Linq;
+using Hille.Aras.DevTool.Interfaces.Configuration;
+using System.Xml.Linq;
 
-namespace Hille.Aras.DevTool.Interfaces.Configuration {
-    public class ArasXmlStoredConfig : IArasConnectionConfig {
+namespace Hille.Aras.DevTool.Common.Configuration {
+    public class ArasXmlStoredConfig : IArasSetupConfig {
         private const string ARAS_CONFIG_FILE = "aras-env.config";
 
         private XmlDocument XmlDoc;
         private readonly XmlNode EnvNode;
         private readonly string _environmentName;
         
-        private string _dbName = null;
+        private string _dbName;
         private string _arasAddress;
         private string _arasUser;
         private string _arasPassword;
@@ -23,32 +25,34 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
         public ArasXmlStoredConfig(string env) {
             _environmentName = env;
             XmlDoc = new XmlDocument();
+            if (!File.Exists(ARAS_CONFIG_FILE)) {
+                //File.Create(ARAS_CONFIG_FILE);
+                string xml = Resources.ConfigResources.GetDefaultArasConfigEnvXml();
+                using(StreamWriter sw = new StreamWriter(ARAS_CONFIG_FILE,true)) {
+                    sw.WriteLine(@"<?xml version=""1.0""?>");
+                    sw.WriteLine("<Configs>");
+                    sw.Write(xml);
+                    sw.WriteLine("</Configs>");
+                }
+            }
             XmlDoc.Load(ARAS_CONFIG_FILE);
             EnvNode = XmlDoc.SelectSingleNode($"//Environment[@name='{env}']");
-            if (EnvNode == null) throw new ApplicationException($"No env node with name {env}");
+
+            if (EnvNode == null) {
+                string xmlContent = Resources.ConfigResources.GetDefaultArasConfigEnvXml();
+                xmlContent = xmlContent.Replace(@"name=""dev""", $@"name=""{env}""");
+                XmlDocument partXmlDoc = new XmlDocument();
+                partXmlDoc.LoadXml(xmlContent);
+                XmlNode newNode = partXmlDoc.DocumentElement;
+                var configsNode = XmlDoc.SelectSingleNode("//Configs");
+                configsNode.OwnerDocument.ImportNode(newNode,true);
+                XmlDoc.Save(ARAS_CONFIG_FILE);
+            }
         }
 
         public ArasXmlStoredConfig() { }
 
         public string EnvName { get { return _environmentName; } }
-
-        //public string DBName {
-        //    get {
-        //        if (_dbName == null) {
-        //            _dbName = EnvNode.SelectSingleNode("//DatabaseName").InnerText;
-        //        }
-        //        return _dbName;
-        //    }
-        //}
-
-        //public string BackupDir {
-        //    get {
-        //        if (_backupDir == null) {
-        //            _backupDir = EnvNode.SelectSingleNode("//DatabaseBackupDir").InnerText;
-        //        }
-        //        return _backupDir;
-        //    }
-        //}
 
         
         public string ArasAddress { get { return EnvNode.SelectSingleNode("//Url").InnerText; } set { _arasAddress = value;  } }
@@ -80,7 +84,7 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
 
         public void Setup(bool extendedSetup) {
             string configFileName = "aras-env.config";
-            string defaultEnvName = "dev";
+            string defaultEnvName = _environmentName;
             string defaultArasAddress = "http://localhost/Innovator";
             string defaultDBName = "InnovatorSolutions";
             string storedDBName = string.Empty;
@@ -118,7 +122,7 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
             string address = GetValueFromUserInput($"Set Aras url ({defaultArasAddress}):", defaultArasAddress);
             if (storedDBName == defaultDBName ) {
                 Console.WriteLine("Getting databases");
-                string[] dbs = Aras.ArasConnection.GetDBList(address);
+                string[] dbs = Interfaces.Aras.ArasConnection.GetDBList(address);
                 defaultDBName = (dbs.Length > 0) ? dbs[0] : defaultDBName;
             }
             else {
