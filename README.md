@@ -85,8 +85,8 @@ Help for: CheckLatestUpdates
    -cs="http://localhost/innovator;InnovatorSoluions;admin;innovator"
    -cs="http://localhost/innovator;InnovatorSoluions;admin"
   Or environment: E.g.
-  -env=dev
-  Non specified is equivalent with '-env=dev'
+  -env dev
+  Non specified is equivalent with '-env dev'
 
 Options: -c
   (Number of items to show: "-c 20"
@@ -110,8 +110,8 @@ Help for: PackageChecker
    -cs="http://localhost/innovator;InnovatorSoluions;admin;innovator"
    -cs="http://localhost/innovator;InnovatorSoluions;admin"
   Or environment: E.g.
-  -env=dev
-  Non specified is equivalent with '-env=dev'
+  -env dev
+  Non specified is equivalent with '-env dev'
 
   Parameters:
     -prefix        Check Items with specific prefix. Example: "-prefix HC_"
