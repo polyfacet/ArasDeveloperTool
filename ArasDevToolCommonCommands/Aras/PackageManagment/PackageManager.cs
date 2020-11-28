@@ -34,23 +34,25 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras.PackageManagment {
                     relatedItemType = GetClosestRelatedItemType(item);
                     break;
             }
+            Item packageDefinition = null;
             if (!relatedItemType.isError()) {
                 // Find a "suitable" package
-                Item packageDefinition = GetPackageDefinition(relatedItemType);
+                packageDefinition = GetPackageDefinition(relatedItemType);
                 if (packageDefinition == null) {
                     errorMessage = $"No package def found for: {relatedItemType.TypeAndName()} , {relatedItemType.getID()}";
                     Log.LogWarning(errorMessage);
                     return Inn.newError(errorMessage);
                 }
-                packageDefinition = ValidateWithUser(packageDefinition);
-                if (packageDefinition == null) return packageElement;
+            }
+            packageDefinition = ValidateWithUser(packageDefinition);
+            if (packageDefinition == null) return packageElement;
                 // Create a new PackageElement from item and put it in the package
                 packageElement = AddItemToPackageDefinition(item, packageDefinition);
                 if (packageElement != null && !packageElement.isError()) {
                     AddToCache(packageElement, packageDefinition);
                 }
 
-            }
+            
             return packageElement;
         }
 
@@ -61,21 +63,35 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras.PackageManagment {
             return GetPackageDefinitionByPackageElement(packageElement).Name();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
         private Item ValidateWithUser(Item packageDefinition) {
             if (AutoPack) return packageDefinition;
-            Console.WriteLine($"Add to: {packageDefinition.Name()}? Yes/No/Search (Y/N/S)");
-            string answer = Console.ReadLine();
-            if (answer.ToUpper() == "N" || answer.ToUpper() == "NO") return null;
-            if (answer.ToUpper() == "Y" || answer.ToUpper() == "YES") return packageDefinition;
-            if (answer.ToUpper() == "S" || answer.ToUpper() == "SEARCH") {
+            if (packageDefinition != null) {
+                Console.WriteLine($"Add to: {packageDefinition.Name()}? Yes/No/Search (Y/N/S)");
+                string answer = Console.ReadLine();
+                if (answer.Equals("N",StringComparison.OrdinalIgnoreCase) || answer.Equals("NO", StringComparison.OrdinalIgnoreCase)) return null;
+                if (answer.Equals("Y",StringComparison.OrdinalIgnoreCase) || answer.Equals("YES",StringComparison.OrdinalIgnoreCase)) return packageDefinition;
+                if (answer.Equals("S",StringComparison.OrdinalIgnoreCase) || answer.Equals("SEARCH",StringComparison.OrdinalIgnoreCase)) {
+                    Item newPkgDef = GetNewPackageDefinitionFromUserInput();
+                    if (newPkgDef != null) {
+                        return newPkgDef;
+                    }
+                }
+            }
+            else {
+                Console.WriteLine($"No suggestion skip addin or search? Skip/Search (N/S)");
+                string answer = Console.ReadLine();
+                if (answer.Equals("N", StringComparison.OrdinalIgnoreCase) || answer.Equals("SKIP", StringComparison.OrdinalIgnoreCase)) return null;
                 Item newPkgDef = GetNewPackageDefinitionFromUserInput();
                 if (newPkgDef != null) {
                     return newPkgDef;
-                }            
+                }
             }
+            
             return null;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
         private Item GetNewPackageDefinitionFromUserInput() {
         SearchAgain:
             Console.WriteLine("Search package: Example: *com.acme*");
@@ -97,13 +113,13 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras.PackageManagment {
                 Console.WriteLine("(c) Cancel");
                 string choice = Console.ReadLine();
                 if (int.TryParse(choice, out int intChoice)
-                    && intChoice - 1 < packageDefinitions.Count()) {
+                    && intChoice - 1 < packageDefinitions.Count) {
                     return packageDefinitions[intChoice - 1];
                 }
-                if (choice.ToUpper() == "C") {
+                if (choice.Equals("C",StringComparison.OrdinalIgnoreCase)) {
                     return null;
                 }
-                if (choice.ToUpper() == "NEW") {
+                if (choice.Equals("NEW", StringComparison.OrdinalIgnoreCase)) {
                     NewPackageInput:
                     Console.WriteLine("Assign name for new package:");
                     string newName = Console.ReadLine();
