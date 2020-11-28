@@ -230,6 +230,8 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras.PackageManagment {
                 Log.Log($"Package group missing, adding it: {item.getType()}");
                 packageGroup = AddPackageGroup(item.getType(), packageDefinition);
             }
+
+            item = Inn.getItemById(itemType, item.getID());
             // Add new PackageElement
             Item pkgElement = Inn.newItem("PackageElement", "add");
             pkgElement.setProperty("element_id", item.getProperty("config_id"));
