@@ -18,6 +18,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
             Log.Log("Sorting " + allAdminTypes.Count + " number of Admin Types.");
             allAdminTypes = allAdminTypes.OrderBy(admType => admType.ModificationDate).ToList();
             allAdminTypes.Reverse();
+            allAdminTypes.RemoveAll(item => item.GetArasType() == "Team");
 
             for (int i=0;i<NumberOfItemsToShow;i++) {
                 AdminType adminType = allAdminTypes[i];
