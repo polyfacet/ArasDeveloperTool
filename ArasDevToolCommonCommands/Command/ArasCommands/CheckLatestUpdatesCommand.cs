@@ -22,7 +22,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
 
             for (int i=0;i<NumberOfItemsToShow;i++) {
                 AdminType adminType = allAdminTypes[i];
-                Log.Log($"{adminType.ModificationDate} : {adminType.GetArasType().PadLeft(20)} : {adminType.GetKeyedName()}");
+                Log.Log($"{adminType.ModificationDate} : {adminType.GetArasType().PadLeft(20)} : {adminType.GetKeyedName().PadRight(30)} : {adminType.PackageName}");
             }
 
             // Get Database Upgrade Info
