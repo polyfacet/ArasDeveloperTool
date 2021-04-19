@@ -87,6 +87,17 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
             }
         }
 
+        private string packageNameField;
+        public string PackageName {
+            get {
+                if (string.IsNullOrEmpty(packageNameField)) {
+                    packageNameField = GetPackageName();
+                }
+                return packageNameField;
+            }
+        }
+
+      
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         protected string RetrieveProperty(string propertyName) {
             string amlQuery = string.Format("<AML><Item action='get' type='{0}' id='{1}' select='{2}'></Item></AML>"
@@ -95,6 +106,21 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
             Item item = Inn.applyAML(amlQuery);
             string value = item.getProperty(propertyName);
             return value;
+        }
+        private string GetPackageName() {
+            string amlQuery = $@"<AML>
+                  <Item action='get' type='PackageGroup' select='source_id'> 
+                    <Relationships>
+                      <Item action='get' type='PackageElement' select='element_type,name'>
+                        <element_type>{this.GetArasType()}</element_type>
+                        <name>{this.GetKeyedName()}</name>
+                      </Item>  
+                    </Relationships>
+                  </Item>
+                </AML>";
+            Item result = Inn.applyAML(amlQuery);
+            if (result.isError()) return "N/A";
+            return result.getPropertyAttribute("source_id", "keyed_name");
         }
 
     }
