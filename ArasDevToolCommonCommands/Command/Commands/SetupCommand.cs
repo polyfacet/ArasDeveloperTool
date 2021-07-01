@@ -11,6 +11,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
 
         private bool ExtendedSetup;
         private string Env = "dev";
+        private IArasConnectionConfig Config;
 
         public string Name => "Setup";
 
@@ -26,19 +27,25 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
         }
 
         public void Run() {
+            RunSetup();
+            TestSetup();
+        }
+
+        private void RunSetup() {
             DefaultSetupHandler setupHandler = new DefaultSetupHandler();
-            IArasConnectionConfig config;
             if (ExtendedSetup) {
-                config = setupHandler.Setup(Env);
+                Config = setupHandler.Setup(Env);
             }
             else {
-                config = setupHandler.SetupConnection(Env);
+                Config = setupHandler.SetupConnection(Env);
             }
-            // Test Connection
+
+        }
+
+        private void TestSetup() {
             TestConnection();
-            // Test SqlCmd
-            if (config is IArasSetupConfig) {
-                TestSqlCmd(((IArasSetupConfig)config).SqlCmd);
+            if (Config is IArasSetupConfig) {
+                TestSqlCmd(((IArasSetupConfig)Config).SqlCmd);
             }
         }
 

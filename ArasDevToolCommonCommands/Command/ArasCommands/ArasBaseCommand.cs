@@ -40,6 +40,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         }
 
         public void Run() {
+            Log.Log($"Executing {Name}");
             DoRun();
         }
 
