@@ -23,7 +23,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
                     if (result.isError()) {
                         Log.LogError($"{result.getErrorString()}");
                         if (amlFile.StopOnError) {
-                            Log.LogError("Stopping Executtion");
+                            Log.LogError("Stopping Execution");
                             return;
                         }
                     }

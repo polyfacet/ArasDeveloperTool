@@ -79,7 +79,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
-        private IArasConnectionConfig GetConfigFromConnectionStringArg(string connectionStringArg) {
+        private static IArasConnectionConfig GetConfigFromConnectionStringArg(string connectionStringArg) {
             if (connectionStringArg.Contains("=") && connectionStringArg.Contains(";")) {
                 string connectionString = connectionStringArg.Split('=')[1].Trim();
                 string[] parameters = connectionString.Split(';');
