@@ -31,7 +31,10 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras.Resources
                     resourceFileName = RESOURCE_FILE_NAME_R12;
                     break;
             }
-            
+
+            if (ExternalResourceFileExists(resourceFileName)) {
+                return GetArasMetaDataAmlFromExternalResource(resourceFileName);
+            }
             Assembly assembly = Assembly.GetExecutingAssembly();
             string resourceName = assembly.GetManifestResourceNames()
                 .Single(str => str.EndsWith(resourceFileName,StringComparison.OrdinalIgnoreCase));
@@ -41,6 +44,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras.Resources
                     return result;
                 }
         }
+                
 
         internal static string GetArasMetaDataAml(int majorVersion) {
             ArasVersion arasVersion = ArasVersion.R12;
@@ -53,5 +57,27 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras.Resources
             }
             return GetArasMetaDataAml(arasVersion);
         }
+
+        private static bool ExternalResourceFileExists(string resourceFileName) {
+            string filePath = GetExternalResourceFilePath(resourceFileName);
+            if (File.Exists(filePath)) return true;
+            return false;
+        }
+       
+
+        private static string GetArasMetaDataAmlFromExternalResource(string resourceFileName) {
+            string filePath = GetExternalResourceFilePath(resourceFileName);
+            using (StreamReader reader = new StreamReader(filePath)) {
+                string result = reader.ReadToEnd();
+                return result;
+            }
+        }
+
+        private static string GetExternalResourceFilePath(string resourceFileName) {
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"ExtResources\", resourceFileName);
+        }
+
+
+
     }
 }

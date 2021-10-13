@@ -14,7 +14,6 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         public bool AutoPack { get; set; }
         private string Prefix = "HC_";
         public override void DoRun() {
-            Log.Log($"Executing {Name}");
             Item result = Inn.applyAML(GetMetaAml());
             Log.Log($"Meta data count: {result.getItemCount()}");
             LoadPackageMap(Inn);

@@ -17,7 +17,7 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
         [TestMethod]
         public void RestoreDBTest() {
             return; // Disabled test, only used in the dev
-            AssertRun(String.Empty, (int)Program.Result.OK);
+            //AssertRun(String.Empty, (int)Program.Result.OK);
         }
 
         [TestMethod]

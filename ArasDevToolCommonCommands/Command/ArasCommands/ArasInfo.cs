@@ -21,11 +21,8 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         public override void DoRun() {
             Log.Log("Url: " +Inn.getConnection().MapClientUrl("../../") + " DB: " + Inn.getConnection().Database);
             PrintReleaseAndServicePack();
-            Log.Log(String.Empty);
             PrintLatestDatabaseUpgrade();
-            Log.Log(String.Empty);
             PrintLatestModifiedAdminType();
-            Log.Log(String.Empty);
             PrintLastLoggedInUser();
         }
 
@@ -52,6 +49,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
             Log.Log("Latest logged in user (non admin)");
             KeyValuePair<string,string> loggedInUserInfo = ArasInformation.LastestLoggedInUserNonAdmin;
             Log.Log(loggedInUserInfo.Key + " : " + loggedInUserInfo.Value);
+            Log.Log(String.Empty);
         }
 
         private void PrintLatestModifiedAdminType() {
@@ -60,16 +58,19 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
             string message = adminType.GetArasType() + " : " + adminType.GetKeyedName();
             message += " : " + adminType.ModificationDate.ToString("yyyy-MM-dd HH:mm:ss",CultureInfo.CurrentCulture);
             Log.Log(message);
+            Log.Log(String.Empty);
         }
 
         private void PrintLatestDatabaseUpgrade() {
             Log.Log("Latest Database Upgrade");
             Log.Log(ArasInformation.LatestDatabaseUpgradeItem.ToString());
+            Log.Log(String.Empty);
         }
 
         private void PrintReleaseAndServicePack() {
             Log.Log("Release and Service Pack");
             Log.Log(ArasInformation.MajorVersion + " " + ArasInformation.ServicePack);
+            Log.Log(String.Empty);
         }
 
     }
