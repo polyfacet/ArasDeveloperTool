@@ -44,6 +44,14 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
             return Item.getID();
         }
 
+        public string CongfigId() {
+            string configId =  Item.getProperty("config_id");
+            if (!String.IsNullOrEmpty(configId)) return configId;
+            Item = Inn.getItemById(GetArasType(),GetId());
+            configId = Item.getProperty("config_id", "N/A");
+            return configId;
+        }
+
         public string GetArasType() {
             return Item.getType();
         }
@@ -91,9 +99,19 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
         public string PackageName {
             get {
                 if (string.IsNullOrEmpty(packageNameField)) {
-                    packageNameField = GetPackageName();
+                    LoadPackageName();
                 }
                 return packageNameField;
+            }
+        }
+
+        private string packageElementNameField;
+        public string PackageElementName {
+            get {
+                if (string.IsNullOrEmpty(packageElementNameField)) {
+                    LoadPackageName();
+                }
+                return packageElementNameField;
             }
         }
 
@@ -107,20 +125,21 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
             string value = item.getProperty(propertyName);
             return value;
         }
-        private string GetPackageName() {
+        private void LoadPackageName() {
             string amlQuery = $@"<AML>
                   <Item action='get' type='PackageGroup' select='source_id'> 
                     <Relationships>
                       <Item action='get' type='PackageElement' select='element_type,name'>
                         <element_type>{this.GetArasType()}</element_type>
-                        <name>{this.GetKeyedName()}</name>
+                        <element_id>{this.GetConfigId()}</element_id>
                       </Item>  
                     </Relationships>
                   </Item>
                 </AML>";
             Item result = Inn.applyAML(amlQuery);
-            if (result.isError()) return "N/A";
-            return result.getPropertyAttribute("source_id", "keyed_name");
+            if (result.isError()) return;
+            packageNameField =  result.getPropertyAttribute("source_id", "keyed_name");
+            packageElementNameField = result.getItemsByXPath("//Item[@type='PackageElement']").getProperty("name");
         }
 
     }

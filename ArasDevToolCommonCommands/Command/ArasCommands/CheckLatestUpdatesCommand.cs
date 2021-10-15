@@ -22,7 +22,8 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
 
             for (int i=0;i<NumberOfItemsToShow;i++) {
                 AdminType adminType = allAdminTypes[i];
-                Log.Log($"{adminType.ModificationDate} : {adminType.GetArasType().PadLeft(20)} : {adminType.GetKeyedName().PadRight(30)} : {adminType.PackageName}");
+                string packageElementName = (adminType.GetKeyedName() == adminType.PackageElementName) ? string.Empty : $"({adminType.PackageElementName})"; // Only print if it differs from the name of the item. Because it can have been added to package with another name
+                Log.Log($"{adminType.ModificationDate} : {adminType.GetArasType().PadLeft(20)} : {adminType.GetKeyedName().PadRight(30)} : {adminType.PackageName} {packageElementName}");
             }
 
             // Get Database Upgrade Info
