@@ -51,6 +51,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
             BackupDatabase(_config.SqlCmd, _config.SqlServer, _config.DatabaseName, filePath);
             if (!System.IO.File.Exists(filePath)) {
                 Log.LogError("Backup was not created: " + filePath);
+                return;
             }
             Log.LogSuccess("Backup created: " + filePath);
 
