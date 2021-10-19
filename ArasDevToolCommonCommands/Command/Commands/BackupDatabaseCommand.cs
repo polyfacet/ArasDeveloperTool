@@ -49,7 +49,12 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
                 filePath += $"_{timeStamp}.bak";
             }
             BackupDatabase(_config.SqlCmd, _config.SqlServer, _config.DatabaseName, filePath);
+            if (!System.IO.File.Exists(filePath)) {
+                Log.LogError("Backup was not created: " + filePath);
+            }
             Log.LogSuccess("Backup created: " + filePath);
+
+
         }
 
         public bool ValidateInput(List<string> inputArgs) {
