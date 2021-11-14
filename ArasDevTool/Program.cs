@@ -31,6 +31,7 @@ namespace ArasDevTool
 
         public static int Main(string[] args) {
             try {
+                InitLogger();
                 var argList = args.ToList();
                 if (argList.Contains("-v")) {
                     Logger.Log("Version:");
@@ -38,7 +39,6 @@ namespace ArasDevTool
                     return (int)Result.HELP;
                 }
                 string commandName = (argList.Count > 0) ? argList[0] : "";
-                //Logger.Log($"Starting {commandName}");
                 ICommand command = Factory.GetCommand(commandName);
                 if (command is ILoggable) {
                     ((ILoggable)command).Logger = _logger;
@@ -62,6 +62,10 @@ namespace ArasDevTool
                 Logger.LogError(ex);
                 return (int) Result.ERROR;
             }
+        }
+
+        private static void InitLogger() {
+            Logger.Log("");
         }
 
         private static bool HelpInInput(List<string> inputArgs) {
