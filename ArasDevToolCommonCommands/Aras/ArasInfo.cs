@@ -60,7 +60,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
             _servicePack = versionAndSP.Value;
 
             // Modified ItemTypes
-            _modifiedAdminTypesByLastModifcationDate = AdminType.GetAllAdminTypesOrderByLatestModfied(Inn);
+            _modifiedAdminTypesByLastModifcationDate = AdminType.GetAllAdminTypesOrderByLatestModfied(Inn,1000);
 
             // DB Upgrade
             var dbUpgradeInfo = new DatabaseUpgradeInfo(Inn);

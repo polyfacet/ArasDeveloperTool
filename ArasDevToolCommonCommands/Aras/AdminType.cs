@@ -12,9 +12,10 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
             Item = item;
         }
 
-        public static List<AdminType> GetAllAdminTypes(Innovator.Client.IOM.Innovator inn) {
+        public static List<AdminType> GetAllAdminTypes(Innovator.Client.IOM.Innovator inn,int maxRecords) {
             List<AdminType> adminTypes = new List<AdminType>();
             string amlQuery = ArasMetaDataResources.GetArasMetaDataAml(ArasUtils.GetMajorVersion(inn));
+            amlQuery = string.Format(amlQuery, maxRecords);
             Item result = inn.applyAML(amlQuery);
             if (!result.isError()) {
                 int i = 0;
@@ -31,8 +32,8 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
             return adminTypes;
         }
 
-        public static List<AdminType> GetAllAdminTypesOrderByLatestModfied(Innovator.Client.IOM.Innovator inn) {
-            List<AdminType> allAdminTypes = AdminType.GetAllAdminTypes(inn);
+        public static List<AdminType> GetAllAdminTypesOrderByLatestModfied(Innovator.Client.IOM.Innovator inn, int maxRecords) {
+            List<AdminType> allAdminTypes = AdminType.GetAllAdminTypes(inn, maxRecords);
             allAdminTypes = allAdminTypes.OrderBy(admType => admType.ModificationDate).ToList();
             allAdminTypes.Reverse();
             return allAdminTypes;

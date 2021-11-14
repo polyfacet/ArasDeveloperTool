@@ -13,7 +13,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         private int NumberOfItemsToShow = DEAFULT_NBR_OF_ITEMS;
 
         public override void DoRun() {
-            List<AdminType> allAdminTypes = AdminType.GetAllAdminTypes(Inn);
+            List<AdminType> allAdminTypes = AdminType.GetAllAdminTypes(Inn, NumberOfItemsToShow);
             // Sort
             Log.Log("Sorting " + allAdminTypes.Count + " number of Admin Types.");
             allAdminTypes = allAdminTypes.OrderBy(admType => admType.ModificationDate).ToList();
