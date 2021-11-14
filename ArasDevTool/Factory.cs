@@ -9,17 +9,14 @@ using System.IO;
 
 namespace ArasDevTool {
     class Factory {
-        public static Dictionary<string, ICommand> impl = new Dictionary<string, ICommand>();
+        public static List<ICommand> Implementations = new List<ICommand>();
 
         public static ICommand GetCommand(string commandName) {
             LoadCommands();
             commandName = commandName.ToLower();
-            if (impl.ContainsKey(commandName)) {
-                return impl[commandName];
-            }
-            else {
-                return new UnknownCommand();
-            }
+            List<ICommand> commands = Implementations.FindAll(c => c.Name.StartsWith(commandName, StringComparison.OrdinalIgnoreCase));
+            if (commands.Count == 1)return commands[0];
+            return new UnknownCommand();
         }
 
         public static ILogger GetLogger() {
@@ -42,7 +39,7 @@ namespace ArasDevTool {
             foreach(Type tempType in types) {
                 if (tempType.IsClass && !tempType.IsAbstract) {
                     ICommand cmd = (ICommand)Activator.CreateInstance(tempType);
-                    impl.Add(cmd.Name.ToLower(), cmd);
+                    Implementations.Add(cmd);
                 }
             }
         }
@@ -57,5 +54,6 @@ namespace ArasDevTool {
             }
             return list;
         }
+
     }
 }

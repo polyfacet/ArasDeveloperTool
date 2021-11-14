@@ -38,7 +38,7 @@ namespace ArasDevTool
                     return (int)Result.HELP;
                 }
                 string commandName = (argList.Count > 0) ? argList[0] : "";
-                Logger.Log($"Starting {commandName}");
+                //Logger.Log($"Starting {commandName}");
                 ICommand command = Factory.GetCommand(commandName);
                 if (command is ILoggable) {
                     ((ILoggable)command).Logger = _logger;

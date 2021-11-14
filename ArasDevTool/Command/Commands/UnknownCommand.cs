@@ -11,13 +11,13 @@ namespace ArasDevTool.Command.Commands {
         public List<string> Help() {
             List<string> messages = new List<string>();
             if (!String.IsNullOrEmpty(_inputCommandName)) {
-                messages.Add($"Unknown command: {_inputCommandName}");
+                messages.Add($"Unknown or ambiguous command: {_inputCommandName}");
             }
             messages.Add("Availible commands:");
             var commandNames = new List<string>() ;
-            foreach (KeyValuePair<string, ICommand> kvp in Factory.impl) {
-                if (!kvp.Key.Equals(Name,StringComparison.OrdinalIgnoreCase)) { // Dont add self
-                    commandNames.Add(kvp.Value.Name);
+            foreach (ICommand command in Factory.Implementations) {
+                if (!command.Name.Equals(Name,StringComparison.OrdinalIgnoreCase)) { // Dont add self
+                    commandNames.Add(command.Name);
                 }
             }
             commandNames.Sort();
