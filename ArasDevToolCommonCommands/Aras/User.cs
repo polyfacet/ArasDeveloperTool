@@ -9,6 +9,14 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
     class User {
         readonly Innovator.Client.IOM.Innovator Inn;
 
+        private readonly List<string> ExplictAdminOrSystemUserNames = new List<string>() {
+            "root",
+            "admin",
+            "vadmin",
+            "esadmin",
+            "authadmin"
+        };
+
         public User(Item user) {
             Inn = user.getInnovator();
             LoginName = user.getProperty("login_name");
@@ -25,7 +33,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
 
         public bool IsAdmin {
             get {
-                if (LoginName == "root" || LoginName == "admin") return true;
+                if (IsExplicitAdminOrSystemUser()) return true;
                 //UGLY: This only checks on level. And is not "cached"
                 string aml = $@"<AML>
                 <Item action='get' type='Member' select='source_id'>
@@ -39,6 +47,11 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
                 }
                 return false;
             }
+        }
+
+        private bool IsExplicitAdminOrSystemUser() {
+            if (ExplictAdminOrSystemUserNames.Contains(LoginName, StringComparer.InvariantCultureIgnoreCase)) return true;
+            return false;
         }
 
         public static List<User> LatestLoggedInUsers(Innovator.Client.IOM.Innovator inn) {
