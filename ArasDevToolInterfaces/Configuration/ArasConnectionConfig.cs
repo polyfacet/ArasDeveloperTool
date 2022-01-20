@@ -6,5 +6,6 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
         public string ArasUser { get; set; }
         public string ArasPassword { get; set; }
         public string Name { get; set; }
+        public int TimeoutSeconds { get; set; }
     }
 }

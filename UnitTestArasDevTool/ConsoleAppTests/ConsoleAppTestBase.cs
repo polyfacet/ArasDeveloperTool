@@ -15,6 +15,7 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
         protected const string HELP_FLAG = "--help";
         protected static string CONNECTION_STRING = $"{TestData.URL};{TestData.DB};{TestData.USER};{TestData.PASSWORD}";
         protected static string CS_CONNENCTION_STRING = $"-cs={CONNECTION_STRING}";
+        protected static string CONNENCTION_TIMEOUT_0 = "-connectionTimeout 0";
         abstract public string Command { get; }
         private string _inputArgs;
         private int _result;

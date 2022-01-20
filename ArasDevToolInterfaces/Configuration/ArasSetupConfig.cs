@@ -12,6 +12,7 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
             ArasDBName = connectionConfig.ArasDBName;
             ArasUser = connectionConfig.ArasUser;
             ArasPassword = connectionConfig.ArasPassword;
+            TimeoutSeconds = connectionConfig.TimeoutSeconds;
         }
 
         public string SqlCmd { get; set; }
@@ -24,5 +25,6 @@ namespace Hille.Aras.DevTool.Interfaces.Configuration {
         public string ArasDBName { get; set; }
         public string ArasUser { get; set; }
         public string ArasPassword { get; set; }
+        public int TimeoutSeconds { get; set; }
     }
 }

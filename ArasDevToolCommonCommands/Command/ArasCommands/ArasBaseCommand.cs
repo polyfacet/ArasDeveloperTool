@@ -33,6 +33,8 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
                 "Or environment: E.g.",
                 "-env dev",
                 "Non specified is equivalent with '-env dev'",
+                "Optional:",
+                "-connectionTimeout <int> # Number of seconds before a Aras request timeouts",
                 ""
             };
             msgs.AddRange(GetHelp());
@@ -52,10 +54,17 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
 
             if (CommandUtils.HasOptionStartingWith(inputArgs, "-cs", out string connectionStringArg)) {
                 _config = GetConfigFromConnectionStringArg(connectionStringArg);
+                int timeout = GetTimeoutOption(inputArgs);
                 if (_config != null) {
                     valid = GetValidateInput(inputArgs);
                     if (valid) {
-                        Inn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword).GetInnovator();
+                        if (timeout >= 0) {
+                            Inn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword,timeout).GetInnovator();
+                        }
+                        else {
+                            Inn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword).GetInnovator();
+                        }
+                        
                     }
                     return valid;
                 }
@@ -72,10 +81,26 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
             }
             valid = GetValidateInput(inputArgs);
             if (valid) {
-                Log.Log($"New Aras Connection: {_config.ArasAddress}, {_config.ArasDBName}, {_config.ArasUser}");
-                Inn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword).GetInnovator();
+                Log.Log($"New Aras Connection: {_config.ArasAddress}, {_config.ArasDBName}, {_config.ArasUser} , {_config.TimeoutSeconds}");
+                if (_config.TimeoutSeconds >= 0) {
+                    Inn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword, _config.TimeoutSeconds*1000).GetInnovator();
+                }
+                else {
+                    Inn = new ArasConnection(_config.ArasAddress, _config.ArasDBName, _config.ArasUser, _config.ArasPassword).GetInnovator();
+                }
+                
             }
             return valid;
+        }
+
+        private static int GetTimeoutOption(List<string> inputArgs) {
+            int timeout = -1;
+            if (CommandUtils.OptionExistWithValue(inputArgs, "-connectionTimeout",out string value)) {
+                if (Int32.TryParse(value, out timeout)) {
+                    timeout *= 1000;
+                };
+            }
+            return timeout;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]

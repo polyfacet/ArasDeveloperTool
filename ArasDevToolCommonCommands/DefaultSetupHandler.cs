@@ -20,7 +20,8 @@ namespace Hille.Aras.DevTool.Common.Commands {
             DataBaseName,
             SqlCmd,
             SqlServer,
-            DBBackupDir
+            DBBackupDir,
+            TimeoutSeconds
         }
 
 
@@ -30,6 +31,7 @@ namespace Hille.Aras.DevTool.Common.Commands {
         private const string XPATH_ARAS_DB_NAME = "ArasConnection/Db";
         private const string XPATH_ARAS_USER = "ArasConnection/User";
         private const string XPATH_ARAS_PASSWORD = "ArasConnection/Password";
+        private const string XPATH_TIMEOUT_SECONDS = "ArasConnection/TimeoutSeconds";
         private const string XPATH_DATABASE_NAME = "Database/DBName";
         private const string XPATH_SQLCMD = "Database/Sqlcmd";
         private const string XPATH_DB_SERVER = "Database/Server";
@@ -52,6 +54,10 @@ namespace Hille.Aras.DevTool.Common.Commands {
             config.ArasDBName = EnvNode.SelectSingleNode(XPATH_ARAS_DB_NAME).InnerText;
             config.ArasUser = EnvNode.SelectSingleNode(XPATH_ARAS_USER).InnerText;
             config.ArasPassword = EnvNode.SelectSingleNode(XPATH_ARAS_PASSWORD).InnerText;
+            config.TimeoutSeconds = 90;
+            if  (Int32.TryParse(EnvNode.SelectSingleNode(XPATH_TIMEOUT_SECONDS)?.InnerText,out int timeout)) {
+                config.TimeoutSeconds = timeout;
+            }
             return config;
         }
 
@@ -125,11 +131,13 @@ namespace Hille.Aras.DevTool.Common.Commands {
             SaveToFile(EnvNode, Setting.ArasUser, configValue);
             configValue = GetValueFromUserInput($"Set Aras password ({config.ArasPassword}):", config.ArasPassword);
             SaveToFile(EnvNode, Setting.ArasPassword, configValue);
+            configValue = GetValueFromUserInput($"Set Timeout (Seconds) ({config.TimeoutSeconds}):", config.TimeoutSeconds.ToString());
+            SaveToFile(EnvNode, Setting.TimeoutSeconds, configValue);
 
             return new DefaultSetupHandler().GetArasConnectionConfig(env);
         }
 
-        private string GetDefaultDBName(IArasConnectionConfig config,string address) {
+        private static string GetDefaultDBName(IArasConnectionConfig config,string address) {
             Console.WriteLine("Getting databases");
             string[] dbs = Interfaces.Aras.ArasConnection.GetDBList(address);
             string defaultDBName = config.ArasDBName;
@@ -177,13 +185,24 @@ namespace Hille.Aras.DevTool.Common.Commands {
                 case Setting.DBBackupDir:
                     firstEnvNode.SelectSingleNode(XPATH_BACKUP_DIR).InnerText = value;
                     break;
+                case Setting.TimeoutSeconds:
+                    XmlNode node = firstEnvNode.SelectSingleNode(XPATH_TIMEOUT_SECONDS);
+                    if (node == null) {
+                        XmlElement newNode = XmlDoc.CreateElement("TimeoutSeconds");
+                        newNode.InnerText = value;
+                        firstEnvNode.SelectSingleNode("ArasConnection").AppendChild(newNode);
+                    }
+                    else {
+                        node.InnerText = value;
+                    }
+                    break;
                 default:
                     break;
             }
             XmlDoc.Save(ARAS_CONFIG_FILE);
         }
 
-        private void CreateConfigFileIfMissing() {
+        private static void CreateConfigFileIfMissing() {
             if (!File.Exists(ARAS_CONFIG_FILE)) {
                 string xml = ConfigResources.GetDefaultArasConfigEnvXml();
                 using (StreamWriter sw = new StreamWriter(ARAS_CONFIG_FILE, true)) {
@@ -195,7 +214,7 @@ namespace Hille.Aras.DevTool.Common.Commands {
             }
         }
 
-        private XmlNode GetNewEnvironmentNode(string newEnv) {
+        private static XmlNode GetNewEnvironmentNode(string newEnv) {
             string xmlContent = ConfigResources.GetDefaultArasConfigEnvXml();
             xmlContent = xmlContent.Replace(@"<Name>dev</Name>", $@"<Name>{newEnv}</Name>");
             XmlDocument partXmlDoc = new XmlDocument();
@@ -203,7 +222,7 @@ namespace Hille.Aras.DevTool.Common.Commands {
             return partXmlDoc.DocumentElement;
         }
 
-        private string GetValueFromUserInput(string message, string defaultValue) {
+        private static string GetValueFromUserInput(string message, string defaultValue) {
             Console.WriteLine(message);
             string value = Console.ReadLine();
             if (String.IsNullOrEmpty(value)) value = defaultValue;

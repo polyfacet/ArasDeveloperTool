@@ -28,5 +28,10 @@ namespace UnitTestArasDevTool.ConsoleAppTests {
         public void TestConnectionHelp() {
             AssertRun(HELP_FLAG, (int)Program.Result.HELP);
         }
+
+        [TestMethod]
+        public void TestConnectionWithZeroTimeOut() {
+            AssertRun($"{CS_CONNENCTION_STRING} {CONNENCTION_TIMEOUT_0}", (int)Program.Result.OK);
+        }
     }
 }

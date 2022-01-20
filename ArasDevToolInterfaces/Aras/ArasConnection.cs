@@ -13,6 +13,8 @@ namespace Hille.Aras.DevTool.Interfaces.Aras {
         private readonly string DB;
         private readonly string User;
         private readonly string Password;
+		private readonly int? TimeOutMilliSecs = null;
+		private const string CONNECTION_NAME = "ArasDevTool";
 
         private Innovator.Client.IOM.Innovator Inn;
 
@@ -21,11 +23,26 @@ namespace Hille.Aras.DevTool.Interfaces.Aras {
             this.DB = db;
             this.User = user;
             this.Password = password;
+		}
+
+		public ArasConnection(string address, string db, string user, string password,int timeoutMillisec) : this(address,db,user,password) {
+			TimeOutMilliSecs = timeoutMillisec;
         }
+
 
         public Innovator.Client.IOM.Innovator GetInnovator() {
             if (this.Inn == null) {
-                IRemoteConnection conn = Innovator.Client.Factory.GetConnection(Url, "ArasDevTool");
+				IRemoteConnection conn;
+				if (TimeOutMilliSecs == null) {
+					conn = Innovator.Client.Factory.GetConnection(Url, CONNECTION_NAME);
+				}
+				else {
+					ConnectionPreferences connectionPreferences = new ConnectionPreferences();
+					connectionPreferences.Url = Url;
+					connectionPreferences.Name = CONNECTION_NAME;
+					connectionPreferences.DefaultTimeout = TimeOutMilliSecs;
+					conn = Innovator.Client.Factory.GetConnection(connectionPreferences);
+				} 
                 conn.Login(new ExplicitCredentials(DB, User, Password));
                 Inn = new Innovator.Client.IOM.Innovator(conn);
             }
