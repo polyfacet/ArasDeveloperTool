@@ -30,11 +30,11 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
                 "Specify connection string: E.g.",
                 @" -cs=""http://localhost/innovator;InnovatorSoluions;admin;innovator""",
                 @" -cs=""http://localhost/innovator;InnovatorSoluions;admin""",
+                "Optional:",
+                "-connectionTimeout <int> # Number of seconds before a Aras request timeouts",
                 "Or environment: E.g.",
                 "-env dev",
                 "Non specified is equivalent with '-env dev'",
-                "Optional:",
-                "-connectionTimeout <int> # Number of seconds before a Aras request timeouts",
                 ""
             };
             msgs.AddRange(GetHelp());

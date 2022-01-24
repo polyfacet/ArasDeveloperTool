@@ -59,6 +59,7 @@
     <Compile Include="Aras\ItemExtension.cs" />
     <Compile Include="Aras\PackageManagment\PackageManager.cs" />
     <Compile Include="Aras\User.cs" />
+    <Compile Include="Command\ArasCommands\ApplyMethod.cs" />
     <Compile Include="Command\ArasCommands\ArasBaseCommand.cs" />
     <Compile Include="Command\ArasCommands\AmlRunnerCommand.cs" />
     <Compile Include="Command\ArasCommands\ArasInfo.cs" />

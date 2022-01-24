@@ -2,6 +2,16 @@
 Command Line Application for handling developer tasks in Aras Innovator
 ####Features
 
+- [ArasDeveloperTool](#arasdevelopertool)
+  - [How To Use](#how-to-use)
+    - [Setup an Aras connection (Setup)](#setup-an-aras-connection-setup)
+    - [Aras Info](#aras-info)
+    - [Check Latest Updates (CheckLatestUpdates)](#check-latest-updates-checklatestupdates)
+    - [Check if Items are in packages (PackageChecker)](#check-if-items-are-in-packages-packagechecker)
+    - [Backup/Restore Database (Database)](#backuprestore-database-database)
+    - [AMLRunner](#amlrunner)
+    - [ApplyMethod](#applymethod)
+
 * Test Aras connection
 * Check latest changes in Aras
 * Check that everything is packaged, and package if needed. 
@@ -162,3 +172,18 @@ Example Test1.xml in directory Pack1
   </AML>
 </AMLS>
 ``` 
+
+### ApplyMethod
+Run an ApplyMethod
+
+``` powershell
+ArasDevTool.exe ApplyMethod -name HC_Motd
+```
+
+Output
+``` powershell
+Executing ApplyMethod
+SUCCESS:
+    Message of the day
+    Don't forget to unlock your items Finish your tasks Be good
+```
