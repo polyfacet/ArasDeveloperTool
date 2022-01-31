@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using Hille.Aras.DevTool.Common.Configuration.Resources;
+using System.Reflection;
 
 namespace Hille.Aras.DevTool.Common.Commands {
     class DefaultSetupHandler : ISetupHandler {
@@ -41,13 +42,15 @@ namespace Hille.Aras.DevTool.Common.Commands {
         private XmlNode EnvNode;
 
         public IArasConnectionConfig GetArasConnectionConfig(string env) {
+            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string configPath = Path.Combine(assemblyPath,ARAS_CONFIG_FILE);
             IArasConnectionConfig config = new ArasConnectionConfig();
             if (String.IsNullOrEmpty(env)) {
                 env = DEFAULT_ENV;
             }
             config.Name = env;
             XmlDoc = new XmlDocument();
-            XmlDoc.Load(ARAS_CONFIG_FILE);
+            XmlDoc.Load(configPath);
             EnvNode = GetEnvironmentNode(env);
             if (EnvNode == null) throw new ApplicationException($"Environment with name {env} does not exist");
             config.ArasAddress = EnvNode.SelectSingleNode(XPATH_URL).InnerText;
