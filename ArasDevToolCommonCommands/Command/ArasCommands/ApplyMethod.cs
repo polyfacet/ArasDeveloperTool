@@ -15,7 +15,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         private string _inputBody;
 
         public override void DoRun() {
-            Item result = Inn.applyMethod(_methodName,"");
+            Item result = Inn.applyMethod(_methodName, _inputBody);
             if (result.isError()) {
                 Log.LogError(result.getErrorString());
                 return;
