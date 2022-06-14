@@ -26,6 +26,9 @@ namespace Hille.Aras.DevTool.Common.Commands.Aras {
                     i++;
                 }
             }
+            else {
+                throw new ApplicationException(result.getErrorString());
+            }
             return adminTypes;
         }
 
