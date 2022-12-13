@@ -64,6 +64,7 @@
     <Compile Include="Command\ArasCommands\AmlRunnerCommand.cs" />
     <Compile Include="Command\ArasCommands\ArasInfo.cs" />
     <Compile Include="Command\ArasCommands\CheckLatestUpdatesCommand.cs" />
+    <Compile Include="Command\ArasCommands\FindItemsInAml.cs" />
     <Compile Include="Command\ArasCommands\PackageChecker.cs" />
     <Compile Include="Command\ArasCommands\TestArasConnectionCommand.cs" />
     <Compile Include="Command\Commands\RestoreDatabaseCommand.cs" />
