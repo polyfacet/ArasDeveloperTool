@@ -173,6 +173,12 @@ Example Test1.xml in directory Pack1
 </AMLS>
 ``` 
 
+Or user the -file parameters to execute a single file of AML(s) like:
+
+``` powershell
+ArasDevTool.exe AMLRunner -file \AMLRunner\Pack1\Test1.xml
+``` 
+
 ### ApplyMethod
 Run an ApplyMethod
 
