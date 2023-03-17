@@ -1,10 +1,13 @@
-﻿using Innovator.Client;
+﻿using Hille.Aras.DevTool.Interfaces.Logging;
+using Innovator.Client;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Xml;
 
 namespace Hille.Aras.DevTool.Interfaces.Aras {
@@ -15,6 +18,8 @@ namespace Hille.Aras.DevTool.Interfaces.Aras {
         private readonly string Password;
 		private readonly int? TimeOutMilliSecs = null;
 		private const string CONNECTION_NAME = "ArasDevTool";
+		private int NumberOfLoginRetries = 3;
+		private int SecondsToWaitBeforeRetryLogin = 10;
 
         private Innovator.Client.IOM.Innovator Inn;
 
@@ -32,19 +37,7 @@ namespace Hille.Aras.DevTool.Interfaces.Aras {
 
         public Innovator.Client.IOM.Innovator GetInnovator() {
             if (this.Inn == null) {
-				IRemoteConnection conn;
-				if (TimeOutMilliSecs == null) {
-					conn = Innovator.Client.Factory.GetConnection(Url, CONNECTION_NAME);
-				}
-				else {
-					ConnectionPreferences connectionPreferences = new ConnectionPreferences();
-					connectionPreferences.Url = Url;
-					connectionPreferences.Name = CONNECTION_NAME;
-					connectionPreferences.DefaultTimeout = TimeOutMilliSecs;
-					conn = Innovator.Client.Factory.GetConnection(connectionPreferences);
-				} 
-                conn.Login(new ExplicitCredentials(DB, User, Password));
-                Inn = new Innovator.Client.IOM.Innovator(conn);
+				Login();
             }
             return Inn;
         }
@@ -107,6 +100,42 @@ namespace Hille.Aras.DevTool.Interfaces.Aras {
 				}
 			}
 			return array;
+        }
+
+		private void Login() {
+			IRemoteConnection connection = SetupConnection();
+			int loginTries = 0;
+			retryLogin:
+			try {
+				loginTries++;
+                connection.Login(new ExplicitCredentials(DB, User, Password));
+            }
+			catch (Exception ex) {
+				if (loginTries >= NumberOfLoginRetries) {
+					ex.Data.Add("Login Failed", $"Failed to to login after trying {loginTries} times ");
+					throw;
+				}
+				var logger = new ConsoleLogger();
+				logger.LogWarning($"({DateTime.Now}) Failed to login. Try number {loginTries} of {NumberOfLoginRetries}. Trying again in {SecondsToWaitBeforeRetryLogin} seconds");
+				Thread.Sleep(SecondsToWaitBeforeRetryLogin*1000);
+				goto retryLogin;
+			}
+            Inn = new Innovator.Client.IOM.Innovator(connection);
+        }
+
+		private IRemoteConnection SetupConnection() {
+			IRemoteConnection conn;
+            if (TimeOutMilliSecs == null) {
+                conn = Innovator.Client.Factory.GetConnection(Url, CONNECTION_NAME);
+            }
+            else {
+                ConnectionPreferences connectionPreferences = new ConnectionPreferences();
+                connectionPreferences.Url = Url;
+                connectionPreferences.Name = CONNECTION_NAME;
+                connectionPreferences.DefaultTimeout = TimeOutMilliSecs;
+                conn = Innovator.Client.Factory.GetConnection(connectionPreferences);
+            }
+			return conn;
         }
     }
 
