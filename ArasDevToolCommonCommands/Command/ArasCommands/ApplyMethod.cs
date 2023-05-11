@@ -43,16 +43,16 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.ArasCommands {
         public override bool GetValidateInput(List<string> inputArgs) {
             if (CommandUtils.OptionExistWithValue(inputArgs, "-name", out string methodName)) {
                 _methodName = methodName;
-                return true;
             }
             else {
                 Log.LogError("Name of method not specfied");
+                return false;
             }
 
             if (CommandUtils.OptionExistWithValue(inputArgs, "-body", out string inputBody)) {
                 _inputBody = inputBody;
             }
-            return false;
+            return true;
         }
     }
 }
