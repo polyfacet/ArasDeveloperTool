@@ -1,5 +1,7 @@
 # ArasDeveloperTool
+
 Command Line Application for handling developer tasks in Aras Innovator
+
 ####Features
 
 - [ArasDeveloperTool](#arasdevelopertool)
@@ -11,6 +13,7 @@ Command Line Application for handling developer tasks in Aras Innovator
     - [Backup/Restore Database (Database)](#backuprestore-database-database)
     - [AMLRunner](#amlrunner)
     - [ApplyMethod](#applymethod)
+  - [Release Notes](#release-notes)
 
 * Test Aras connection
 * Check latest changes in Aras
@@ -193,3 +196,7 @@ SUCCESS:
     Message of the day
     Don't forget to unlock your items Finish your tasks Be good
 ```
+
+## Release Notes
+
+See [Release Notes](./Documentation/ReleaseNotes.md)
