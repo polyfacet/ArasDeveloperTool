@@ -13,7 +13,7 @@ namespace ArasDevTool {
 
         public static ICommand GetCommand(string commandName) {
             LoadCommands();
-            commandName = commandName.ToLower();
+            commandName = commandName.ToLower(System.Globalization.CultureInfo.CurrentCulture);
             List<ICommand> commands = Implementations.FindAll(c => c.Name.StartsWith(commandName, StringComparison.OrdinalIgnoreCase));
             if (commands.Count == 1)return commands[0];
             return new UnknownCommand();

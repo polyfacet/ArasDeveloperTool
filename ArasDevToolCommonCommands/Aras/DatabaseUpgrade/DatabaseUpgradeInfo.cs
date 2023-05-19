@@ -22,8 +22,8 @@ namespace Hille.Aras.DevTool.Common.Aras.DatabaseUpgrade {
             while (!allUpdatesFromLatestDay && (i < dbUpgradeItems.getItemCount())) {
                 Item dbUpgrade = dbUpgradeItems.getItemByIndex(i);
                 string appliedDate = dbUpgrade.getProperty("applied_on", String.Empty);
-                if (appliedDate != String.Empty) appliedDate = appliedDate.Substring(0, 10);
-                if (latestUpdatedDate == String.Empty && appliedDate != String.Empty) {
+                if (!string.IsNullOrEmpty(appliedDate)) appliedDate = appliedDate.Substring(0, 10);
+                if (string.IsNullOrEmpty(latestUpdatedDate) && !string.IsNullOrEmpty(appliedDate)) {
                         latestUpdatedDate = appliedDate.Substring(0, 10);
                 }
                 

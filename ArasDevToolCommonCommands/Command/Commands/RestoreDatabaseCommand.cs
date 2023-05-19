@@ -103,7 +103,7 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
             return string.Empty;
         }
 
-        private void KillConnections(IArasSetupConfig config) {
+        private static void KillConnections(IArasSetupConfig config) {
             string query = $@"USE master;
                 GO
                 ALTER DATABASE {config.DatabaseName}
@@ -120,14 +120,14 @@ namespace Hille.Aras.DevTool.Common.Commands.Command.Commands {
             }
         }
 
-        private int RestoreDataBase(IArasSetupConfig config, string filePath) {
+        private static int RestoreDataBase(IArasSetupConfig config, string filePath) {
             string query = $@"RESTORE DATABASE {config.DatabaseName}
                 FROM DISK='{filePath}' WITH REPLACE";
             string cmd = $@"-S {config.SqlServer} -E -Q ""{query}"" ";
             return ExecCommand(config.SqlCmd, cmd);
         }
 
-        private int ExecCommand(string exec, string parameters) {
+        private static int ExecCommand(string exec, string parameters) {
             using (Process p = new Process() { StartInfo = new ProcessStartInfo(exec, parameters) }) {
                 p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 p.Start();

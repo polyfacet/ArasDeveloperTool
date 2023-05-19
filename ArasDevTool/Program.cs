@@ -7,7 +7,7 @@ using Hille.Aras.DevTool.Interfaces.Command;
 
 namespace ArasDevTool
 {
-    public class Program{
+    public static class Program{
 
         public enum Result {
             OK,
@@ -69,7 +69,7 @@ namespace ArasDevTool
         }
 
         private static bool HelpInInput(List<string> inputArgs) {
-            string help = inputArgs.SingleOrDefault(s => s.ToLower() == "--help" || s.ToLower() == "-h");
+            string help = inputArgs.SingleOrDefault(s => s.ToLower(System.Globalization.CultureInfo.CurrentCulture) == "--help" || s.ToLower(System.Globalization.CultureInfo.CurrentCulture) == "-h");
             if (String.IsNullOrEmpty(help)) {
                 return false;
             }
