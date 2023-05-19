@@ -83,7 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="aras-env.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="TestData\AMLRunner\AmlRunnerTest.mf">
