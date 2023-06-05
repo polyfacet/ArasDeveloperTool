@@ -4,16 +4,16 @@ Command Line Application for handling developer tasks in Aras Innovator
 
 ####Features
 
-- [ArasDeveloperTool](#arasdevelopertool)
-  - [How To Use](#how-to-use)
-    - [Setup an Aras connection (Setup)](#setup-an-aras-connection-setup)
-    - [Aras Info](#aras-info)
-    - [Check Latest Updates (CheckLatestUpdates)](#check-latest-updates-checklatestupdates)
-    - [Check if Items are in packages (PackageChecker)](#check-if-items-are-in-packages-packagechecker)
-    - [Backup/Restore Database (Database)](#backuprestore-database-database)
-    - [AMLRunner](#amlrunner)
-    - [ApplyMethod](#applymethod)
-  - [Release Notes](#release-notes)
+- [How To Use](#how-to-use)
+  - [Setup an Aras connection (Setup)](#setup-an-aras-connection-setup)
+  - [Aras Info](#aras-info)
+  - [Check Latest Updates (CheckLatestUpdates)](#check-latest-updates-checklatestupdates)
+  - [Check if Items are in packages (PackageChecker)](#check-if-items-are-in-packages-packagechecker)
+  - [Backup/Restore Database (Database)](#backuprestore-database-database)
+  - [AMLRunner](#amlrunner)
+  - [ApplyMethod](#applymethod)
+  - [RestoreMethod](#restoremethod)
+- [Release Notes](#release-notes)
 
 * Test Aras connection
 * Check latest changes in Aras
@@ -190,12 +190,27 @@ ArasDevTool.exe ApplyMethod -name HC_Motd
 ```
 
 Output
+
 ``` powershell
 Executing ApplyMethod
 SUCCESS:
     Message of the day
     Don't forget to unlock your items Finish your tasks Be good
 ```
+
+### RestoreMethod
+
+'Restore' a specified Method to previous generation or a specified date"
+Prints out the method_code of the restored method.
+The restore locates a previous generation of the method and makes an edit with the content and 'comments'
+
+``` powershell
+ArasDevTool.exe RestoreMethod -name HC_Motd -toDate 2023-06-05T08:45
+Executing RestoreMethod
+SUCCESS:
+    return this.getInnovator().newResult("Don't forget to unlock your items Finish your tasks Be good");
+```
+
 
 ## Release Notes
 
