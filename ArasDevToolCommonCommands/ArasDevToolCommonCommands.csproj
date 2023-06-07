@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aras\Action\CreatedItemTypesCount.cs" />
     <Compile Include="Aras\AdminType.cs" />
     <Compile Include="Aras\ArasInfo.cs" />
     <Compile Include="Aras\ArasUtils.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Aras\PackageManagment\PackageManager.cs" />
     <Compile Include="Aras\Action\RestoreMethod.cs" />
     <Compile Include="Aras\User.cs" />
+    <Compile Include="Command\ArasCommands\CreatedItemTypesCountCommand.cs" />
     <Compile Include="Command\ArasCommands\RestoreMethodCommand.cs" />
     <Compile Include="Command\ArasCommands\ApplyMethod.cs" />
     <Compile Include="Command\ArasCommands\ArasBaseCommand.cs" />

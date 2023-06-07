@@ -13,6 +13,7 @@ Command Line Application for handling developer tasks in Aras Innovator
   - [AMLRunner](#amlrunner)
   - [ApplyMethod](#applymethod)
   - [RestoreMethod](#restoremethod)
+  - [CreatedItemTypesCount](#createditemtypescount)
 - [Release Notes](#release-notes)
 
 * Test Aras connection
@@ -211,6 +212,32 @@ SUCCESS:
     return this.getInnovator().newResult("Don't forget to unlock your items Finish your tasks Be good");
 ```
 
+### CreatedItemTypesCount
+
+List number of instances created for each Item Type in Aras, ordered descending on highest number of instances.
+
+Options:
+-month {yyyy-MM} #(default previous month)
+-count-display-threshold {int} #(default 5)
+
+**Example:**
+
+``` powershell
+ArasDevTool.exe CreatedItemTypesCount
+```
+
+Output:
+
+``` log
+New Aras Connection: http://localhost/2023, 2023, root , 90
+Executing CreatedItemTypesCount
+790       Part
+191       Express ECO
+123       Document
+85        Affected Item
+85        Express ECO Affected Item
+8         SavedSearch
+```
 
 ## Release Notes
 
