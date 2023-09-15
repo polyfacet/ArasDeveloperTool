@@ -5,6 +5,7 @@
     <RootNamespace>Hille.Aras.DevTool.Interfaces</RootNamespace>
     <AssemblyName>Hille.Aras.DevTool.Interfaces</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<Version>4.0.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

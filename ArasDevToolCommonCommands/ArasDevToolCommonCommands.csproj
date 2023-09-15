@@ -5,6 +5,7 @@
     <RootNamespace>Hille.Aras.DevTool.Common.Commands</RootNamespace>
     <AssemblyName>Hille.Aras.DevTool.Common.Commands</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<Version>4.0.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArasDevToolInterfaces\ArasDevToolInterfaces.csproj" />
