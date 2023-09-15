@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
@@ -26,5 +26,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ConsoleUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="aras-env.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
