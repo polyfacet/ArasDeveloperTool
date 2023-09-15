@@ -37,17 +37,23 @@ class DefaultSetupHandler : ISetupHandler {
     private const string XPATH_ENV_NAME = "//Environment/Name";
     private XmlDocument XmlDoc;
     private XmlNode EnvNode;
+    
+    public static string ConfigFilePath
+    {
+        get { 
+            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            return Path.Combine(assemblyPath,ARAS_CONFIG_FILE);
+        }
+    }
 
     public IArasConnectionConfig GetArasConnectionConfig(string env) {
-        string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        string configPath = Path.Combine(assemblyPath,ARAS_CONFIG_FILE);
         IArasConnectionConfig config = new ArasConnectionConfig();
         if (String.IsNullOrEmpty(env)) {
             env = DEFAULT_ENV;
         }
         config.Name = env;
         XmlDoc = new XmlDocument();
-        XmlDoc.Load(configPath);
+        XmlDoc.Load(ConfigFilePath);
         EnvNode = GetEnvironmentNode(env);
         if (EnvNode == null) throw new ApplicationException($"Environment with name {env} does not exist");
         config.ArasAddress = EnvNode.SelectSingleNode(XPATH_URL).InnerText;
@@ -112,7 +118,7 @@ class DefaultSetupHandler : ISetupHandler {
         env = GetValueFromUserInput($"Set name of environment ({env}):", env);
         CreateConfigFileIfMissing();
         XmlDoc = new XmlDocument();
-        XmlDoc.Load(ARAS_CONFIG_FILE);
+        XmlDoc.Load(ConfigFilePath);
 
         EnvNode = GetEnvironmentNode(env);
         if (EnvNode == null) {
@@ -153,7 +159,7 @@ class DefaultSetupHandler : ISetupHandler {
         var configsNode = XmlDoc.SelectSingleNode("//Configs");
         XmlNode impNode = configsNode.OwnerDocument.ImportNode(newEnvironmentNode, true);
         configsNode.AppendChild(impNode);
-        XmlDoc.Save(ARAS_CONFIG_FILE);
+        XmlDoc.Save(ConfigFilePath);
     }
 
     private void SaveToFile(XmlNode firstEnvNode, Setting setting, string value) {
@@ -199,13 +205,13 @@ class DefaultSetupHandler : ISetupHandler {
             default:
                 break;
         }
-        XmlDoc.Save(ARAS_CONFIG_FILE);
+        XmlDoc.Save(ConfigFilePath);
     }
 
     private static void CreateConfigFileIfMissing() {
-        if (!File.Exists(ARAS_CONFIG_FILE)) {
+        if (!File.Exists(ConfigFilePath)) {
             string xml = ConfigResources.GetDefaultArasConfigEnvXml();
-            using (StreamWriter sw = new StreamWriter(ARAS_CONFIG_FILE, true)) {
+            using (StreamWriter sw = new StreamWriter(ConfigFilePath, true)) {
                 sw.WriteLine(@"<?xml version=""1.0""?>");
                 sw.WriteLine("<Configs>");
                 sw.Write(xml);
