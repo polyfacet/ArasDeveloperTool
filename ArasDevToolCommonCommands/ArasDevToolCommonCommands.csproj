@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <OutputType>Library</OutputType>
     <RootNamespace>Hille.Aras.DevTool.Common.Commands</RootNamespace>
     <AssemblyName>Hille.Aras.DevTool.Common.Commands</AssemblyName>
@@ -18,7 +18,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Metadata export 12.0.xml" />
   </ItemGroup>
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.3.3.1\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.3.3.1\analyzers\dotnet\Microsoft.CodeAnalysis.VersionCheckAnalyzer.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.3.3.1\analyzers\dotnet\cs\Humanizer.dll" />
@@ -28,7 +28,7 @@
     <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.3.3.1\analyzers\dotnet\cs\Microsoft.NetCore.CSharp.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.3.3.1\analyzers\dotnet\cs\Microsoft.NetFramework.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.3.3.1\analyzers\dotnet\cs\Microsoft.NetFramework.CSharp.Analyzers.dll" />
-  </ItemGroup>
+  </ItemGroup> -->
   <ItemGroup>
     <AdditionalFiles Include="ExtResources\Metadata export 11.0.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -41,12 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Innovator.Client" Version="2020.2.23.1756" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
+    <!-- <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1" /> -->
+    <!-- <PackageReference Include="Microsoft.CSharp" Version="4.7.0" /> -->
+    <!-- <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" /> -->
+    <!-- <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
       <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    </PackageReference> -->
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ArasXmlStoredConfig.cs" />

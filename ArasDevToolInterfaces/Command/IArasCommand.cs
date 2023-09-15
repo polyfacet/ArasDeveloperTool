@@ -1,7 +1,6 @@
-﻿namespace Hille.Aras.DevTool.Interfaces.Command {
-    public interface IArasCommand : ICommand {
+﻿namespace Hille.Aras.DevTool.Interfaces.Command;
+public interface IArasCommand : ICommand {
 
-        Innovator.Client.IOM.Innovator Innovator { set; }
+    Innovator.Client.IOM.Innovator Innovator { set; }
 
-    }
 }
