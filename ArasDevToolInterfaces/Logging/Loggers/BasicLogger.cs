@@ -20,7 +20,6 @@ public class BasicLogger : ConsoleLogger, ILogger {
 
     public new void Log(string message) {
         base.Log(message);
-        LogToFile(message);
     }
 
     public new void LogError(string message) {
@@ -35,12 +34,10 @@ public class BasicLogger : ConsoleLogger, ILogger {
 
     public new void LogSuccess(string message) {
         base.LogSuccess(message);
-        LogToFile(message, MessageType.SUCCESS);
     }
 
     public new void LogWarning(string message) {
         base.LogWarning(message);
-        LogToFile(message, MessageType.WARNING);
     }
 
     private void LogToFile(string message, MessageType messageType = MessageType.NORMAL) {
