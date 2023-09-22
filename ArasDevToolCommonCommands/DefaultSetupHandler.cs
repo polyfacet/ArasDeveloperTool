@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml;
 using Hille.Aras.DevTool.Common.Configuration.Resources;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace Hille.Aras.DevTool.Common.Commands;
 class DefaultSetupHandler : ISetupHandler {
@@ -235,4 +236,19 @@ class DefaultSetupHandler : ISetupHandler {
         return value;
     }
 
+    internal HashSet<string> GetConfiguredEnvironmentNames()
+    {
+        HashSet<string> environmentNames = new();
+        CreateConfigFileIfMissing();
+        XmlDoc = new XmlDocument();
+        XmlDoc.Load(ConfigFilePath);
+        XmlNodeList envNameNodes =  XmlDoc.SelectNodes("//Environment/Name");
+        if (envNameNodes == null) return environmentNames;
+        
+        foreach (XmlNode node in envNameNodes)
+        {
+            environmentNames.Add(node.InnerText);
+        }
+        return environmentNames;
+    }
 }
