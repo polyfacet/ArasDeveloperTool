@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Hille.Aras.DevTool.Interfaces.Command;
+using System.Reflection;
 
 namespace ArasDevTool.Command.Commands;
 class UnknownCommand : ICommand {
@@ -13,7 +14,7 @@ class UnknownCommand : ICommand {
         if (!String.IsNullOrEmpty(_inputCommandName)) {
             messages.Add($"Unknown or ambiguous command: {_inputCommandName}");
         }
-        messages.Add("Availible commands:");
+        messages.Add("Available commands:");
         var commandNames = new List<string>() ;
         foreach (ICommand command in Factory.Implementations) {
             if (!command.Name.Equals(Name,StringComparison.OrdinalIgnoreCase)) { // Dont add self
@@ -25,7 +26,12 @@ class UnknownCommand : ICommand {
         messages.Add("");
         messages.Add("Options:");
         messages.Add("  --help    Displays help for a command");
+        messages.Add($"Version: {GetFileVersion()}");
         return messages;
+    }
+
+    public string GetFileVersion() {
+        return Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
     }
 
     public void Run() {}
