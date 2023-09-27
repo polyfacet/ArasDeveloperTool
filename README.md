@@ -2,8 +2,9 @@
 
 Command Line Application for handling developer tasks in Aras Innovator
 
-####Features
+**Table of contents**
 
+- [Install](#install)
 - [How To Use](#how-to-use)
   - [Setup an Aras connection (Setup)](#setup-an-aras-connection-setup)
   - [Aras Info](#aras-info)
@@ -16,84 +17,89 @@ Command Line Application for handling developer tasks in Aras Innovator
   - [CreatedItemTypesCount](#createditemtypescount)
 - [Release Notes](#release-notes)
 
-* Test Aras connection
-* Check latest changes in Aras
-* Check that everything is packaged, and package if needed. 
-* Run Amls from files
-* Check Aras Database Info
-* Backup and Restore Databases
-
-
-## How To Use
- 
-Download ArasDevTool and extract it to a folder. 
-Open Cmd/Powershell/Windows Terminal and navigate to the folder and .
+## Install
 
 ``` powershell
-ArasDevTool.exe
+dotnet tool install --global ArasDeveloperTool
 ```
 
-``` 
-Availible commands for: ArasDevTool
+## How To Use
+
+Once it is installed run command `adt` (ArasDeveloperTool) command in Cmd/Powershell/Windows Terminal
+
+``` powershell
+adt
+```
+
+``` log
+Help for: ArasDevTool
+  Available commands:
   AmlRunner
+  ApplyMethod
   ArasInfo
   BackupDB
   CheckLatestUpdates
+  CreatedItemTypesCount
   Dummy
+  ListEnvironments
   PackageChecker
   RestoreDB
+  RestoreMethod
   Setup
   TestConnection
 
-Options:
-  --help    Displays help for a command
+  Options:
+    --help    Displays help for a command
+  Version: 4.0.1
 
 ```
+
+⚠️ NOTE: The old images below shows adt, which is equivalent to adt. adt is just the tool command.
 
 ### Setup an Aras connection (Setup)
 
 ``` powershell
-ArasDevTool.exe Setup
-``` 
+adt Setup
+```
+
 ![Setup example](Documentation/img/SetupConnection.png)
 
 ``` powershell
-ArasDevTool.exe Setup -ext
+adt Setup -ext
 #Extended setup: Configure Database for Backup/Restore
-``` 
+```
 
-It is an option to explicity use a "Aras ConnectionString" in Aras Commands:
-E.g. 
+It is an option to explicitly use a "Aras ConnectionString" in Aras Commands:
+E.g.  
 
 ``` powershell
-ArasDevTool.exe TestConnection --cs="http://localhost/Innovator;InnovatorSolutions;admin;innovator"
+adt TestConnection --cs="http://localhost/Innovator;InnovatorSolutions;admin;innovator"
 #Or
-ArasDevTool.exe TestConnection --cs="http://localhost/Innovator;InnovatorSolutions;admin"
+adt TestConnection --cs="http://localhost/Innovator;InnovatorSolutions;admin"
 # To be promted for password
-``` 
-
-
-
+```
 
 ### Aras Info
 
 ``` powershell
-ArasDevTool.exe ArasInfo
-``` 
+adt ArasInfo
+```
+
 ![Setup example](Documentation/img/ArasInfo.png)
 
-
 ### Check Latest Updates (CheckLatestUpdates)
+
 ``` powershell
-ArasDevTool.exe CheckLatestUpdates 
-``` 
+adt CheckLatestUpdates 
+```
+
 ![CheckLatestUpdates example](Documentation/img/CheckLatestUpdates.png)
 
-
 ``` powershell
-ArasDevTool.exe CheckLatestUpdates --help
-``` 
-``` 
+adt CheckLatestUpdates --help
+```
+
+``` log
 Help for: CheckLatestUpdates
   Specify connection string: E.g.
    -cs="http://localhost/innovator;InnovatorSoluions;admin;innovator"
@@ -107,18 +113,19 @@ Options: -c
 
 ```
 
-
 ### Check if Items are in packages (PackageChecker)
+
 ``` powershell
-ArasDevTool.exe PackageChecker -prefix HC_
-``` 
+adt PackageChecker -prefix HC_
+```
+
 ![Package Checker example](Documentation/img/PackageChecker.png)
 
-
 ``` powershell
-ArasDevTool.exe CheckLatestUpdates --help
-``` 
-``` 
+adt CheckLatestUpdates --help
+```
+
+``` log
 Help for: PackageChecker
   Specify connection string: E.g.
    -cs="http://localhost/innovator;InnovatorSoluions;admin;innovator"
@@ -130,40 +137,42 @@ Help for: PackageChecker
   Parameters:
     -prefix        Check Items with specific prefix. Example: "-prefix HC_"
   Options:
-  --DryRun       Dont commit any changes.
+  --DryRun       Don´t commit any changes.
   --Auto         Let it automatically select package for you.
 ```
 
-
 ### Backup/Restore Database (Database)
+
 If you have setup the extended setup database backup and restore is possible via
 
 ``` powershell
-ArasDevTool.exe BackupDB 
-``` 
+adt BackupDB 
+```
 
 ``` powershell
-ArasDevTool.exe RestoreDB
-``` 
+adt RestoreDB
+```
 
 ### AMLRunner
+
 Run AMLs from files
 
 ``` powershell
-ArasDevTool.exe AMLRunner -mf \AMLRunner\AmlRunnerTest.mf
-``` 
+adt AMLRunner -mf \AMLRunner\AmlRunnerTest.mf
+```
 
 Example of manifest file running aml-files in the Pack1 and Pack2 directories. Where if the any aml fails in Pack2, execution will be stopped.
+
 ``` xml
 <?xml version="1.0" encoding="utf-8" ?>
 <imports>
   <package  path="Pack1" />
   <package path="Pack2" stopOnError="TRUE" />
 </imports>
-``` 
-
+```
 
 Example Test1.xml in directory Pack1
+
 ``` xml
 <AMLS>
   <AML>
@@ -175,19 +184,20 @@ Example Test1.xml in directory Pack1
     </Item>
   </AML>
 </AMLS>
-``` 
+```
 
 Or user the -file parameters to execute a single file of AML(s) like:
 
 ``` powershell
-ArasDevTool.exe AMLRunner -file \AMLRunner\Pack1\Test1.xml
-``` 
+adt AMLRunner -file \AMLRunner\Pack1\Test1.xml
+```
 
 ### ApplyMethod
+
 Run an ApplyMethod
 
 ``` powershell
-ArasDevTool.exe ApplyMethod -name HC_Motd
+adt ApplyMethod -name HC_Motd
 ```
 
 Output
@@ -206,7 +216,7 @@ Prints out the method_code of the restored method.
 The restore locates a previous generation of the method and makes an edit with the content and 'comments'
 
 ``` powershell
-ArasDevTool.exe RestoreMethod -name HC_Motd -toDate 2023-06-05T08:45
+adt RestoreMethod -name HC_Motd -toDate 2023-06-05T08:45
 Executing RestoreMethod
 SUCCESS:
     return this.getInnovator().newResult("Don't forget to unlock your items Finish your tasks Be good");
@@ -223,7 +233,7 @@ Options:
 **Example:**
 
 ``` powershell
-ArasDevTool.exe CreatedItemTypesCount
+adt CreatedItemTypesCount
 ```
 
 Output:

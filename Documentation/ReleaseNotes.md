@@ -1,5 +1,13 @@
 # Release Notes
 
+## Release 4.0.1
+
+- ⭐ Adds new feature RestoreMethod
+- ⭐ Adds CreatedItemTypesCount feature
+- ⭐ Install and run as tool
+- ⭐ Adds ListEnvironments feature
+- Turned of file logging as default
+
 ## Release 3.2.0
 
 - Input command parsing improvement.

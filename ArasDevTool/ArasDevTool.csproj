@@ -8,12 +8,14 @@
     <PackageId>ArasDeveloperTool</PackageId>
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <Authors>Tomas Andersson</Authors>
-    <Version>4.0.1-beta</Version>
+    <Version>4.0.1</Version>
     <PackageTags>Aras Innovator;Aras;Tool</PackageTags>
     <Description>
       Command Line Application for handling developer tasks in Aras Innovator
       Source code and documentation: https://github.com/polyfacet/ArasDeveloperTool
     </Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
@@ -38,5 +40,6 @@
     <None Update="aras-env.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\README.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 </Project>
