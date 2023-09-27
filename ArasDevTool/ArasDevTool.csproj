@@ -5,8 +5,16 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>adt</ToolCommandName>
+    <PackageId>ArasDeveloperTool</PackageId>
     <PackageOutputPath>./nupkg</PackageOutputPath>
-    <Version>4.0.0</Version>
+    <Authors>Tomas Andersson</Authors>
+    <Version>4.0.1-beta</Version>
+    <PackageTags>Aras Innovator;Aras;Tool</PackageTags>
+    <Description>
+      Command Line Application for handling developer tasks in Aras Innovator
+      Source code and documentation: https://github.com/polyfacet/ArasDeveloperTool
+    </Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutputPath>bin\x64\Debug\</OutputPath>

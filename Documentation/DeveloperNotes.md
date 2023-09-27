@@ -9,9 +9,12 @@ How to pack and test tool installation
 dotnet pack
 
 # Install it globally
-dotnet tool install --global --add-source ./nupkg ArasDevTool
+dotnet tool install --global --add-source ./nupkg ArasDeveloperTool
+# Or the pre release
+dotnet tool install --global --prerelease --add-source ./nupkg ArasDeveloperTool
+
 
 # Uninstall it
-dotnet tool uninstall --global ArasDevTool
+dotnet tool uninstall --global ArasDeveloperTool
 
 ```
