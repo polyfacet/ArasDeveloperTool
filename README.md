@@ -19,9 +19,13 @@ Command Line Application for handling developer tasks in Aras Innovator
 
 ## Install
 
+To install it as a tool this requires an installed dotnet sdk (6 or 7 seven should work)
+
 ``` powershell
 dotnet tool install --global ArasDeveloperTool
 ```
+
+
 
 ## How To Use
 
@@ -102,8 +106,8 @@ adt CheckLatestUpdates --help
 ``` log
 Help for: CheckLatestUpdates
   Specify connection string: E.g.
-   -cs="http://localhost/innovator;InnovatorSoluions;admin;innovator"
-   -cs="http://localhost/innovator;InnovatorSoluions;admin"
+   -cs="http://localhost/innovator;InnovatorSolutions;admin;innovator"
+   -cs="http://localhost/innovator;InnovatorSolutions;admin"
   Or environment: E.g.
   -env dev
   Non specified is equivalent with '-env dev'
@@ -128,8 +132,8 @@ adt CheckLatestUpdates --help
 ``` log
 Help for: PackageChecker
   Specify connection string: E.g.
-   -cs="http://localhost/innovator;InnovatorSoluions;admin;innovator"
-   -cs="http://localhost/innovator;InnovatorSoluions;admin"
+   -cs="http://localhost/innovator;InnovatorSolutions;admin;innovator"
+   -cs="http://localhost/innovator;InnovatorSolutions;admin"
   Or environment: E.g.
   -env dev
   Non specified is equivalent with '-env dev'
@@ -252,3 +256,4 @@ Executing CreatedItemTypesCount
 ## Release Notes
 
 See [Release Notes](./Documentation/ReleaseNotes.md)
+💡NOTE: This was converted from .NET Framework to .NET Core in September 2023. So older releases (pre 4.0.1) are built on the .NET Framework.
