@@ -61,7 +61,7 @@ Help for: ArasDevTool
 
 ```
 
-⚠️ NOTE: The old images below shows adt, which is equivalent to adt. adt is just the tool command.
+⚠️ NOTE: The old images below shows ArasDevTool.exe, which is equivalent to adt. adt is just the tool command.
 
 ### Setup an Aras connection (Setup)
 
