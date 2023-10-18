@@ -23,6 +23,9 @@ To install it as a tool this requires an installed dotnet sdk (6 or 7 seven shou
 
 ``` powershell
 dotnet tool install --global ArasDeveloperTool
+# Having a "proxy" nuget server setup at premise may not find the tool.
+# You can then use the nuget.org source explicitly
+# dotnet tool install --global ArasDeveloperTool --add-source="https://api.nuget.org/v3/index.json" --ignore-failed-sources
 ```
 
 
